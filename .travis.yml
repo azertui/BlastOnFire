@@ -8,4 +8,6 @@ before_install:
  - sudo apt-get install -qq flex bison
  - sudo apt-get install -qq cmocka-doc libcmocka-dev libcmocka0
 
-script: make
+before_script: make
+script: make test
+after_script: make clean
