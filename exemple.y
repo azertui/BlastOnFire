@@ -30,8 +30,8 @@ liste:
     |type SPACE ID ',' liste
     ;
 body:
-    |type SPACE ID '=' value ';'
-    |type SPACE ID ';'
+    |type SPACE ID '=' value ';' body
+    |type SPACE ID ';' body
     ;
 value:
     INTEGER
