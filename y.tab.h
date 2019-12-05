@@ -45,11 +45,15 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    INTEGER = 258
+    INTEGER = 258,
+    TYPE_INT = 259,
+    SPACE = 260
   };
 #endif
 /* Tokens.  */
 #define INTEGER 258
+#define TYPE_INT 259
+#define SPACE 260
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -60,7 +64,7 @@ union YYSTYPE
 
 	int		val;
 
-#line 64 "y.tab.h" /* yacc.c:1909  */
+#line 68 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

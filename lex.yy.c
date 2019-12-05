@@ -362,7 +362,7 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[14] =
     {   0,
-        0,    0,    8,    6,    3,    5,    2,    4,    6,    2,
+        0,    0,    8,    6,    3,    4,    2,    5,    6,    2,
         0,    1,    0
     } ;
 
@@ -728,7 +728,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 8 "expression.l"
-{}   
+{ return TYPE_INT;}   
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
@@ -744,12 +744,12 @@ YY_RULE_SETUP
 case 4:
 YY_RULE_SETUP
 #line 11 "expression.l"
-{ return yytext[0]; }
+{return SPACE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 12 "expression.l"
-
+{ return yytext[0]; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
