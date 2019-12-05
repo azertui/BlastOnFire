@@ -12,10 +12,14 @@ typedef struct symboles
 
 symboles new_table();
 
+symboles getSymbole(symboles s, char* id);
+
 symboles add_symbole(symboles s,char * id, int portee);
 
 symboles change_symbole(symboles s,char * id, int portee);
 
-void print_table(symboles s);
+symboles find_portee(symboles s,int portee);
 
-symboles getSymbole(symboles s, char* id);
+symboles add_portee(symboles s,char * id, int portee);
+
+void print_table(symboles s);
