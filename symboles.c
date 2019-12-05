@@ -23,7 +23,7 @@ symboles print_table(symboles s){
 symboles getSymbole(symboles s, char* id, int p){
   while(s!=NULL){
     if(strcmp(id,s->id)==0){
-      return s
+      return s;
     }
     s = s->suivant;
   }
