@@ -1,26 +1,39 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 #include "symboles.h"
 
-symboles* new_symbole(symboles all,symboles new) {
-  new->suivant = all;
-  return new;
+symboles new_table() {
+	return (symboles)NULL;
+}
+
+symboles add_symbole(symboles s,char * id, int portee){
+    symboles new = malloc(sizeof(symboles*));
+    new->id = id;
+    new->portee = portee;
+    new->suivant = s;
+    return new;
+}
+
+symboles print_table(symboles s){
+  while(s!=NULL){
+    printf("id : %s, portée: %d\n",s->id, s->portee);
+    s = s->suivant;
+  }
+}
+
+symboles getSymbole(symboles s, char* id, int p){
+  while(s!=NULL){
+    if(strcmp(id,s->id)==0){
+      return s
+    }
+    s = s->suivant;
+  }
+  return NULL;
 }
 
 
-symboles* symbole_new_id(char* id) {
-  //check existence
-  symboles* new = malloc(sizeof(symboles));
-  new->init = 0;
-  new->id = strdup(id);
-  new->suivant = NULL;
-  return new;
-}
-
-void symboles_print(symboles* s) {
-  while (s!=NULL)
-      printf("%s\n",s->id);
-      s = s->suivant;
-  }  
+int main(){
+  symboles s = new_table();
+  s = add_symbole(s,"hello",0);
+  s = add_symbole(s,"hopla",3);
+  print_table(s);
 }
