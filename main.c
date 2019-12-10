@@ -4,4 +4,5 @@ extern int parse();
 
 int main(){
     parse();
+    return 0;
 }
