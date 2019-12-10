@@ -5,7 +5,7 @@
 
 ast* ast_new_main_fct(){
   ast* new = malloc(sizeof(ast));
-  new->type = AST_FTC;
+  new->type = AST_FCT;
   new->id = "main";
   return new; 
 }
@@ -57,9 +57,3 @@ void ast_print(ast* ast, int indent) {
       break;
   }  
 }
-
-
- int main (){
-   
-   "int a;"
- }

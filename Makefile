@@ -3,11 +3,14 @@ PREFIX = exemple
 
 all : README.md $(PREFIX) $(TESTDIR) $(TESTDIR)/tests
 
-$(PREFIX) : y.tab.o lex.yy.o main.o
-	gcc main.o y.tab.o lex.yy.o -ly -lfl -o $(PREFIX)
+$(PREFIX) : y.tab.o lex.yy.o main.o ast.o
+	gcc main.o y.tab.o lex.yy.o ast.o -ly -lfl -o $(PREFIX)
 
 main.o: main.c
 	gcc -c main.c
+
+ast.o: ast.c
+	gcc -c ast.c
 
 y.tab.o: $(PREFIX).y
 	yacc -d $(PREFIX).y

@@ -1,4 +1,4 @@
-enum ast_type { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_FTC};
+enum ast_type { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_FCT};
 
 typedef struct ast {
   enum ast_type type;

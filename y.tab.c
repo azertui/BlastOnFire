@@ -1462,7 +1462,6 @@ yyreturn:
 }
 #line 33 "exemple.y" /* yacc.c:1906  */
 
-extern ast* ast_new_main_fct();
 
 int parseFile(FILE* f){
     FILE* yyin=f;
@@ -1479,6 +1478,5 @@ int parseString(char *s) {
 
 int parse() {
   printf("Entrez une expression :\n");
-  int yylex();
   return yyparse();
 }

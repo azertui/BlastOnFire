@@ -47,6 +47,5 @@ int parseString(char *s) {
 
 int parse() {
   printf("Entrez une expression :\n");
-  int yylex();
   return yyparse();
 }
