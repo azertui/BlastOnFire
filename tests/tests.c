@@ -15,7 +15,7 @@ int sum(int a,int b){
 
 static void parsing_test(){
 	char* str=malloc(50);
-	sprintf(str,"int main(){}\n");
+	sprintf(str,"int main(){int i;}\n");
 	assert_null(parseString(str));
 }
 static void parsingFail_test(){
