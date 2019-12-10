@@ -3,6 +3,13 @@
 #include <string.h>
 #include "ast.h"
 
+ast* ast_new_main_fct(){
+  ast* new = malloc(sizeof(ast));
+  new->type = AST_FTC;
+  new->id = "main";
+  return new; 
+}
+
 ast* ast_new_operation(enum ast_type type, ast* left, ast* right) {
   ast* new = malloc(sizeof(ast));
   new->type = type;
@@ -29,6 +36,9 @@ void ast_print(ast* ast, int indent) {
   for (int i = 0; i < indent; i++)
     printf("    ");
   switch(ast->type){
+    case AST_FCT:
+      printf("FCT (%s)\n",ast->id);
+      break;    
     case AST_ID:
       printf("ID (%s)\n",ast->id);
       break;
@@ -48,11 +58,8 @@ void ast_print(ast* ast, int indent) {
   }  
 }
 
-/*expr:
-    expr '+' expr {$$ = ast_new_operation(AST_OP_PLUS,$1,$3);}
-  | expr '*' expr {$$ = ast_new_operation(AST_OP_MUL,$1,$3);}
-  | '(' expr ')'  {$$ = $2;}
-  | ID            {$$ = ast_new_id($1);}
-  | NUMBER        {$$ = ast_new_number($1);}
-  ;
-  */
+
+ int main (){
+   
+   "int a;"
+ }

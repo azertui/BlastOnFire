@@ -1,4 +1,4 @@
-enum ast_type { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL};
+enum ast_type { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_FTC};
 
 typedef struct ast {
   enum ast_type type;
@@ -12,6 +12,7 @@ typedef struct ast {
   } ;
 } ast;
 
+ast* ast_new_main_fct();
 ast* ast_new_operation(enum ast_type, ast*, ast*);
 ast* ast_new_number(int);
 ast* ast_new_id(char*);
