@@ -22,8 +22,8 @@ lex.yy.o: $(PREFIX).l y.tab.h
 
 README.md : ;
 
-$(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o
-	gcc -o $(TESTDIR)/tests $(TESTDIR)/tests.o y.tab.o lex.yy.o -ly -lfl -l cmocka -L /usr/local/lib
+$(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o
+	gcc -o $(TESTDIR)/tests $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o -ly -lfl -l cmocka -L /usr/local/lib
 $(TESTDIR) : 
 	mkdir -p $(TESTDIR)
 
