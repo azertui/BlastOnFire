@@ -7,15 +7,18 @@
 %}
 
 %union {
-    double val;
+    int val;
     char* name;
     struct ast* ast;
 }
 
 %type <ast> ligne
 %type <ast> function
+%type <ast> body
 
-%token INTEGER DOUBLE INTEGER_T DOUBLE_T ID SPACE
+%token <val>INTEGER 
+%token DOUBLE INTEGER_T DOUBLE_T SPACE 
+%token <name>ID 
 %%
  
 ligne:
@@ -23,12 +26,13 @@ ligne:
   ;
 
 function:
-    type SPACE ID '(' ')' '{'  '}' { $$ = ast_new_main_fct(); }
+    INTEGER_T SPACE ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($7); }
     ;
-type:
-    INTEGER_T
-    | DOUBLE_T
-    ;
+
+body:
+    INTEGER_T SPACE ID ';' { $$ = ast_new_id($3,NULL);}
+  | INTEGER_T SPACE ID '=' INTEGER ';' { $$ = ast_new_id($3,$5);}
+;
 
 %%
 

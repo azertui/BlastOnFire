@@ -5,15 +5,16 @@ typedef struct ast {
   union {
     struct {
       struct ast* left;
-      struct ast* right;
+      struct ast* right; 
     } operation;
     int number;
-    char* id;
   } ;
+  char* id;
+  struct ast* next;
 } ast;
 
-ast* ast_new_main_fct();
+ast* ast_new_main_fct(ast*);
 ast* ast_new_operation(enum ast_type, ast*, ast*);
 ast* ast_new_number(int);
-ast* ast_new_id(char*);
+ast* ast_new_id(char*,int);
 void ast_print(ast*, int);

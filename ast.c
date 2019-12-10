@@ -3,10 +3,11 @@
 #include <string.h>
 #include "ast.h"
 
-ast* ast_new_main_fct(){
+ast* ast_new_main_fct(ast* next){
   ast* new = malloc(sizeof(ast));
   new->type = AST_FCT;
   new->id = "main";
+  new->next=next;
   return new; 
 }
 
@@ -25,10 +26,11 @@ ast* ast_new_number(int number) {
   return new;
 }
 
-ast* ast_new_id(char* id) {
+ast* ast_new_id(char* id, int value) {
   ast* new = malloc(sizeof(ast));
   new->type = AST_ID;
-  new->id = strdup(id);
+  new->id = strndup(id,strlen(id));
+  new->number = value;
   return new;
 }
 
@@ -38,6 +40,7 @@ void ast_print(ast* ast, int indent) {
   switch(ast->type){
     case AST_FCT:
       printf("FCT (%s)\n",ast->id);
+      ast_print(ast->next,indent);
       break;    
     case AST_ID:
       printf("ID (%s)\n",ast->id);

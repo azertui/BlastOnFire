@@ -49,8 +49,8 @@ extern int yydebug;
     DOUBLE = 259,
     INTEGER_T = 260,
     DOUBLE_T = 261,
-    ID = 262,
-    SPACE = 263
+    SPACE = 262,
+    ID = 263
   };
 #endif
 /* Tokens.  */
@@ -58,8 +58,8 @@ extern int yydebug;
 #define DOUBLE 259
 #define INTEGER_T 260
 #define DOUBLE_T 261
-#define ID 262
-#define SPACE 263
+#define SPACE 262
+#define ID 263
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -68,7 +68,7 @@ union YYSTYPE
 {
 #line 9 "exemple.y" /* yacc.c:1909  */
 
-    double val;
+    int val;
     char* name;
     struct ast* ast;
 

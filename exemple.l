@@ -12,7 +12,7 @@ ID [a-zA-Z]+
 {DOUBLE} {return DOUBLE_T;}
 {NUMBER}\.{NUMBER} {yylval.val=atof(yytext);return DOUBLE;}
 {NUMBER} {yylval.val=atoi(yytext);return INTEGER;}
-{ID} {yylval.name=yytext; return ID;}
+{ID} {yylval.name=strdup(yytext); return ID;}
 [ ]+ {return SPACE;}
 [\n;,{()}=] {return yytext[0];}
 %%

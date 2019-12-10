@@ -755,7 +755,7 @@ YY_RULE_SETUP
 case 5:
 YY_RULE_SETUP
 #line 15 "exemple.l"
-{yylval.name=yytext; return ID;}
+{yylval.name=strdup(yytext); return ID;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
