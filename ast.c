@@ -29,8 +29,8 @@ ast* ast_new_number(int number) {
 ast* ast_new_id(char* id, int value) {
   ast* new = malloc(sizeof(ast));
   new->type = AST_ID;
-  new->id = strndup(id,strlen(id));
-  new->number = value;
+  new->type_int.id = strndup(id,strlen(id));
+  new->type_int.number = value;
   return new;
 }
 
@@ -43,7 +43,7 @@ void ast_print(ast* ast, int indent) {
       ast_print(ast->next,indent);
       break;    
     case AST_ID:
-      printf("ID (%s)\n",ast->id);
+      printf("ID (%s)\n",ast->type_int.id);
       break;
     case AST_NUMBER:
       printf("NUMBER (%d)\n",ast->number);

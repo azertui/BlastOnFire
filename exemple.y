@@ -23,6 +23,7 @@
  
 ligne:
     function '\n'         { printf("Chaine reconnue !\n");ast_print($1,0);return 0;}
+    | '\n'                { printf("Chaine reconnue !\n");return 0;}
   ;
 
 function:

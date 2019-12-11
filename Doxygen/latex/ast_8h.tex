@@ -1,0 +1,64 @@
+\hypertarget{ast_8h}{}\section{ast.\+h File Reference}
+\label{ast_8h}\index{ast.\+h@{ast.\+h}}
+
+
+Header de l\textquotesingle{}arbre de syntaxe.  
+
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structast}{ast}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ast_8h_abae12a9b2c77963636793bcf1de19b2c}\label{ast_8h_abae12a9b2c77963636793bcf1de19b2c}} 
+typedef struct \hyperlink{structast}{ast} {\bfseries ast}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ast_8h_a77091c187ac9a89404fac2e8226daef3}\label{ast_8h_a77091c187ac9a89404fac2e8226daef3}} 
+enum {\bfseries ast\+\_\+type} \{ \newline
+{\bfseries A\+S\+T\+\_\+\+ID}, 
+{\bfseries A\+S\+T\+\_\+\+N\+U\+M\+B\+ER}, 
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+P\+L\+US}, 
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+M\+UL}, 
+\newline
+{\bfseries A\+S\+T\+\_\+\+F\+CT}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ast_8h_aaf0c593c292476f9f9c7dba10994b90c}\label{ast_8h_aaf0c593c292476f9f9c7dba10994b90c}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+main\+\_\+fct} (\hyperlink{structast}{ast} $\ast$)
+\item 
+\mbox{\Hypertarget{ast_8h_a269db6bbc973c6eb755bdd17909d5d2e}\label{ast_8h_a269db6bbc973c6eb755bdd17909d5d2e}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+operation} (enum ast\+\_\+type, \hyperlink{structast}{ast} $\ast$, \hyperlink{structast}{ast} $\ast$)
+\item 
+\mbox{\Hypertarget{ast_8h_a2f5503ec37ba8eb104ee5605a18c8b48}\label{ast_8h_a2f5503ec37ba8eb104ee5605a18c8b48}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+number} (int)
+\item 
+\mbox{\Hypertarget{ast_8h_afd1fe53fb07570dbefe5955bd873f63f}\label{ast_8h_afd1fe53fb07570dbefe5955bd873f63f}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$, int)
+\item 
+\mbox{\Hypertarget{ast_8h_a8b92b47a452afdd2b4b2bfbdeb36a337}\label{ast_8h_a8b92b47a452afdd2b4b2bfbdeb36a337}} 
+void {\bfseries ast\+\_\+print} (\hyperlink{structast}{ast} $\ast$, int)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header de l\textquotesingle{}arbre de syntaxe. 
+
+\begin{DoxyAuthor}{Author}
+Monfouga Marie 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+11 décembre 2019
+\end{DoxyDate}
+Header de l\textquotesingle{}arbre de syntaxe 
