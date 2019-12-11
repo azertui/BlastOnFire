@@ -12,6 +12,11 @@
 *.map
 *.exp
 
+# Yacc output 
+*.tab.h
+*.tab.c
+*.yy.c
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -35,6 +40,8 @@
 *.i*86
 *.x86_64
 *.hex
+tests/tests
+exemple
 
 # Debug files
 *.dSYM/
