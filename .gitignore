@@ -57,3 +57,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# QtCreator project files
+*.config
+*.creator
+*.files
+*.includes
+*.user

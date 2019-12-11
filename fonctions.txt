@@ -18,19 +18,29 @@ On peut donc commencer par définir une grammaire et les structures de données 
 
 On peut proposer une grammaire du type :
 
-  fonction     : type NOM paramètres '\n' instructions
+  fonction     : type NOM '(' paramètres ')' '\n' INSTRUCTIONS_TAG '\n' '\n' '\n' instructions
 
   type         : INT
                | DOUBLE
 
-  paramètres   : type paramètres
-               | ε
+  paramètres   : type , paramètres
+               | type
 
-  instructions : instruction intructions
-               | ε
+  instructions : instruction '\n' '\n' intructions
+               | instruction
 
   instruction  : domaine corps
 
   domaine      : ε {A modifier avec les niveaux supérieurs}
 
   corps        : { Ici il faudra ce qui correspond à une instruction dans le langage parsé }
+
+Exemple du y = ax+y :
+
+void saddmul(const int, const int, int*)
+INSTRUCTIONS:
+
+y = a*x + y;
+
+Problème du parsing d'une instruction seule avec la grammaire d'un fichier .c compilable :
+-> parseString("int main(){instruction}");
