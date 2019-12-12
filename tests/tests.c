@@ -24,7 +24,7 @@ static void parsingFail_test(){
 	char* str=malloc(50);
     ast* stub;
 	sprintf(str,"int main(\n");
-    assert_true(parseString(str, stub)); //autre sortie que 0 => true en C
+    assert_true(parseString(str, &stub)); //autre sortie que 0 => true en C
 }
 
 static void failing_test() {
