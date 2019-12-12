@@ -1,11 +1,18 @@
-    %{
+%{
   #include <stdio.h>
   #include <string.h>
+
   #include "ast.h"
-  void yyerror(char*);
+
+  void yyerror(ast**, char*);
   extern int yylex();
   extern FILE *yyin;
   extern int yyparse();
+  extern int yy_scan_string(char*);
+
+  int parseFile(FILE* f, ast** out);
+  int parseString(char *s, ast** out);
+  int parse(ast** out);
 %}
 
 %union {
@@ -13,6 +20,9 @@
     char* name;
     struct ast* ast;
 }
+
+/* Paramètre de sortie du parser - l'AST*/
+%parse-param {ast** out}
 
 %type <ast> ligne
 %type <ast> function
@@ -60,19 +70,19 @@ operation:
 
 %%
 
-int parseFile(FILE* f){
+int parseFile(FILE* f, ast** out){
     yyin=f;
-    return yyparse();
+    return yyparse(out);
 }
-extern int yy_scan_string(char*);
-int parseString(char *s) {
+
+int parseString(char *s, ast** out) {
     printf("%lu:%s",strlen(s),s);
   yy_scan_string(s);
   int yylex();
-  return yyparse();
+  return yyparse(out);
 }
 
-int parse() {
+int parse(ast** out) {
   printf("Entrez une expression :\n");
-  return yyparse();
+  return yyparse(out);
 }

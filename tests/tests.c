@@ -7,7 +7,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-extern int parseString(char*);
+#include "../ast.h"
+#include "../y.tab.h"
 
 int sum(int a,int b){
     return a + b;
@@ -20,8 +21,9 @@ static void parsing_test(){
 }
 static void parsingFail_test(){
 	char* str=malloc(50);
+    ast** stub;
 	sprintf(str,"int main(\n");
-	assert_true(parseString(str)); //autre sortie que 0 => true en C
+    assert_true(parseString(str, stub)); //autre sortie que 0 => true en C
 }
 
 static void failing_test() {
