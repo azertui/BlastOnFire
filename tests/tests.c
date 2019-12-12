@@ -16,12 +16,13 @@ int sum(int a,int b){
 
 static void parsing_test(){
 	char* str=malloc(50);
+    ast* stub;
 	sprintf(str,"int main(){int i;}\n");
-	assert_null(parseString(str));
+    assert_null(parseString(str, &stub));
 }
 static void parsingFail_test(){
 	char* str=malloc(50);
-    ast** stub;
+    ast* stub;
 	sprintf(str,"int main(\n");
     assert_true(parseString(str, stub)); //autre sortie que 0 => true en C
 }

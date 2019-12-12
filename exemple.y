@@ -10,10 +10,13 @@
   extern int yyparse();
   extern int yy_scan_string(char*);
 
-  int parseFile(FILE* f, ast** out);
-  int parseString(char *s, ast** out);
-  int parse(ast** out);
 %}
+
+  %code requires {
+      int parseFile(FILE* f, ast** out);
+      int parseString(char *s, ast** out);
+      int parse(ast** out);
+  }
 
 %union {
     int val;
@@ -41,7 +44,7 @@
 %%
  
 ligne:
-    function         { printf("Chaine reconnue !\n");ast_print($1,0);return 0;}
+    function         { printf("Chaine reconnue !\n"); *out = $1; ast_print($1,0);return 0;}
     | '\n'                { printf("Chaine reconnue !\n");return 0;}
   ;
 

@@ -8,10 +8,11 @@ int main(){
 
     FILE* fichier = NULL;
     fichier = fopen("code_c.c", "r");
+    ast* out;
     
     if (fichier != NULL)
     {
-        parseFile(fichier);
+        parseFile(fichier, &out);
         fclose(fichier);     
     }
     else
