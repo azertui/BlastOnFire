@@ -16,7 +16,7 @@ y.tab.o: $(PREFIX).y
 	yacc -d $(PREFIX).y
 	gcc -c y.tab.c
 
-lex.yy.o: $(PREFIX).l y.tab.h
+lex.yy.o: $(PREFIX).l y.tab.o
 	lex $(PREFIX).l
 	gcc -c lex.yy.c
 
