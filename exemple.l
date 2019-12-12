@@ -18,3 +18,5 @@ INSTRUCTIONS_TAG 'INSTRUCTIONS'
 [ ]+ {return SPACE;}
 [\n;,{()}=] {return yytext[0];}
 %%
+[\n;,{()}=+*-] {return yytext[0];}
+%%
