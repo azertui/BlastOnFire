@@ -1,5 +1,6 @@
 %{
     #include <stdlib.h>
+    #include "ast.h"
     #include "y.tab.h"
 %}
 
@@ -16,7 +17,5 @@ INSTRUCTIONS_TAG 'INSTRUCTIONS'
 {NUMBER} {yylval.val=atoi(yytext);return INTEGER;}
 {ID} {yylval.name=strdup(yytext); return ID;}
 [ ]+ {return SPACE;}
-[\n;,{()}=] {return yytext[0];}
-%%
 [\n;,{()}=+*-] {return yytext[0];}
 %%
