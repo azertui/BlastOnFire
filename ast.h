@@ -102,6 +102,5 @@ void ast_print(ast* ast, int indent);
 ast* ast_link(ast* a, ast* next);
 
 //TODO
-
-ast* free_ast(ast* a);
+void free_ast(ast* ast);
 void ast_to_code(ast* a);

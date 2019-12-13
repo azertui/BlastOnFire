@@ -69,6 +69,13 @@ void print_table(symboles s){
   }
 }
 
+void free_symboles(symboles s){
+  if (s!=NULL){
+    free_symboles(s->pnext);
+    free_symboles(s->suivant);
+    free(s);
+  }
+}
 
 /*int main(){
   symboles s = new_table();

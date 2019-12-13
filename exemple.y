@@ -33,7 +33,7 @@
 %%
  
 ligne:
-    function         { printf("Chaine reconnue !\n");ast_print($1,0);return 0;}
+    function         { printf("Chaine reconnue !\n");ast_print($1,0);free_ast($1);free_symboles(tab_S);return 0;}
     | '\n'                { printf("Chaine reconnue !\n");return 0;}
   ;
 

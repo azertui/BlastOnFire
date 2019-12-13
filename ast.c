@@ -100,6 +100,35 @@ ast* ast_link(ast* a, ast* next){
   return a;
 }
 
+void free_ast(ast* ast){
+  if (ast!=NULL){  
+  switch(ast->type){
+    case AST_FCT:
+      free_ast(ast->next);
+      free(ast);
+      break;    
+    case AST_ID:
+      free_ast(ast->next);
+      free_ast(ast->type_int.value);
+      free(ast->type_int.id);
+      free(ast);
+      break;
+    case AST_NUMBER:
+      free(ast);
+      break;
+    case AST_OP_PLUS:
+    case AST_OP_MUL:
+    case AST_OP_MOINS:
+    case AST_OP_DIV:
+      free_ast(ast->next);
+      free_ast(ast->operation.left);
+      free_ast(ast->operation.right);
+      free(ast);
+      break;      
+  }  
+  }
+}
+
 
   /*int main(){
     ast* cinq = ast_new_number(5);
@@ -114,4 +143,5 @@ ast* ast_link(ast* a, ast* next){
     test = ast_link(test,test2);
     test = ast_new_main_fct(test);
     ast_print(test,0);
+    free_ast(test);
   }*/
