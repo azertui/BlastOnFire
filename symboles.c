@@ -70,7 +70,7 @@ void print_table(symboles s){
 }
 
 
-int main(){
+/*int main(){
   symboles s = new_table();
   s = add_symbole(s,"hello",0);
   s = add_symbole(s,"hopla",3);
@@ -78,4 +78,4 @@ int main(){
   s = add_symbole(s,"hello",0);
   print_table(s);
   return 0;
-}
+}*/

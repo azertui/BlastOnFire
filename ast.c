@@ -55,7 +55,13 @@ void ast_print(ast* ast, int indent) {
         ast_print(ast->next,indent);
         break;    
       case AST_ID:
-        printf("ID (%s)\n",ast->type_int.id);
+        printf("ID (%s)",ast->type_int.id);
+        if (ast->type_int.value!=NULL){
+          printf(" = \n");ast_print(ast->type_int.value,indent+1);
+        }
+        else
+          printf("\n");
+        
         ast_print(ast->next,indent);
         break;
       case AST_NUMBER:

@@ -2,10 +2,12 @@
   #include <stdio.h>
   #include <string.h>
   #include "ast.h"
+  #include "symboles.h"
   void yyerror(char*);
   extern int yylex();
   extern FILE *yyin;
   extern int yyparse();
+  symboles tab_S;
 %}
 
 %union {
@@ -45,8 +47,12 @@ body:
 ;
 
 instruction:
-     INTEGER_T SPACE ID';'  { $$ = ast_new_id($3,NULL);}
-    | INTEGER_T SPACE ID '=' operation ';'  { $$ = ast_new_id($3,$5);}
+     INTEGER_T SPACE ID';'                  { $$ = ast_new_id($3,NULL); 
+                                              tab_S = add_symbole(tab_S,$3,0);}
+    | INTEGER_T SPACE ID '=' operation ';'  { $$ = ast_new_id($3,$5); 
+                                              tab_S = add_symbole(tab_S,$3,0);}
+    | ID '=' operation ';'                  { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);return 1;} 
+                                              $$ = ast_new_id($1,$3);}
     | '\n' { $$ = NULL;}
 ;
 
@@ -62,6 +68,7 @@ operation:
 
 int parseFile(FILE* f){
     yyin=f;
+    tab_S = new_table();
     return yyparse();
 }
 extern int yy_scan_string(char*);

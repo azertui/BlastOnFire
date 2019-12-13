@@ -11,7 +11,7 @@ int main(){
     
     if (fichier != NULL)
     {
-        parseFile(fichier);
+        parseFile(fichier);        
         fclose(fichier);     
     }
     else
