@@ -62,6 +62,8 @@ operation:
   | operation '/' operation { $$ = ast_new_operation(AST_OP_DIV,$1,$3);}
   | operation '-' operation { $$ = ast_new_operation(AST_OP_MOINS,$1,$3);}
   | INTEGER   {$$ = ast_new_number($1);}
+  | ID        { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);return 1;}
+                $$ = ast_new_id($1,NULL);}
 ;
 
 %%

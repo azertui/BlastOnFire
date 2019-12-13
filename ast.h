@@ -2,7 +2,7 @@
  * \file ast.h
  * \brief Header de l'arbre de syntaxe
  * \author Monfouga Marie
- * \version 0.1
+ * \version 0.2
  * \date 11 décembre 2019
  *
  * Header de l'arbre de syntaxe
@@ -51,10 +51,35 @@ typedef struct ast {
  */
 ast* ast_new_main_fct(ast* next);
 
+/**
+ * \fn ast* ast_new_operation(enum ast_type, ast*, ast*);
+ * \brief Fonction de création d'un noeud faisant office d'une opération arithmétique
+ *
+ * \param ast_type type de l'opération ayant lieu entre les arbres.
+ * \param left ast gauche de l'opération.
+ * \param right ast droite de l'opération.
+ * \return Ast de l'opération.
+ */
+ast* ast_new_operation(enum ast_type, ast* left, ast* right);
 
-ast* ast_new_operation(enum ast_type, ast*, ast*);
-ast* ast_new_number(int);
-ast* ast_new_id(char*,ast*);
+/**
+ * \fn ast* ast_new_number(int);
+ * \brief Fonction de création d'un noeud d'un int
+ *
+ * \param number valeur entière.
+ * \return Noeud du nombre.
+ */
+ast* ast_new_number(int number);
+
+/**
+ * \fn ast* ast_new_id(char* id,ast* value);
+ * \brief Fonction de création d'un noeud d'un identificateur
+ *
+ * \param id nom de l'identificateur.
+ * \param value valeur associée à l'ID, null si pas initialisée.
+ * \return Ast de l'id.
+ */
+ast* ast_new_id(char* id,ast* value);
 
 /**
  * \fn void ast_print(ast* ast, int indent);
@@ -65,5 +90,18 @@ ast* ast_new_id(char*,ast*);
  */
 void ast_print(ast* ast, int indent);
 
+
+/**
+ * \fn ast* ast_link(ast* a, ast* next);
+ * \brief Fonction reliant un ast (à noeud unique!) à un objet ast.
+ *
+ * \param a noeud.
+ * \param next arbre.
+ * \return Noeud a dont l'élément a->next pointe sur l'arbre.
+*/
 ast* ast_link(ast* a, ast* next);
 
+//TODO
+
+ast* free_ast(ast* a);
+void ast_to_code(ast* a);
