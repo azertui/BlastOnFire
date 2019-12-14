@@ -32,7 +32,7 @@ symboles add_portee(symboles s,char * id, int portee){
        s = s->pnext; 
       }
       symboles new = malloc(sizeof(symboles*));
-      new->id = id;
+      new->id = strndup(id,strlen(id));
       new->portee = portee;
       new->pnext = NULL;
       s->pnext = new;
@@ -46,7 +46,7 @@ symboles add_symbole(symboles s,char * id, int portee){
   symboles s_same = getSymbole(s, id);
     if (s_same == NULL){
       symboles new = malloc(sizeof(struct symboles));
-      new->id = id;
+      new->id = strndup(id,strlen(id));
       new->portee = portee;
       new->pnext = NULL;
       new->suivant = s;
@@ -73,6 +73,7 @@ void free_symboles(symboles s){
   if (s!=NULL){
     free_symboles(s->pnext);
     free_symboles(s->suivant);
+    free(s->id);
     free(s);
   }
 }
