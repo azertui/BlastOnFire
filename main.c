@@ -18,5 +18,4 @@ int main(){
     {
         printf("Impossible d'ouvrir le fichier code_c.c\n");
     }
-
 }
