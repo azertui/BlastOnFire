@@ -36,6 +36,7 @@ $(TESTDIR)/tests.o : $(TESTDIR)/tests.c
 .PHONY: test clean
 test :
 	./$(TESTDIR)/tests
+	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./exemple
 
 clean :
 	rm -f $(TESTDIR)/*.o $(TESTDIR)/tests
