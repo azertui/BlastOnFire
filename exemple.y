@@ -33,7 +33,7 @@
 %%
  
 ligne:
-    function         { printf("Chaine reconnue !\n");ast_print($1,0);free_ast($1);free_symboles(tab_S);return 0;}
+    function         { printf("Chaine reconnue !\n");ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
     | '\n'                { printf("Chaine reconnue !\n");return 0;}
   ;
 
@@ -47,12 +47,12 @@ body:
 ;
 
 instruction:
-     INTEGER_T SPACE ID';'                  { $$ = ast_new_id($3,NULL); 
+     INTEGER_T SPACE ID';'                  { $$ = ast_new_id($3,NULL,1); 
                                               tab_S = add_symbole(tab_S,$3,0);}
-    | INTEGER_T SPACE ID '=' operation ';'  { $$ = ast_new_id($3,$5); 
+    | INTEGER_T SPACE ID '=' operation ';'  { $$ = ast_new_id($3,$5,1); 
                                               tab_S = add_symbole(tab_S,$3,0);}
     | ID '=' operation ';'                  { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);return 1;} 
-                                              $$ = ast_new_id($1,$3);}
+                                              $$ = ast_new_id($1,$3,0);}
     | '\n' { $$ = NULL;}
 ;
 
@@ -63,7 +63,7 @@ operation:
   | operation '-' operation { $$ = ast_new_operation(AST_OP_MOINS,$1,$3);}
   | INTEGER   {$$ = ast_new_number($1);}
   | ID        { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);return 1;}
-                $$ = ast_new_id($1,NULL);}
+                $$ = ast_new_id($1,NULL,0);}
 ;
 
 %%

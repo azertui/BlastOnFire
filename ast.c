@@ -37,11 +37,12 @@ ast* ast_new_number(int number) {
   return new;
 }
 
-ast* ast_new_id(char* id, ast* value) {
+ast* ast_new_id(char* id, ast* value, int init) {
   ast* new = malloc(sizeof(ast));
   new->type = AST_ID;
   new->type_int.id = strndup(id,strlen(id));
   new->type_int.value = value;
+  new->type_int.init = init;
   return new;
 }
 
@@ -129,6 +130,61 @@ void free_ast(ast* ast){
   }
 }
 
+void ast_to_code(ast* a){
+  ast* parcours = a;
+  FILE* fichier = NULL;
+  fichier = fopen("res_c.c", "w");
+  if (fichier != NULL)
+    ast_to_code_recur(parcours,fichier);
+    fclose(fichier);     
+}
+
+void ast_to_code_recur(ast* a, FILE* fichier){
+      if (a!=NULL){
+        switch(a->type){
+          case AST_FCT:
+            fputs("int main(){\n", fichier);
+            ast_to_code_recur(a->next,fichier);
+            fputs(";\nreturn 0;\n}", fichier);
+            break; 
+          case AST_ID:
+            if (a->type_int.init)
+              fputs("int ", fichier);
+            fprintf(fichier, "%s", a->type_int.id);
+            if(a->type_int.value!=NULL){
+              fputs(" = ", fichier);
+              ast_to_code_recur(a->type_int.value,fichier);
+            }
+            if (a->next!=NULL)
+              fputs(";\n", fichier);
+            ast_to_code_recur(a->next,fichier);
+            break;
+          case AST_NUMBER:
+            fprintf(fichier, "%d", a->number);
+            break;
+          case AST_OP_PLUS:
+            ast_to_code_recur(a->operation.left,fichier);
+            fputs(" + ",fichier);
+            ast_to_code_recur(a->operation.right,fichier);
+            break;
+          case AST_OP_MOINS:
+            ast_to_code_recur(a->operation.left,fichier);
+            fputs(" - ",fichier);
+            ast_to_code_recur(a->operation.right,fichier);
+            break;
+          case AST_OP_MUL:
+            ast_to_code_recur(a->operation.left,fichier);
+            fputs(" * ",fichier);
+            ast_to_code_recur(a->operation.right,fichier);
+            break; 
+          case AST_OP_DIV:
+            ast_to_code_recur(a->operation.left,fichier);
+            fputs(" / ",fichier);
+            ast_to_code_recur(a->operation.right,fichier);
+            break;       
+        }
+    }
+}
 
   /*int main(){
     ast* cinq = ast_new_number(5);

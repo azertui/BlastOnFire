@@ -35,6 +35,7 @@ typedef struct ast {
     struct {
       char* id; /*!< identificateur */
       struct ast* value;  /*!< noeud de valeur*/
+      int init; /*!< booléen pour l'initialisation*/
     } type_int; /*!< variable, constante */
     int number;
     char* id;
@@ -77,9 +78,10 @@ ast* ast_new_number(int number);
  *
  * \param id nom de l'identificateur.
  * \param value valeur associée à l'ID, null si pas initialisée.
+ * \param init 1 si initialisation, 0 sinon.
  * \return Ast de l'id.
  */
-ast* ast_new_id(char* id,ast* value);
+ast* ast_new_id(char* id,ast* value, int init);
 
 /**
  * \fn void ast_print(ast* ast, int indent);
@@ -101,6 +103,27 @@ void ast_print(ast* ast, int indent);
 */
 ast* ast_link(ast* a, ast* next);
 
-//TODO
+/**
+ * \fn void free_ast(ast* ast);
+ * \brief Libération de l'arbre
+ *
+ * \param ast arbre.
+*/
 void free_ast(ast* ast);
+
+/**
+ * \fn void ast_to_code(ast* a);
+ * \brief Transformation de l'arbre en code C dans un fichier res_c.c
+ *
+ * \param ast arbre.
+*/
 void ast_to_code(ast* a);
+
+/**
+ * \fn void ast_to_code_recur(ast* a, FILE* fichier);
+ * \brief Fonction auxiliaire de ast_to_code
+ *
+ * \param ast arbre.
+ * \param fichier fichier où écrire le code.
+*/
+void ast_to_code_recur(ast* a, FILE* fichier);
