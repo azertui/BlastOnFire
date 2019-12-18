@@ -27,10 +27,11 @@ $(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o
 $(TESTDIR) : 
 	mkdir -p $(TESTDIR)
 
-$(TESTDIR)/%.o : $(TESTDIR)/%.c
-	gcc -c $^ -o $(TESTDIR)/$*.o -l cmocka -L /usr/local/lib
+$(TESTDIR)/%.o : $(TESTDIR)/%.c $(TESTDIR)
+	gcc -c $< -o $(TESTDIR)/$*.o -l cmocka -L /usr/local/lib
 
 .PHONY: test clean
+
 test : $(TESTDIR)/tests
 	./$(TESTDIR)/tests
 	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./$(PREFIX)
