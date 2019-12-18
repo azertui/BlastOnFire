@@ -50,3 +50,6 @@ test : $(TESTDIR)/tests
 clean :
 	rm -f $(TESTDIR)/*.o $(TESTDIR)/tests
 	rm -f *.o y.tab.c y.tab.h lex.yy.c a.out $(PREFIX)
+	#Fichier de sortie temporaire
+	rm -f res_c.c
+
