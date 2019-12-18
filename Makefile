@@ -22,7 +22,7 @@ lex.yy.o: $(PREFIX).l y.tab.h
 README.md : ;
 
 $(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o
-	gcc -o $(TESTDIR)/tests $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o -ly -lfl -l cmocka -L /usr/local/lib
+	gcc -o $(TESTDIR)/tests $^ -ly -lfl -l cmocka -L /usr/local/lib
 
 $(TESTDIR) : 
 	mkdir -p $(TESTDIR)
@@ -31,7 +31,7 @@ $(TESTDIR)/%.o : $(TESTDIR)/%.c
 	gcc -c $^ -o $(TESTDIR)/$*.o -l cmocka -L /usr/local/lib
 
 .PHONY: test clean
-test :
+test : $(TESTDIR)/tests
 	./$(TESTDIR)/tests
 	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./$(PREFIX)
 
