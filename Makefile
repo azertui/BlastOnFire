@@ -27,8 +27,8 @@ $(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o
 $(TESTDIR) : 
 	mkdir -p $(TESTDIR)
 
-$(TESTDIR)/tests.o : $(TESTDIR)/tests.c
-	gcc -c $(TESTDIR)/tests.c -o $(TESTDIR)/tests.o -l cmocka -L /usr/local/lib
+$(TESTDIR)/%.o : $(TESTDIR)/%.c
+	gcc -c $^ -o $(TESTDIR)/$*.o -l cmocka -L /usr/local/lib
 
 .PHONY: test clean
 test :
