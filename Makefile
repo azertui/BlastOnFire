@@ -1,10 +1,10 @@
 TESTDIR = tests
-PREFIX = exemple
+PREFIX = parser
 
 all : README.md $(PREFIX) $(TESTDIR) $(TESTDIR)/tests
 
-$(PREFIX) : y.tab.o lex.yy.o main.o ast.o symboles.o
-	gcc main.o y.tab.o lex.yy.o ast.o symboles.o -ly -lfl -o $(PREFIX)
+$(PREFIX) : main.o y.tab.o lex.yy.o ast.o symboles.o
+	gcc $^ -ly -lfl -o $(PREFIX)
 
 y.tab.o: $(PREFIX).y
 	yacc -d $(PREFIX).y
