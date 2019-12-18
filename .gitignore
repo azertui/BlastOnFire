@@ -42,6 +42,10 @@
 *.hex
 tests/tests
 exemple
+parser
+
+#Test output files
+res_c.c
 
 # Debug files
 *.dSYM/

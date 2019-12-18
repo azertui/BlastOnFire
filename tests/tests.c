@@ -6,12 +6,10 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include "../ast.h"
 
 extern int parseString(char*);
-
-int sum(int a,int b){
-    return a + b;
-}
+extern int parseFile();
 
 static void parsing_test(){
 	char* str=malloc(50);
@@ -23,19 +21,19 @@ static void parsingFail_test(){
 	sprintf(str,"int main(\n");
 	assert_true(parseString(str)); //autre sortie que 0 => true en C
 }
-
-static void failing_test() {
-	assert_false(1 == 2);
-}
-
-static void sum_test(){
-    assert_int_equal(5,sum(4,1));
+static void parsingFile_test(){
+	FILE* f=fopen("tests/code_c.c","r");
+	if(f==NULL){
+		print_error("File code_c.c doesn't exist anymore\n");
+		fail();
+	}
+	int res = parseFile(f);
+	fclose(f);
+	assert_null(res);
 }
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		cmocka_unit_test(failing_test),
-        cmocka_unit_test(sum_test),
 		cmocka_unit_test(parsing_test),
 		cmocka_unit_test(parsingFail_test),
 	};

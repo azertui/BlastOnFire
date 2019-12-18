@@ -23,3 +23,6 @@ symboles find_portee(symboles s,int portee);
 symboles add_portee(symboles s,char * id, int portee);
 
 void print_table(symboles s);
+
+//TODO
+void free_symboles(symboles s);
