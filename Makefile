@@ -43,8 +43,8 @@ $(TESTDIR)/%.o : $(TESTDIR)/%.c $(TESTDIR)
 
 #Cible de test
 test : $(TESTDIR)/tests
-	./$(TESTDIR)/tests
-	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./$(PREFIX)
+	./$(TESTDIR)/tests 2>/dev/null | grep "\[.*\]" 
+	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./$(PREFIX) >/dev/null
 
 #Clean
 clean :
