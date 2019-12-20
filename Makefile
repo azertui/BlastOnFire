@@ -39,7 +39,7 @@ $(TESTDIR)/%.o : $(TESTDIR)/%.c $(TESTDIR)
 	gcc -c $< -o $@ -l cmocka -L /usr/local/lib
 
 #Phony
-.PHONY: test clean
+.PHONY: test clean doxygen
 
 #Cible de test
 test : $(TESTDIR)/tests
@@ -53,3 +53,6 @@ clean :
 	#Fichier de sortie temporaire
 	rm -f res_c.c
 
+#Generate documentation
+doxygen:
+	@doxygen Doxyfile

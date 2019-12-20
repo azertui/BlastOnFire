@@ -8,7 +8,8 @@ before_install:
  - sudo apt-get install -qq flex bison
  - sudo apt-get install -qq cmocka-doc libcmocka-dev libcmocka0
  - sudo apt-get install -qq valgrind
- 
+ - sudo apt-get install -qq doxygen
+
 before_script: make
 
 script: make test
