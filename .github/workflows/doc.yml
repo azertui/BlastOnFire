@@ -3,7 +3,7 @@ name: DOCUMENTATION
 on:
   push:
     branches:
-      - master
+      - continuousIntegration
     tags-ignore:
       - CI
 
@@ -32,4 +32,11 @@ jobs:
         git add Doxygen/
         git tag {CI}
         git commit -m "auto updating doxygen"
+        git push
+    - name: switch branch & get doc
+      run: |
+        git checkout gh-pages
+        git checkout continuousIntegration -- Doxygen
+        git add .
+        git commit -m "auto update documentation"
         git push
