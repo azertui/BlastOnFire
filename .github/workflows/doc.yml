@@ -27,7 +27,7 @@ jobs:
       run: make test
     - name: generate doc
       run: make doxygen
-    -name: commit
+    - name: commit
       run: |
         git add Doxygen/
         git tag {CI}
