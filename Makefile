@@ -4,23 +4,9 @@ PREFIX = parser
 #All
 all : README.md $(PREFIX) $(TESTDIR) $(TESTDIR)/tests
 
-<<<<<<< HEAD
-$(PREFIX) : y.tab.o lex.yy.o main.o ast.o symboles.o
-	gcc main.o y.tab.o lex.yy.o ast.o symboles.o -ly -ll -o $(PREFIX)
-
-main.o: main.c
-	gcc -c main.c
-
-ast.o: ast.c
-	gcc -c ast.c
-
-symboles.o: symboles.c
-	gcc -c symboles.c
-=======
 #Executable principal (nom : variable PREFIX)
-$(PREFIX) : main.o y.tab.o lex.yy.o ast.o symboles.o
+$(PREFIX): main.o y.tab.o lex.yy.o ast.o symboles.o
 	gcc $^ -ly -lfl -o $@
->>>>>>> master
 
 #Fichier objet YACC
 y.tab.o: $(PREFIX).y
@@ -42,13 +28,9 @@ README.md : ;
 
 #Executable de test
 $(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o
-<<<<<<< HEAD
-	gcc -o $(TESTDIR)/tests $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o -ly -ll -l cmocka -L /usr/local/lib
-=======
 	gcc -o $@ $^ -ly -lfl -l cmocka -L /usr/local/lib
 
 #Dossier de test
->>>>>>> master
 $(TESTDIR) : 
 	mkdir -p $(TESTDIR)
 
