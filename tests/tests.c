@@ -36,6 +36,7 @@ static void parsingFail_undeclared_test(){
 int temp;
 
 static int setup(){
+	temp=dup(stdout->_fileno);
 	freopen("/dev/null","w",stdout);
 	return 0;
 }
