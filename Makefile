@@ -42,7 +42,7 @@ $(TESTDIR)/%.o : $(TESTDIR)/%.c $(TESTDIR)
 .PHONY: test clean doxygen
 
 #Cible de test
-test : $(TESTDIR)/tests
+test : $(TESTDIR)/tests $(PREFIX)
 	./$(TESTDIR)/tests 2>/dev/null | grep "\[.*\]" 
 	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./$(PREFIX) >/dev/null
 
