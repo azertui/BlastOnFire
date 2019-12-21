@@ -36,14 +36,15 @@ static void parsingFail_undeclared_test(){
 int temp;
 
 static int setup(){
-	temp=dup(stdout->_fileno);
-	freopen("/dev/null","w",stdout);
+	/*temp=dup(stdout->_fileno);
+	freopen("/dev/null","w",stdout);*/
 	return 0;
 }
 
 static int teardown(){
-	int fd = open("/dev/tty", O_WRONLY);
-    stdout = fdopen(fd, "w");
+	/*int fd = open("/dev/tty", O_WRONLY);
+
+    stdout = fdopen(temp, "w");*/
 	return 0;
 }
 
