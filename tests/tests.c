@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../ast.h"
+#include <fcntl.h>
 
 extern int parseString(char*);
 extern int parseFile();
@@ -31,12 +32,26 @@ static void parsingFail_undeclared_test(){
 	assert_true(parseString("int main(){a=2;}"));
 }
 
+//used to redirect stdout
+int temp;
+
+static int setup(){
+	freopen("/dev/null","w",stdout);
+	return 0;
+}
+
+static int teardown(){
+	int fd = open("/dev/tty", O_WRONLY);
+    stdout = fdopen(fd, "w");
+	return 0;
+}
+
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		cmocka_unit_test(parsing_basicExemple_test),
-		cmocka_unit_test(parsingFail_function_test),
-		cmocka_unit_test(parsingFile_test),
-		cmocka_unit_test(parsingFail_undeclared_test),
+		cmocka_unit_test_setup_teardown(parsing_basicExemple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFail_function_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFile_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFail_undeclared_test,setup,teardown),
 	};
 	return cmocka_run_group_tests(tests, NULL, NULL);
 }
