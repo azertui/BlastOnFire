@@ -36,13 +36,23 @@ static void parsingFail_undeclared_test(){
 int temp;
 
 static int setup(){
-	freopen("/dev/null","w",stdout);
+	temp=dup(stdout->_fileno);
+	freopen("tests/test_logs.txt","w",stdout);
 	return 0;
 }
 
 static int teardown(){
-	int fd = open("/dev/tty", O_WRONLY);
-    stdout = fdopen(fd, "w");
+	//int fd = open("/dev/tty", O_WRONLY);
+
+    stdout = fdopen(temp, "w");
+	return 0;
+}
+
+static int group_teardown(){
+	if(remove("tests/test_logs.txt")==0){
+		fprintf(stderr,"group_teardown:error while removing logs\n");
+		return 1;
+	}
 	return 0;
 }
 
@@ -53,5 +63,5 @@ int main(void) {
 		cmocka_unit_test_setup_teardown(parsingFile_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFail_undeclared_test,setup,teardown),
 	};
-	return cmocka_run_group_tests(tests, NULL, NULL);
+	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }
