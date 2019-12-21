@@ -15,9 +15,7 @@
  *
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
-enum ast_type { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT};
-
-
+typedef enum { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -26,7 +24,7 @@ enum ast_type { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_O
  * dépendantes du type de noeud.  
  */
 typedef struct ast {
-  enum ast_type type; /*!< Type du noeud */
+ ast_type type; /*!< Type du noeud */
   union {
     struct {
       struct ast* left;
@@ -61,7 +59,7 @@ ast* ast_new_main_fct(ast* next);
  * \param right ast droite de l'opération.
  * \return Ast de l'opération.
  */
-ast* ast_new_operation(enum ast_type, ast* left, ast* right);
+ast* ast_new_operation(ast_type, ast* left, ast* right);
 
 /**
  * \fn ast* ast_new_number(int);

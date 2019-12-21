@@ -14,12 +14,14 @@
     int val;
     char* name;
     struct ast* ast;
+    ast_type type;
 }
 
 %type <ast> ligne
 %type <ast> function
 %type <ast> instruction
 %type <ast> operation
+%type <type> affectation_op
 %type <ast> body
 
 %left '+'
@@ -53,7 +55,16 @@ instruction:
                                               tab_S = add_symbole(tab_S,$3,0);free($3);}
     | ID '=' operation ';'                  { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
                                               $$ = ast_new_id($1,$3,0);free($1);}
+    | ID affectation_op '=' operation              { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
+                                              $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0),$4),0);free($1);}
     | '\n' { $$ = NULL;}
+;
+
+affectation_op:
+      '+'             { $$ = AST_OP_PLUS;}
+    | '-'             { $$ = AST_OP_MOINS;}
+    | '*'             { $$ = AST_OP_MUL;}
+    | '/'             { $$ = AST_OP_DIV;}
 ;
 
 operation:
