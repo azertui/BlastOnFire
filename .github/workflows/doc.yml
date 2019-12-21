@@ -1,0 +1,35 @@
+name: DOCUMENTATION
+
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - CI
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: apt update
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -qq flex bison
+        sudo apt-get install -qq cmocka-doc libcmocka-dev libcmocka0
+        sudo apt-get install -qq valgrind
+        sudo apt-get install -qq doxygen
+      - name: setup
+        run: make
+      - name: verify
+        run: make test
+      - name: generate doc
+        run: make doxygen
+      -name: commit
+        run: |
+          git add Doxygen/
+          git tag {CI}
+          git commit -m "auto updating doxygen"
+          git push
