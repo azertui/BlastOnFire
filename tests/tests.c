@@ -11,15 +11,11 @@
 extern int parseString(char*);
 extern int parseFile();
 
-static void parsing_test(){
-	char* str=malloc(50);
-	sprintf(str,"int main(){int i;}\n");
-	assert_null(parseString(str));
+static void parsing_basicExemple_test(){
+	assert_null(parseString("int main(){int i;}\n"));
 }
-static void parsingFail_test(){
-	char* str=malloc(50);
-	sprintf(str,"int main(\n");
-	assert_true(parseString(str)); //autre sortie que 0 => true en C
+static void parsingFail_function_test(){
+	assert_true(parseString("int main(\n")); //autre sortie que 0 => true en C
 }
 static void parsingFile_test(){
 	FILE* f=fopen("tests/code_c.c","r");
@@ -31,11 +27,16 @@ static void parsingFile_test(){
 	fclose(f);
 	assert_null(res);
 }
+static void parsingFail_undeclared_test(){
+	assert_true(parseString("int main(){a=2;}"));
+}
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		cmocka_unit_test(parsing_test),
-		cmocka_unit_test(parsingFail_test),
+		cmocka_unit_test(parsing_basicExemple_test),
+		cmocka_unit_test(parsingFail_function_test),
+		cmocka_unit_test(parsingFile_test),
+		cmocka_unit_test(parsingFail_undeclared_test),
 	};
 	return cmocka_run_group_tests(tests, NULL, NULL);
 }

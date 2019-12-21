@@ -14,12 +14,14 @@
     int val;
     char* name;
     struct ast* ast;
+    ast_type type;
 }
 
 %type <ast> ligne
 %type <ast> function
 %type <ast> instruction
 %type <ast> operation
+%type <type> affectation_op
 %type <ast> body
 
 %left '+'
@@ -28,7 +30,8 @@
 %left '/'
 
 %token <val>INTEGER 
-%token DOUBLE INTEGER_T DOUBLE_T SPACE 
+%token DOUBLE INTEGER_T DOUBLE_T 
+%token IF ELSE FOR WHILE
 %token <name>ID 
 %%
  
@@ -38,22 +41,31 @@ ligne:
   ;
 
 function:
-    INTEGER_T SPACE ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($7); free($3);}
+    INTEGER_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6); free($2);}
     ;
 
 body:
     instruction body { $$ = ast_link($1,$2);}
-    | %empty {$$ = NULL;}
+    | /*epsilon*/{$$ = NULL;}
 ;
 
 instruction:
-     INTEGER_T SPACE ID';'                  { $$ = ast_new_id($3,NULL,1); 
-                                              tab_S = add_symbole(tab_S,$3,0); free($3);}
-    | INTEGER_T SPACE ID '=' operation ';'  { $$ = ast_new_id($3,$5,1); 
-                                              tab_S = add_symbole(tab_S,$3,0);free($3);}
+     INTEGER_T ID';'                  { $$ = ast_new_id($2,NULL,1); 
+                                              tab_S = add_symbole(tab_S,$2,0); free($2);}
+    | INTEGER_T ID '=' operation ';'  { $$ = ast_new_id($2,$4,1); 
+                                              tab_S = add_symbole(tab_S,$2,0);free($2);}
     | ID '=' operation ';'                  { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
                                               $$ = ast_new_id($1,$3,0);free($1);}
+    | ID affectation_op '=' operation              { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
+                                              $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0),$4),0);free($1);}
     | '\n' { $$ = NULL;}
+;
+
+affectation_op:
+      '+'             { $$ = AST_OP_PLUS;}
+    | '-'             { $$ = AST_OP_MOINS;}
+    | '*'             { $$ = AST_OP_MUL;}
+    | '/'             { $$ = AST_OP_DIV;}
 ;
 
 operation:
