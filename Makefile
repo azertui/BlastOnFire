@@ -5,7 +5,7 @@ PREFIX = parser
 all : README.md $(PREFIX) $(TESTDIR) $(TESTDIR)/tests
 
 #Executable principal (nom : variable PREFIX)
-$(PREFIX) : main.o y.tab.o lex.yy.o ast.o symboles.o
+$(PREFIX): main.o y.tab.o lex.yy.o ast.o symboles.o
 	gcc $^ -ly -lfl -o $@
 
 #Fichier objet YACC
@@ -42,7 +42,7 @@ $(TESTDIR)/%.o : $(TESTDIR)/%.c $(TESTDIR)
 .PHONY: test clean doxygen
 
 #Cible de test
-test : $(TESTDIR)/tests
+test : $(TESTDIR)/tests $(PREFIX)
 	./$(TESTDIR)/tests 2>/dev/null | grep "\[.*\]" 
 	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./$(PREFIX) >/dev/null
 
