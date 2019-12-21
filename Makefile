@@ -4,7 +4,7 @@ PREFIX = exemple
 all : README.md $(PREFIX) $(TESTDIR) $(TESTDIR)/tests
 
 $(PREFIX) : y.tab.o lex.yy.o main.o ast.o symboles.o
-	gcc main.o y.tab.o lex.yy.o ast.o symboles.o -ly -lfl -o $(PREFIX)
+	gcc main.o y.tab.o lex.yy.o ast.o symboles.o -ly -ll -o $(PREFIX)
 
 main.o: main.c
 	gcc -c main.c
@@ -26,7 +26,7 @@ lex.yy.o: $(PREFIX).l y.tab.h
 README.md : ;
 
 $(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o
-	gcc -o $(TESTDIR)/tests $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o -ly -lfl -l cmocka -L /usr/local/lib
+	gcc -o $(TESTDIR)/tests $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o -ly -ll -l cmocka -L /usr/local/lib
 $(TESTDIR) : 
 	mkdir -p $(TESTDIR)
 

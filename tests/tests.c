@@ -12,14 +12,13 @@ extern int parseString(char*);
 extern int parseFile();
 
 static void parsing_test(){
-	char* str=malloc(50);
-	sprintf(str,"int main(){int i;}\n");
-	assert_null(parseString(str));
+	assert_null(parseString("int main(){int i;}\n"));
 }
 static void parsingFail_test(){
-	char* str=malloc(50);
-	sprintf(str,"int main(\n");
-	assert_true(parseString(str)); //autre sortie que 0 => true en C
+	assert_true(parseString("int main(\n")); //autre sortie que 0 => true en C
+}
+static void undeclared_fail(){
+	assert_true(parseString("int main(){a=2;}"));
 }
 static void parsingFile_test(){
 	FILE* f=fopen("tests/code_c.c","r");
