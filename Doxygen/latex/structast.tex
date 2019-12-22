@@ -1,0 +1,89 @@
+\hypertarget{structast}{}\section{ast Struct Reference}
+\label{structast}\index{ast@{ast}}
+
+
+Noeud de l\textquotesingle{}ast.  
+
+
+
+
+{\ttfamily \#include $<$ast.\+h$>$}
+
+
+
+Collaboration diagram for ast\+:
+% FIG 0
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} \hyperlink{structast_a8321fc8e556a418583dd74ee9fcc2bf7}{type}
+\item 
+\mbox{\Hypertarget{structast_aa607c7a27d555cb2310d47623165269a}\label{structast_aa607c7a27d555cb2310d47623165269a}} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>struct \hyperlink{structast}{ast} $\ast$ {\bfseries left}\\
+\>\>struct \hyperlink{structast}{ast} $\ast$ {\bfseries right}\\
+\>\} {\bfseries operation}\\
+\>struct \{\\
+\>\>char $\ast$ \hyperlink{structast_aecb3b0d045ada529257a2fbf8f829599}{id}\\
+\>\>struct \hyperlink{structast}{ast} $\ast$ \hyperlink{structast_a0547e48c9f9ecb35c94f988890f217b7}{value}\\
+\>\>int \hyperlink{structast_a795ea50921b36311ffd5e7baa2ef1f7e}{init}\\
+\>\} \hyperlink{structast_a48c1fea64ccd73c68d3901c23d65f9f5}{type\_int}\\
+\>int {\bfseries number}\\
+\>char $\ast$ {\bfseries id}\\
+\}; \\
+
+\end{tabbing}\item 
+struct \hyperlink{structast}{ast} $\ast$ \hyperlink{structast_ae48f04f7acec87ecf7f0bc953cb56bf4}{next}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Noeud de l\textquotesingle{}ast. 
+
+Un noeud de l\textquotesingle{}ast est défini par un certain type et quelques caractéristiques dépendantes du type de noeud. 
+
+\subsection{Field Documentation}
+\mbox{\Hypertarget{structast_aecb3b0d045ada529257a2fbf8f829599}\label{structast_aecb3b0d045ada529257a2fbf8f829599}} 
+\index{ast@{ast}!id@{id}}
+\index{id@{id}!ast@{ast}}
+\subsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily char$\ast$ id}
+
+identificateur \mbox{\Hypertarget{structast_a795ea50921b36311ffd5e7baa2ef1f7e}\label{structast_a795ea50921b36311ffd5e7baa2ef1f7e}} 
+\index{ast@{ast}!init@{init}}
+\index{init@{init}!ast@{ast}}
+\subsubsection{\texorpdfstring{init}{init}}
+{\footnotesize\ttfamily int init}
+
+booléen pour l\textquotesingle{}initialisation \mbox{\Hypertarget{structast_ae48f04f7acec87ecf7f0bc953cb56bf4}\label{structast_ae48f04f7acec87ecf7f0bc953cb56bf4}} 
+\index{ast@{ast}!next@{next}}
+\index{next@{next}!ast@{ast}}
+\subsubsection{\texorpdfstring{next}{next}}
+{\footnotesize\ttfamily struct \hyperlink{structast}{ast}$\ast$ next}
+
+Pointeur vers un autre noeud, la suite de l\textquotesingle{}arbre \mbox{\Hypertarget{structast_a8321fc8e556a418583dd74ee9fcc2bf7}\label{structast_a8321fc8e556a418583dd74ee9fcc2bf7}} 
+\index{ast@{ast}!type@{type}}
+\index{type@{type}!ast@{ast}}
+\subsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type}
+
+Type du noeud \mbox{\Hypertarget{structast_a48c1fea64ccd73c68d3901c23d65f9f5}\label{structast_a48c1fea64ccd73c68d3901c23d65f9f5}} 
+\index{ast@{ast}!type\+\_\+int@{type\+\_\+int}}
+\index{type\+\_\+int@{type\+\_\+int}!ast@{ast}}
+\subsubsection{\texorpdfstring{type\+\_\+int}{type\_int}}
+{\footnotesize\ttfamily struct \{ ... \}   type\+\_\+int}
+
+variable, constante \mbox{\Hypertarget{structast_a0547e48c9f9ecb35c94f988890f217b7}\label{structast_a0547e48c9f9ecb35c94f988890f217b7}} 
+\index{ast@{ast}!value@{value}}
+\index{value@{value}!ast@{ast}}
+\subsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily struct \hyperlink{structast}{ast}$\ast$ value}
+
+noeud de valeur 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{ast_8h}{ast.\+h}\end{DoxyCompactItemize}
