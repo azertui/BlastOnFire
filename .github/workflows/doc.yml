@@ -40,9 +40,9 @@ jobs:
         git add Doxygen/
         git stash
         git checkout gh-pages
-        git stash pop
+        git stash pop | echo
         git commit -m "auto update Documentation" | echo
     - name: Push changes
       run: |
         remote_repo="https://azertui:${{secrets.TOKEN_ACTIONS}}@github.com/azertui/BlastOnFire.git"
-        git push "${remote_repo}" gh-pages --follow-tags
+        git push "${remote_repo}" gh-pages --follow-tags |echo
