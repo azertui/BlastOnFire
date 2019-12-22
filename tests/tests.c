@@ -49,7 +49,7 @@ static int teardown(){
 }
 
 static int group_teardown(){
-	if(remove("tests/test_logs.txt")==0){
+	if(remove("tests/test_logs.txt")!=0){
 		fprintf(stderr,"group_teardown:error while removing logs\n");
 		return 1;
 	}

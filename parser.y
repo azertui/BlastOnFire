@@ -3,7 +3,7 @@
   #include <string.h>
   #include "ast.h"
   #include "symboles.h"
-  void yyerror(char*);
+  void yyerror(ast*,char*);
   extern int yylex();
   extern FILE *yyin;
   extern int yyparse();
@@ -33,10 +33,11 @@
 %token DOUBLE INTEGER_T DOUBLE_T 
 %token IF ELSE FOR WHILE
 %token <name>ID 
+%parse-param {ast* parsed_ast}
 %%
  
 ligne:
-    function         { printf("Chaine reconnue !\n");ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
+    function         { printf("Chaine reconnue !\n");*parsed_ast=*$1;ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
     | '\n'                { printf("Chaine reconnue !\n");return 0;}
   ;
 
@@ -69,7 +70,8 @@ affectation_op:
 ;
 
 operation:
-    operation '+' operation { $$ = ast_new_operation(AST_OP_PLUS,$1,$3);}
+    '(' operation ')' {$$ = $2;}
+  | operation '+' operation { $$ = ast_new_operation(AST_OP_PLUS,$1,$3);}
   | operation '*' operation { $$ = ast_new_operation(AST_OP_MUL,$1,$3);}
   | operation '/' operation { $$ = ast_new_operation(AST_OP_DIV,$1,$3);}
   | operation '-' operation { $$ = ast_new_operation(AST_OP_MOINS,$1,$3);}
@@ -84,7 +86,8 @@ extern int yylex_destroy();
 int parseFile(FILE* f){
     yyin=f;
     tab_S = new_table();
-    int res= yyparse();
+    ast parsed_ast;
+    int res= yyparse(&parsed_ast);
     yylex_destroy();
     return res;
 }
@@ -93,14 +96,16 @@ int parseString(char *s) {
     printf("%lu:%s",strlen(s),s);
   yy_scan_string(s);
   int yylex();
-  int res= yyparse();
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast);
   yylex_destroy();
   return res;
 }
 
 int parse() {
   printf("Entrez une expression :\n");
-  int res= yyparse();
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast);
   yylex_destroy();
   return res;
 }
