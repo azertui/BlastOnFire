@@ -15,7 +15,6 @@ y.tab.o: $(PREFIX).y lex.h
 
 #Fichier objet LEX
 lex.yy.o: $(PREFIX).l y.tab.h
-	lex $(PREFIX).l
 	gcc -c lex.yy.c
 
 #Fichiers objets classiques
