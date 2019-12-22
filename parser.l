@@ -3,7 +3,7 @@
     #include "ast.h"
     #include "y.tab.h"
 %}
-
+%option header-file = "lex.h"
 INTEGER int
 DOUBLE double
 NUMBER [0-9]+

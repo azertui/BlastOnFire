@@ -3,10 +3,8 @@
   #include <string.h>
   #include "ast.h"
   #include "symboles.h"
+  #include "lex.h"
   void yyerror(ast*,char*);
-  extern int yylex();
-  extern FILE *yyin;
-  extern int yyparse();
   symboles tab_S;
 %}
 
@@ -81,7 +79,6 @@ operation:
 ;
 
 %%
-extern int yylex_destroy();
 
 int parseFile(FILE* f){
     yyin=f;
@@ -91,7 +88,7 @@ int parseFile(FILE* f){
     yylex_destroy();
     return res;
 }
-extern int yy_scan_string(char*);
+
 int parseString(char *s) {
     printf("%lu:%s",strlen(s),s);
   yy_scan_string(s);
