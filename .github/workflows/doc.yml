@@ -41,7 +41,7 @@ jobs:
         git stash
         git checkout gh-pages
         git stash pop
-        git commit -m "auto update Documentation"
+        git commit -m "auto update Documentation" | echo
     - name: Push changes
       run: |
         remote_repo="https://azertui:${{secrets.TOKEN_ACTIONS}}@github.com/azertui/BlastOnFire.git"
