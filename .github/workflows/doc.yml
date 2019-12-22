@@ -42,4 +42,5 @@ jobs:
     - name: Push changes
       run: |
         remote_repo="https://azertui:${{secrets.TOKEN_ACTIONS}}@github.com/azertui/BlastOnFire.git"
+        git pull
         git push "${remote_repo}" master:gh-pages --follow-tags
