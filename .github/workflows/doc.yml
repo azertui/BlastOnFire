@@ -3,9 +3,7 @@ name: DOCUMENTATION
 on:
   push:
     branches:
-      - continuousIntegration
-    tags-ignore:
-      - CI
+      - master
 
 jobs:
   build:
@@ -32,22 +30,9 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add Doxygen/
-        git tag {CI}
         git commit -m "auto updating doxygen"
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: 'continuousIntegration'
-
-    - name: switch branch & get doc
-      run: |
-        git checkout gh-pages
-        git checkout continuousIntegration -- Doxygen
-        git add .
-        git commit -m "auto update documentation"
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: 'gh-pages'
+        branch: 'master'
