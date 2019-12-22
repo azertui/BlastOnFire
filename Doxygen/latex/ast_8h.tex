@@ -37,8 +37,9 @@ enum \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} \{ \new
 \item 
 \hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_adadecb0fc277173ec4f47af96504da86}{ast\+\_\+new\+\_\+main\+\_\+fct} (\hyperlink{structast}{ast} $\ast$next)
 \begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{}fonction principale d\textquotesingle{}un programme C\char`\"{} d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
-\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_af46f7c64c7efb8449d8f78e5da510415}{ast\+\_\+new\+\_\+operation} (enum \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type}, \hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right)
-\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}un noeud faisant office d\textquotesingle{}une opération arithmétique. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ast_8h_ab204880dc101896180b797fa4c380125}\label{ast_8h_ab204880dc101896180b797fa4c380125}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+operation} (\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type}, \hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right)
+\item 
 \hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_a7306edc16f0429eca91e3e43ee5cc425}{ast\+\_\+new\+\_\+number} (int number)
 \begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{ast_8h_ac973d5dbd1151d80f0967bd0260c0b82}\label{ast_8h_ac973d5dbd1151d80f0967bd0260c0b82}} 
@@ -139,28 +140,6 @@ Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Noeud du nombre. 
-\end{DoxyReturn}
-\mbox{\Hypertarget{ast_8h_af46f7c64c7efb8449d8f78e5da510415}\label{ast_8h_af46f7c64c7efb8449d8f78e5da510415}} 
-\index{ast.\+h@{ast.\+h}!ast\+\_\+new\+\_\+operation@{ast\+\_\+new\+\_\+operation}}
-\index{ast\+\_\+new\+\_\+operation@{ast\+\_\+new\+\_\+operation}!ast.\+h@{ast.\+h}}
-\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+operation()}{ast\_new\_operation()}}
-{\footnotesize\ttfamily \hyperlink{structast}{ast}$\ast$ ast\+\_\+new\+\_\+operation (\begin{DoxyParamCaption}\item[{enum \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type}}]{type,  }\item[{\hyperlink{structast}{ast} $\ast$}]{left,  }\item[{\hyperlink{structast}{ast} $\ast$}]{right }\end{DoxyParamCaption})}
-
-
-
-Fonction de création d\textquotesingle{}un noeud faisant office d\textquotesingle{}une opération arithmétique. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em ast\+\_\+type} & type de l\textquotesingle{}opération ayant lieu entre les arbres. \\
-\hline
-{\em left} & ast gauche de l\textquotesingle{}opération. \\
-\hline
-{\em right} & ast droite de l\textquotesingle{}opération. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Ast de l\textquotesingle{}opération. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{ast_8h_adc84673a1feec531ce0e52042cd95350}\label{ast_8h_adc84673a1feec531ce0e52042cd95350}} 
 \index{ast.\+h@{ast.\+h}!ast\+\_\+print@{ast\+\_\+print}}

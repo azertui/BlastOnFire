@@ -7,19 +7,16 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../ast.h"
+#include <fcntl.h>
 
 extern int parseString(char*);
 extern int parseFile();
 
 static void parsing_basicExemple_test(){
-	char* str=malloc(50);
-	sprintf(str,"int main(){int i;}\n");
-	assert_null(parseString(str));
+	assert_null(parseString("int main(){int i;}\n"));
 }
 static void parsingFail_function_test(){
-	char* str=malloc(50);
-	sprintf(str,"int main(\n");
-	assert_true(parseString(str)); //autre sortie que 0 => true en C
+	assert_true(parseString("int main(\n")); //autre sortie que 0 => true en C
 }
 static void parsingFile_test(){
 	FILE* f=fopen("tests/code_c.c","r");
@@ -35,12 +32,36 @@ static void parsingFail_undeclared_test(){
 	assert_true(parseString("int main(){a=2;}"));
 }
 
+//used to redirect stdout
+int temp;
+
+static int setup(){
+	temp=dup(stdout->_fileno);
+	freopen("tests/test_logs.txt","w",stdout);
+	return 0;
+}
+
+static int teardown(){
+	//int fd = open("/dev/tty", O_WRONLY);
+
+    stdout = fdopen(temp, "w");
+	return 0;
+}
+
+static int group_teardown(){
+	if(remove("tests/test_logs.txt")==0){
+		fprintf(stderr,"group_teardown:error while removing logs\n");
+		return 1;
+	}
+	return 0;
+}
+
 int main(void) {
 	const struct CMUnitTest tests[] = {
-		cmocka_unit_test(parsing_basicExemple_test),
-		cmocka_unit_test(parsingFail_function_test),
-		cmocka_unit_test(parsingFile_test),
-		cmocka_unit_test(parsingFail_undeclared_test),
+		cmocka_unit_test_setup_teardown(parsing_basicExemple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFail_function_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFile_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFail_undeclared_test,setup,teardown),
 	};
-	return cmocka_run_group_tests(tests, NULL, NULL);
+	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }

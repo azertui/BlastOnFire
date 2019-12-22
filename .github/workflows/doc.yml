@@ -1,0 +1,38 @@
+name: DOCUMENTATION
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: apt update
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -qq flex bison
+        sudo apt-get install -qq cmocka-doc libcmocka-dev libcmocka0
+        sudo apt-get install -qq valgrind
+        sudo apt-get install -qq doxygen
+    - name: setup
+      run: make
+    - name: verify
+      run: make test
+    - name: generate doc
+      run: make doxygen
+    - name: commit
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Doxygen/
+        git commit -m "auto updating doxygen"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: 'master:gh-pages'
