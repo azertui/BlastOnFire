@@ -32,7 +32,6 @@ jobs:
         git add Doxygen/
         git commit -m "auto updating doxygen"
     - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: 'master:gh-pages'
+      run: |
+        remote_repo="https://${GITHUB_ACTOR}:${TOKEN_ACTIONS}@github.com/${REPOSITORY}.git"
+        git push "${remote_repo}" master:gh-pages --follow-tags
