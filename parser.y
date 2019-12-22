@@ -3,13 +3,14 @@
   #include <string.h>
   #include "ast.h"
   #include "symboles.h"
-  void yyerror(char*);
-  extern int yylex();
-  extern FILE *yyin;
-  extern int yyparse();
+  #include "y.tab.h"
+  #include "lex.h"
+  void yyerror(ast*,void*,char*);
   symboles tab_S;
 %}
-
+%debug
+%lex-param {void * scanner}
+%pure-parser
 %union {
     int val;
     char* name;
@@ -33,10 +34,11 @@
 %token DOUBLE INTEGER_T DOUBLE_T 
 %token IF ELSE FOR WHILE
 %token <name>ID 
+%parse-param {ast* parsed_ast} {void * scanner}
 %%
  
 ligne:
-    function         { printf("Chaine reconnue !\n");ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
+    function         { printf("Chaine reconnue !\n");*parsed_ast=*$1;ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
     | '\n'                { printf("Chaine reconnue !\n");return 0;}
   ;
 
@@ -69,7 +71,8 @@ affectation_op:
 ;
 
 operation:
-    operation '+' operation { $$ = ast_new_operation(AST_OP_PLUS,$1,$3);}
+    '(' operation ')' {$$ = $2;}
+  | operation '+' operation { $$ = ast_new_operation(AST_OP_PLUS,$1,$3);}
   | operation '*' operation { $$ = ast_new_operation(AST_OP_MUL,$1,$3);}
   | operation '/' operation { $$ = ast_new_operation(AST_OP_DIV,$1,$3);}
   | operation '-' operation { $$ = ast_new_operation(AST_OP_MOINS,$1,$3);}
@@ -79,28 +82,40 @@ operation:
 ;
 
 %%
-extern int yylex_destroy();
 
 int parseFile(FILE* f){
-    yyin=f;
-    tab_S = new_table();
-    int res= yyparse();
-    yylex_destroy();
-    return res;
+  yyscan_t scanner;
+  yylex_init (&scanner);
+  yyset_in(f,scanner);
+  tab_S = new_table();
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast,scanner);
+  yylex_destroy(scanner);
+  return res;
 }
-extern int yy_scan_string(char*);
+
 int parseString(char *s) {
-    printf("%lu:%s",strlen(s),s);
-  yy_scan_string(s);
-  int yylex();
-  int res= yyparse();
-  yylex_destroy();
+  yyscan_t scanner;
+  tab_S = new_table();
+  if(yylex_init (&scanner)){
+    perror("parseString");
+    return 1;
+  }
+  YY_BUFFER_STATE buf =yy_scan_string(s,scanner);
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast,scanner);
+  yy_delete_buffer(buf, scanner);
+  yylex_destroy(scanner);
   return res;
 }
 
 int parse() {
+  tab_S = new_table();
+  yyscan_t scanner;
+  yylex_init (&scanner);
   printf("Entrez une expression :\n");
-  int res= yyparse();
-  yylex_destroy();
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast,scanner);
+  yylex_destroy(scanner);
   return res;
 }

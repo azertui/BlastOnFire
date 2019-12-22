@@ -18,7 +18,10 @@ Doxygen/
 # Yacc output 
 *.tab.h
 *.tab.c
+
+#Lex output
 *.yy.c
+lex.h
 
 # Precompiled Headers
 *.gch
