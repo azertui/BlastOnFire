@@ -29,8 +29,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git checkout gh-pages
         git add Doxygen/
+        git checkout gh-pages
         git commit -m "auto updating doxygen"
     - name: Push changes
       uses: ad-m/github-push-action@master
