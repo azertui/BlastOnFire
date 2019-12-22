@@ -1,0 +1,173 @@
+\hypertarget{ast_8c}{}\section{ast.\+c File Reference}
+\label{ast_8c}\index{ast.\+c@{ast.\+c}}
+
+
+Source de l\textquotesingle{}arbre de syntaxe.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}ast.\+h\char`\"{}}\newline
+Include dependency graph for ast.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a96d86d9fadad3e336e610bc5cb040573}{ast\+\_\+new\+\_\+main\+\_\+fct} (\hyperlink{structast}{ast} $\ast$next)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{}fonction principale d\textquotesingle{}un programme C\char`\"{} d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ast_8c_a0566ec58f68bad96164f4a53dec7870c}\label{ast_8c_a0566ec58f68bad96164f4a53dec7870c}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+operation} (\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type, \hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right)
+\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a7384bf7aaefc4778f48ad881c3c0e8b9}{ast\+\_\+new\+\_\+number} (int number)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ast_8c_ac973d5dbd1151d80f0967bd0260c0b82}\label{ast_8c_ac973d5dbd1151d80f0967bd0260c0b82}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init)
+\item 
+void \hyperlink{ast_8c_adc84673a1feec531ce0e52042cd95350}{ast\+\_\+print} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast}, int indent)
+\begin{DoxyCompactList}\small\item\em Fonction d\textquotesingle{}affichage d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a3514108c9fa188e5459e385a0822a2cd}{ast\+\_\+link} (\hyperlink{structast}{ast} $\ast$a, \hyperlink{structast}{ast} $\ast$next)
+\begin{DoxyCompactList}\small\item\em Fonction reliant un ast (à noeud unique!) à un objet ast. \end{DoxyCompactList}\item 
+void \hyperlink{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}{free\+\_\+ast} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast})
+\begin{DoxyCompactList}\small\item\em Libération de l\textquotesingle{}arbre. \end{DoxyCompactList}\item 
+void \hyperlink{ast_8c_a0e610b0cffa352959446a1f3194c4d31}{ast\+\_\+to\+\_\+code} (\hyperlink{structast}{ast} $\ast$a)
+\begin{DoxyCompactList}\small\item\em Transformation de l\textquotesingle{}arbre en code C dans un fichier res\+\_\+c.\+c. \end{DoxyCompactList}\item 
+void \hyperlink{ast_8c_a973b42fe8a903e64c90d9ec3fa571cf5}{ast\+\_\+to\+\_\+code\+\_\+recur} (\hyperlink{structast}{ast} $\ast$a, F\+I\+LE $\ast$fichier)
+\begin{DoxyCompactList}\small\item\em Fonction auxiliaire de ast\+\_\+to\+\_\+code. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Source de l\textquotesingle{}arbre de syntaxe. 
+
+\begin{DoxyAuthor}{Author}
+Monfouga Marie 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+11 décembre 2019
+\end{DoxyDate}
+Code source des fonctions de l\textquotesingle{}arbre de syntaxe 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{ast_8c_a3514108c9fa188e5459e385a0822a2cd}\label{ast_8c_a3514108c9fa188e5459e385a0822a2cd}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+link@{ast\+\_\+link}}
+\index{ast\+\_\+link@{ast\+\_\+link}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+link()}{ast\_link()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast} $\ast$ ast\+\_\+link (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a,  }\item[{\hyperlink{structast}{ast} $\ast$}]{next }\end{DoxyParamCaption})}
+
+
+
+Fonction reliant un ast (à noeud unique!) à un objet ast. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & noeud. \\
+\hline
+{\em next} & arbre. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Noeud a dont l\textquotesingle{}élément a-\/$>$next pointe sur l\textquotesingle{}arbre. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8c_a96d86d9fadad3e336e610bc5cb040573}\label{ast_8c_a96d86d9fadad3e336e610bc5cb040573}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+new\+\_\+main\+\_\+fct@{ast\+\_\+new\+\_\+main\+\_\+fct}}
+\index{ast\+\_\+new\+\_\+main\+\_\+fct@{ast\+\_\+new\+\_\+main\+\_\+fct}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+main\+\_\+fct()}{ast\_new\_main\_fct()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast} $\ast$ ast\+\_\+new\+\_\+main\+\_\+fct (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{next }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{}fonction principale d\textquotesingle{}un programme C\char`\"{} d\textquotesingle{}un objet ast. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em next} & ast à attacher au nouveau noeud ou N\+U\+LL. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8c_a7384bf7aaefc4778f48ad881c3c0e8b9}\label{ast_8c_a7384bf7aaefc4778f48ad881c3c0e8b9}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+new\+\_\+number@{ast\+\_\+new\+\_\+number}}
+\index{ast\+\_\+new\+\_\+number@{ast\+\_\+new\+\_\+number}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+number()}{ast\_new\_number()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast} $\ast$ ast\+\_\+new\+\_\+number (\begin{DoxyParamCaption}\item[{int}]{number }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & valeur entière. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Noeud du nombre. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8c_adc84673a1feec531ce0e52042cd95350}\label{ast_8c_adc84673a1feec531ce0e52042cd95350}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+print@{ast\+\_\+print}}
+\index{ast\+\_\+print@{ast\+\_\+print}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+print()}{ast\_print()}}
+{\footnotesize\ttfamily void ast\+\_\+print (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{ast,  }\item[{int}]{indent }\end{DoxyParamCaption})}
+
+
+
+Fonction d\textquotesingle{}affichage d\textquotesingle{}un objet ast. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ast} & ast à afficher. \\
+\hline
+{\em indent} & indentation à créer avant de print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{ast_8c_a0e610b0cffa352959446a1f3194c4d31}\label{ast_8c_a0e610b0cffa352959446a1f3194c4d31}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+to\+\_\+code@{ast\+\_\+to\+\_\+code}}
+\index{ast\+\_\+to\+\_\+code@{ast\+\_\+to\+\_\+code}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+to\+\_\+code()}{ast\_to\_code()}}
+{\footnotesize\ttfamily void ast\+\_\+to\+\_\+code (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a }\end{DoxyParamCaption})}
+
+
+
+Transformation de l\textquotesingle{}arbre en code C dans un fichier res\+\_\+c.\+c. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ast} & arbre. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{ast_8c_a973b42fe8a903e64c90d9ec3fa571cf5}\label{ast_8c_a973b42fe8a903e64c90d9ec3fa571cf5}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+to\+\_\+code\+\_\+recur@{ast\+\_\+to\+\_\+code\+\_\+recur}}
+\index{ast\+\_\+to\+\_\+code\+\_\+recur@{ast\+\_\+to\+\_\+code\+\_\+recur}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+to\+\_\+code\+\_\+recur()}{ast\_to\_code\_recur()}}
+{\footnotesize\ttfamily void ast\+\_\+to\+\_\+code\+\_\+recur (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a,  }\item[{F\+I\+LE $\ast$}]{fichier }\end{DoxyParamCaption})}
+
+
+
+Fonction auxiliaire de ast\+\_\+to\+\_\+code. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ast} & arbre. \\
+\hline
+{\em fichier} & fichier où écrire le code. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}\label{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}} 
+\index{ast.\+c@{ast.\+c}!free\+\_\+ast@{free\+\_\+ast}}
+\index{free\+\_\+ast@{free\+\_\+ast}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{free\+\_\+ast()}{free\_ast()}}
+{\footnotesize\ttfamily void free\+\_\+ast (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{ast }\end{DoxyParamCaption})}
+
+
+
+Libération de l\textquotesingle{}arbre. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ast} & arbre. \\
+\hline
+\end{DoxyParams}
