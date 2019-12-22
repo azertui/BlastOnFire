@@ -3,11 +3,14 @@
   #include <string.h>
   #include "ast.h"
   #include "symboles.h"
+  #include "y.tab.h"
   #include "lex.h"
-  void yyerror(ast*,char*);
+  void yyerror(ast*,void*,char*);
   symboles tab_S;
 %}
-
+%debug
+%lex-param {void * scanner}
+%pure-parser
 %union {
     int val;
     char* name;
@@ -31,7 +34,7 @@
 %token DOUBLE INTEGER_T DOUBLE_T 
 %token IF ELSE FOR WHILE
 %token <name>ID 
-%parse-param {ast* parsed_ast}
+%parse-param {ast* parsed_ast} {void * scanner}
 %%
  
 ligne:
@@ -81,28 +84,38 @@ operation:
 %%
 
 int parseFile(FILE* f){
-    yyin=f;
-    tab_S = new_table();
-    ast parsed_ast;
-    int res= yyparse(&parsed_ast);
-    yylex_destroy();
-    return res;
+  yyscan_t scanner;
+  yylex_init (&scanner);
+  yyset_in(f,scanner);
+  tab_S = new_table();
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast,scanner);
+  yylex_destroy(scanner);
+  return res;
 }
 
 int parseString(char *s) {
-    printf("%lu:%s",strlen(s),s);
-  yy_scan_string(s);
-  int yylex();
+  yyscan_t scanner;
+  tab_S = new_table();
+  if(yylex_init (&scanner)){
+    perror("parseString");
+    return 1;
+  }
+  YY_BUFFER_STATE buf =yy_scan_string(s,scanner);
   ast parsed_ast;
-  int res= yyparse(&parsed_ast);
-  yylex_destroy();
+  int res= yyparse(&parsed_ast,scanner);
+  yy_delete_buffer(buf, scanner);
+  yylex_destroy(scanner);
   return res;
 }
 
 int parse() {
+  tab_S = new_table();
+  yyscan_t scanner;
+  yylex_init (&scanner);
   printf("Entrez une expression :\n");
   ast parsed_ast;
-  int res= yyparse(&parsed_ast);
-  yylex_destroy();
+  int res= yyparse(&parsed_ast,scanner);
+  yylex_destroy(scanner);
   return res;
 }

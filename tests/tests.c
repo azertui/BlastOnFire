@@ -15,6 +15,9 @@ extern int parseFile();
 static void parsing_basicExemple_test(){
 	assert_null(parseString("int main(){int i;}\n"));
 }
+static void reentrance_test(){
+	assert_null(parseString("int main(){int i;}\n"));
+}
 static void parsingFail_function_test(){
 	assert_true(parseString("int main(\n")); //autre sortie que 0 => true en C
 }
@@ -59,6 +62,7 @@ static int group_teardown(){
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test_setup_teardown(parsing_basicExemple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(reentrance_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFail_function_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFile_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFail_undeclared_test,setup,teardown),

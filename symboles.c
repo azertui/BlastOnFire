@@ -73,7 +73,8 @@ void free_symboles(symboles s){
   if (s!=NULL){
     free_symboles(s->pnext);
     free_symboles(s->suivant);
-    free(s->id);
+    if(s->id!=NULL)
+      free(s->id);
     free(s);
   }
 }

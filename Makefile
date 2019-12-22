@@ -10,7 +10,7 @@ $(PREFIX): main.o y.tab.o lex.yy.o ast.o symboles.o
 
 #Fichier objet YACC
 y.tab.o: $(PREFIX).y lex.h
-	yacc -d $(PREFIX).y
+	yacc -t -d $(PREFIX).y
 	gcc -c y.tab.c
 
 #Fichier objet LEX
