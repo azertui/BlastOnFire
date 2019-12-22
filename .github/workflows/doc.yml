@@ -33,5 +33,5 @@ jobs:
         git commit -m "auto updating doxygen"
     - name: Push changes
       run: |
-        remote_repo="azertui:${{secrets.TOKEN_ACTIONS}}@github.com/BlastOnFire.git"
+        remote_repo="https://azertui:${{secrets.TOKEN_ACTIONS}}@github.com/BlastOnFire.git"
         git push "${remote_repo}" master:gh-pages --follow-tags
