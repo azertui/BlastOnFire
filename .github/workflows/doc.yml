@@ -33,14 +33,17 @@ jobs:
       run: make test
     - name: generate doc
       run: make doxygen
-    - name: commit
+    - name: stash and switch then pop and commit
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add Doxygen/
-        git commit -m "auto updating doxygen"
+        git stash
+        git checkout gh-pages
+        git stash pop
+        git commit -m "auto update Documentation"
     - name: Push changes
       run: |
         remote_repo="https://azertui:${{secrets.TOKEN_ACTIONS}}@github.com/azertui/BlastOnFire.git"
         git pull "${remote_repo}"
-        git push "${remote_repo}" master:gh-pages --follow-tags
+        git push "${remote_repo}" HEAD:gh-pages --follow-tags
