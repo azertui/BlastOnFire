@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['free_5fast',['free_ast',['../ast_8c.html#ab0dc5b3909a42eee6f6cbe4c7beb2397',1,'free_ast(ast *ast):&#160;ast.c'],['../ast_8h.html#ab0dc5b3909a42eee6f6cbe4c7beb2397',1,'free_ast(ast *ast):&#160;ast.c']]]
-];
