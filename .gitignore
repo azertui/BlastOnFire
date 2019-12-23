@@ -58,6 +58,7 @@ res_c.c
 *.su
 *.idb
 *.pdb
+.vscode/
 
 # Kernel Module Compile Results
 *.mod*
