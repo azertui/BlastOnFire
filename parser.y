@@ -91,6 +91,8 @@ condition_suite:
 
     | ELSE instruction  { $$ = ast_new_condition(NULL,NULL,NULL,$2,AST_ELSE); }
 
+    | ELSE condition  { $$ = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF); }
+
 ;
 
 affectation_op:
