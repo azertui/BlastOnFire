@@ -221,7 +221,7 @@ void ast_to_code_recur(ast* a, FILE* fichier){
     }
 }
 
-  int main(){
+  /*int main(){
     ast* cinq = ast_new_number(5);
     ast* deux = ast_new_number(2); 
     ast* dix = ast_new_number(10); 
@@ -237,4 +237,4 @@ void ast_to_code_recur(ast* a, FILE* fichier){
     ast_print(test,0);
     ast_to_code(test);
     free_ast(test);
-  }
+  }*/
