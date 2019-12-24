@@ -46,6 +46,16 @@ ast* ast_new_id(char* id, ast* value, int init) {
   return new;
 }
 
+ast* ast_new_condition(ast* left, ast* right, char* op){
+  ast* new = malloc(sizeof(ast));
+  new->type = AST_IF;
+  new->condition.left = left;
+  new->condition.right = right;
+  new->condition.op = strndup(op,strlen(op));
+  return new;
+}
+
+
 void ast_print(ast* ast, int indent) {
   if (ast!=NULL){  
   for (int i = 0; i < indent; i++)
@@ -91,7 +101,14 @@ void ast_print(ast* ast, int indent) {
         ast_print(ast->operation.left,indent+1);
         ast_print(ast->operation.right,indent+1);
         ast_print(ast->next,indent);
-        break;      
+        break;   
+      case AST_IF:
+        printf("IF : %s",ast->condition.op);
+        ast_print(ast->condition.left,indent+1);
+        ast_print(ast->condition.right,indent+1);
+        ast_print(ast->condition.interne,indent+2);
+        ast_print(ast->next,indent);
+        break;   
     }  
   }
 }
@@ -124,6 +141,14 @@ void free_ast(ast* ast){
       free_ast(ast->next);
       free_ast(ast->operation.left);
       free_ast(ast->operation.right);
+      free(ast);
+      break;
+    case AST_IF:
+      free(ast->condition.op);
+      free_ast(ast->condition.left);
+      free_ast(ast->condition.right);
+      free_ast(ast->condition.interne);
+      free_ast(ast->next);
       free(ast);
       break;      
   }  
@@ -181,23 +206,35 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             ast_to_code_recur(a->operation.left,fichier);
             fputs(" / ",fichier);
             ast_to_code_recur(a->operation.right,fichier);
-            break;       
+            break;    
+          case AST_IF:
+            fputs("if (",fichier);          
+            ast_to_code_recur(a->condition.left,fichier);
+            fprintf(fichier, "%s", a->condition.op);
+            ast_to_code_recur(a->condition.right,fichier);
+            fputs("){\n",fichier);
+            ast_to_code_recur(a->condition.interne,fichier);
+            fputs("}\n",fichier);        
+            ast_to_code_recur(a->next,fichier);
+            break;   
         }
     }
 }
 
-  /*int main(){
+  int main(){
     ast* cinq = ast_new_number(5);
     ast* deux = ast_new_number(2); 
     ast* dix = ast_new_number(10); 
-    ast* test = ast_new_id("a",cinq);
-    ast* test2 = ast_new_id("b",deux);
-    ast* test3 = ast_new_operation(AST_OP_MOINS,cinq,ast_new_id("b",deux));
-    ast* test4 = ast_new_id("c",dix);
-    test3 = ast_link(test3,test4);
-    test2 = ast_link(test2,test3);
+    ast* test = ast_new_id("a",cinq,1);
+    ast* test2 = ast_new_id("b",deux,1);
+    ast* test3 = ast_new_operation(AST_OP_MOINS,cinq,ast_new_id("b",NULL,0));
+    ast* test4 = ast_new_id("c",dix,1);
+    ast* test5 = ast_new_condition(ast_new_id("b",NULL,0),ast_new_number(5),"==");
+    test4 = ast_link(test4,test5);
+    test2 = ast_link(test2,test4);
     test = ast_link(test,test2);
     test = ast_new_main_fct(test);
     ast_print(test,0);
+    ast_to_code(test);
     free_ast(test);
-  }*/
+  }
