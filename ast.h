@@ -97,7 +97,7 @@ ast* ast_new_id(char* id,ast* value, int init);
  * \param right ast droite de l'opération.
  * \return Instance nouvelle allouée d'un objet de type ast.
  */
-ast* ast_new_condition(ast* left, ast* right, char* op);
+ast* ast_new_condition(ast* left, ast* right, char* op,ast* interne);
 
 
 /**

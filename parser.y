@@ -47,7 +47,7 @@ function:
     ;
 
 body:
-    instruction body { $$ = ast_link($1,$2);}
+    instruction body { if($1!=NULL)$$ = ast_link($1,$2);else $$ = $2;}
     | /*epsilon*/{$$ = NULL;}
 ;
 
@@ -60,6 +60,8 @@ instruction:
                                               $$ = ast_new_id($1,$3,0);free($1);}
     | ID affectation_op '=' operation              { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
                                               $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0),$4),0);free($1);}
+    | IF '(' operation operation ')'                           { 
+                                              $$ = ast_new_condition($3,$4,"==",NULL); }                
     | '\n' { $$ = NULL;}
 ;
 

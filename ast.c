@@ -46,12 +46,13 @@ ast* ast_new_id(char* id, ast* value, int init) {
   return new;
 }
 
-ast* ast_new_condition(ast* left, ast* right, char* op){
+ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne){
   ast* new = malloc(sizeof(ast));
   new->type = AST_IF;
   new->condition.left = left;
   new->condition.right = right;
   new->condition.op = strndup(op,strlen(op));
+  new->condition.interne = interne;
   return new;
 }
 
