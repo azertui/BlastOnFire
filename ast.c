@@ -46,12 +46,14 @@ ast* ast_new_id(char* id, ast* value, int init) {
   return new;
 }
 
-ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne){
+ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne, ast_type type){
   ast* new = malloc(sizeof(ast));
-  new->type = AST_IF;
-  new->condition.left = left;
-  new->condition.right = right;
-  new->condition.op = strndup(op,strlen(op));
+  new->type = type;
+  if (type == AST_IF || type == AST_ELSE_IF ){
+    new->condition.left = left;
+    new->condition.right = right;
+    new->condition.op = strndup(op,strlen(op));
+  }
   new->condition.interne = interne;
   return new;
 }
@@ -103,19 +105,29 @@ void ast_print(ast* ast, int indent) {
         ast_print(ast->operation.right,indent+1);
         ast_print(ast->next,indent);
         break;   
+      case AST_ELSE_IF:
+        printf("ELSE " );  
       case AST_IF:
         printf("IF : %s",ast->condition.op);
         ast_print(ast->condition.left,indent+1);
         ast_print(ast->condition.right,indent+1);
         ast_print(ast->condition.interne,indent+2);
         ast_print(ast->next,indent);
-        break;   
+        break;
+      case AST_ELSE:
+        printf("ELSE : ");
+        ast_print(ast->condition.interne,indent+1);
+        ast_print(ast->next,indent);        
     }  
   }
 }
 
 ast* ast_link(ast* a, ast* next){
-  a->next = next;
+  ast* test = a;
+  while (test->next!=NULL){
+    test = test->next;
+  }
+  test->next = next;
   return a;
 }
 
@@ -145,13 +157,19 @@ void free_ast(ast* ast){
       free(ast);
       break;
     case AST_IF:
+    case AST_ELSE_IF:
       free(ast->condition.op);
       free_ast(ast->condition.left);
       free_ast(ast->condition.right);
       free_ast(ast->condition.interne);
       free_ast(ast->next);
       free(ast);
-      break;      
+      break;  
+    case AST_ELSE:
+      free_ast(ast->condition.interne);
+      free_ast(ast->next);
+      free(ast);      
+      break;    
   }  
   }
 }
@@ -207,7 +225,9 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             ast_to_code_recur(a->operation.left,fichier);
             fputs(" / ",fichier);
             ast_to_code_recur(a->operation.right,fichier);
-            break;    
+            break;
+          case AST_ELSE_IF:
+            fputs("else ",fichier);          
           case AST_IF:
             fputs("if (",fichier);          
             ast_to_code_recur(a->condition.left,fichier);
@@ -215,9 +235,16 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             ast_to_code_recur(a->condition.right,fichier);
             fputs("){\n",fichier);
             ast_to_code_recur(a->condition.interne,fichier);
-            fputs("}\n",fichier);        
+            fputs(";}\n",fichier);        
             ast_to_code_recur(a->next,fichier);
             break;   
+          case AST_ELSE:
+            fputs("else\n ",fichier);          
+            fputs("{\n",fichier);
+            ast_to_code_recur(a->condition.interne,fichier);
+            fputs(";}\n",fichier);        
+            ast_to_code_recur(a->next,fichier);
+            break;  
         }
     }
 }

@@ -16,7 +16,7 @@
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT,AST_IF} ast_type;
+typedef enum { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -61,12 +61,12 @@ ast* ast_new_main_fct(ast* next);
  * \fn ast* ast_new_operation(enum ast_type, ast*, ast*);
  * \brief Fonction de création d'un noeud faisant office d'une opération arithmétique
  *
- * \param ast_type type de l'opération ayant lieu entre les arbres.
+ * \param type type de l'opération ayant lieu entre les arbres.
  * \param left ast gauche de l'opération.
  * \param right ast droite de l'opération.
  * \return Ast de l'opération.
  */
-ast* ast_new_operation(ast_type, ast* left, ast* right);
+ast* ast_new_operation(ast_type type, ast* left, ast* right);
 
 /**
  * \fn ast* ast_new_number(int);
@@ -92,12 +92,14 @@ ast* ast_new_id(char* id,ast* value, int init);
  * \fn ast* ast_new_main_fct(ast* next);
  * \brief Fonction de création d'une nouvelle instance de type "fonction principale d'un programme C" d'un objet ast.
  *
- * \param ast_type type de l'opération ayant lieu entre les arbres.
  * \param left ast gauche de l'opération.
  * \param right ast droite de l'opération.
+ * \param op operation entre les arbres
+ * \param interne ast présent dans le if
+ * \param type type de l'opération ayant lieu entre les arbres.
  * \return Instance nouvelle allouée d'un objet de type ast.
  */
-ast* ast_new_condition(ast* left, ast* right, char* op,ast* interne);
+ast* ast_new_condition(ast* left, ast* right, char* op,ast* interne, ast_type);
 
 
 /**

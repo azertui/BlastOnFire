@@ -18,12 +18,15 @@
     ast_type type;
 }
 
-%type <ast> ligne
+%type <ast> code
 %type <ast> function
 %type <ast> instruction
 %type <ast> operation
 %type <type> affectation_op
 %type <ast> body
+%type <ast> condition
+%type <ast> condition_suite
+%type <ast> ligne
 
 %left '+'
 %left '*'
@@ -37,7 +40,7 @@
 %parse-param {ast* parsed_ast} {void * scanner}
 %%
  
-ligne:
+code:
     function         { printf("Chaine reconnue !\n");*parsed_ast=*$1;ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
     | '\n'                { printf("Chaine reconnue !\n");return 0;}
   ;
@@ -47,8 +50,18 @@ function:
     ;
 
 body:
-    instruction body { if($1!=NULL)$$ = ast_link($1,$2);else $$ = $2;}
+    ligne body { if($1!=NULL)$$ = ast_link($1,$2);else $$ = $2;}
     | /*epsilon*/{$$ = NULL;}
+;
+
+ligne:
+     instruction {$$ = $1;}
+
+    | condition {$$ = $1;}
+
+    | '\n' { $$ = NULL;}
+    
+    | ';' { $$ = NULL;}
 ;
 
 instruction:
@@ -59,10 +72,25 @@ instruction:
     | ID '=' operation ';'                  { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
                                               $$ = ast_new_id($1,$3,0);free($1);}
     | ID affectation_op '=' operation              { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
-                                              $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0),$4),0);free($1);}
-    | IF '(' operation operation ')'                           { 
-                                              $$ = ast_new_condition($3,$4,"==",NULL); }                
-    | '\n' { $$ = NULL;}
+                                                        $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0),$4),0);free($1);}
+;
+
+condition:                                              
+     IF '(' operation operation ')' instruction               { $$ = ast_new_condition($3,$4,"==",$6,AST_IF); }    
+
+    | IF '(' operation operation ')' instruction condition_suite                  { if($7!=NULL)$$ = ast_link(ast_new_condition($3,$4,"==",$6,AST_IF),$7);else $$ = ast_new_condition($3,$4,"==",$6,AST_IF); }    
+
+    | IF '(' operation operation ')' '\n' instruction condition_suite                  { if($8!=NULL)$$ = ast_link(ast_new_condition($3,$4,"==",$7,AST_IF),$8);else $$ = ast_new_condition($3,$4,"==",$7,AST_IF); }    
+
+    | IF '(' operation operation ')' '{' body '}' condition_suite                { $$ = ast_new_condition($3,$4,"==",$7,AST_IF); }    
+                                                                    
+;
+
+condition_suite:
+      ELSE '{' body '}' { $$ = ast_new_condition(NULL,NULL,NULL,$3,AST_ELSE); }
+
+    | ELSE instruction  { $$ = ast_new_condition(NULL,NULL,NULL,$2,AST_ELSE); }
+
 ;
 
 affectation_op:
