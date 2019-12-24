@@ -22,7 +22,7 @@ ast* ast_new_main_fct(ast* next){
   return new; 
 }
 
-ast* ast_new_operation(enum ast_type type, ast* left, ast* right) {
+ast* ast_new_operation(ast_type type, ast* left, ast* right) {
   ast* new = malloc(sizeof(ast));
   new->type = type;
   new->operation.left = left;

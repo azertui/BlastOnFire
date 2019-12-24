@@ -5,23 +5,24 @@ PREFIX = parser
 all : README.md $(PREFIX) $(TESTDIR) $(TESTDIR)/tests
 
 #Executable principal (nom : variable PREFIX)
-$(PREFIX) : main.o y.tab.o lex.yy.o ast.o symboles.o
+$(PREFIX): main.o y.tab.o lex.yy.o ast.o symboles.o
 	gcc $^ -ly -lfl -o $@
 
 #Fichier objet YACC
-y.tab.o: $(PREFIX).y
-	yacc -d $(PREFIX).y
+y.tab.o: $(PREFIX).y lex.h
+	yacc -t -d $(PREFIX).y
 	gcc -c y.tab.c
 
 #Fichier objet LEX
 lex.yy.o: $(PREFIX).l y.tab.h
-	lex $(PREFIX).l
 	gcc -c lex.yy.c
 
 #Fichiers objets classiques
 %.o: %.c
 	gcc -c $*.c
 
+lex.h: parser.l
+	flex parser.l
 
 
 README.md : ;
@@ -42,16 +43,17 @@ $(TESTDIR)/%.o : $(TESTDIR)/%.c $(TESTDIR)
 .PHONY: test clean doxygen
 
 #Cible de test
-test : $(TESTDIR)/tests
-	./$(TESTDIR)/tests 2>/dev/null | grep "\[.*\]" 
+test : $(TESTDIR)/tests $(PREFIX)
+	./$(TESTDIR)/tests 2>/dev/null
 	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./$(PREFIX) >/dev/null
 
 #Clean
 clean :
 	rm -f $(TESTDIR)/*.o $(TESTDIR)/tests
-	rm -f *.o y.tab.c y.tab.h lex.yy.c a.out $(PREFIX)
+	rm -f *.o y.tab.c y.tab.h lex.yy.c a.out $(PREFIX) lex.h
 	#Fichier de sortie temporaire
 	rm -f res_c.c
+	rm -rf Doxygen/
 
 #Generate documentation
 doxygen:
