@@ -9,41 +9,14 @@
 #include "../ast.h"
 #include <fcntl.h>
 
-extern int parseString(char*);
-extern int parseFile();
-
-static void parsing_basicExemple_test(){
-	assert_null(parseString("int main(){int i;}\n"));
-}
-static void reentrance_test(){
-	assert_null(parseString("int main(){int i;}\n"));
-}
-static void parsingFail_function_test(){
-	assert_true(parseString("int main(\n")); //autre sortie que 0 => true en C
-}
-static void parsingFile_test(){
-	FILE* f=fopen("tests/code_c.c","r");
-	if(f==NULL){
-		print_error("File code_c.c doesn't exist anymore\n");
-		fail();
-	}
-	int res = parseFile(f);
-	fclose(f);
-	assert_null(res);
-}
-static void parsingFail_undeclared_test(){
-	assert_true(parseString("int main(){a=2;}"));
-}
-
+#ifndef VERBOSE
 //used to redirect stdout
 int temp;
-
 static int setup(){
 	temp=dup(stdout->_fileno);
 	freopen("tests/test_logs.txt","w",stdout);
 	return 0;
 }
-
 static int teardown(){
 	//int fd = open("/dev/tty", O_WRONLY);
 
@@ -57,6 +30,36 @@ static int group_teardown(){
 		return 1;
 	}
 	return 0;
+}
+#else
+static int setup(){return 0;}
+static int teardown(){return 0;}
+static int group_teardown(){return 0;}
+#endif
+extern int parseString(char*,ast*);
+extern int parseFile(FILE*, ast*);
+
+static void parsing_basicExemple_test(){
+	assert_null(parseString("int main(){int i;}\n",NULL));
+}
+static void reentrance_test(){
+	assert_null(parseString("int main(){int i;}\n",NULL));
+}
+static void parsingFail_function_test(){
+	assert_true(parseString("int main(\n",NULL)); //autre sortie que 0 => true en C
+}
+static void parsingFile_test(){
+	FILE* f=fopen("tests/code_c.c","r");
+	if(f==NULL){
+		print_error("File code_c.c doesn't exist anymore\n");
+		fail();
+	}
+	int res = parseFile(f,NULL);
+	fclose(f);
+	assert_null(res);
+}
+static void parsingFail_undeclared_test(){
+	assert_true(parseString("int main(){a=2;}",NULL));
 }
 
 int main(void) {
