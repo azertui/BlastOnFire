@@ -104,6 +104,8 @@ boolean:
   | operation '>' '=' operation {$$=ast_new_condition($1,$4,">=",NULL,AST_IF);}
   | operation '<' operation {$$=ast_new_condition($1,$3,"<",NULL,AST_IF);}
   | operation '>' operation {$$=ast_new_condition($1,$3,">",NULL,AST_IF);}
+  | operation AND operation {$$=ast_new_condition($1,$3,"&&",NULL,AST_IF);}
+  | operation OR operation {$$=ast_new_condition($1,$3,"||",NULL,AST_IF);}
   | '!' operation {$$=ast_new_condition($2,NULL,"false",NULL,AST_IF);}
   | operation {$$=ast_new_condition($1,NULL,"true",NULL,AST_IF);}
 ;
