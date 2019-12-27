@@ -5,5 +5,9 @@ digraph "YYSTYPE"
   Node1 [label="YYSTYPE",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ast" ,fontname="Helvetica"];
   Node2 [label="ast",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structast.html",tooltip="Noeud de l&#39;ast. "];
+<<<<<<< Updated upstream
   Node2 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next\nright\nleft\nvalue" ,fontname="Helvetica"];
+=======
+  Node2 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next\ninterne\nright\nleft\nvalue" ,fontname="Helvetica"];
+>>>>>>> Stashed changes
 }

@@ -21,14 +21,29 @@ Include dependency graph for ast.\+c\+:
 \item 
 \hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a7384bf7aaefc4778f48ad881c3c0e8b9}{ast\+\_\+new\+\_\+number} (int number)
 \begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. \end{DoxyCompactList}\item 
+<<<<<<< Updated upstream
 \mbox{\Hypertarget{ast_8c_ac973d5dbd1151d80f0967bd0260c0b82}\label{ast_8c_ac973d5dbd1151d80f0967bd0260c0b82}} 
 \hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init)
+=======
+\mbox{\Hypertarget{ast_8c_ac9a58be82b1b511f20fe93253e6555c9}\label{ast_8c_ac9a58be82b1b511f20fe93253e6555c9}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init, int constant)
+\item 
+\mbox{\Hypertarget{ast_8c_a07418a35692dcb5b379b73219021e593}\label{ast_8c_a07418a35692dcb5b379b73219021e593}} 
+char $\ast$ {\bfseries ast\+\_\+type\+\_\+to\+\_\+string1} (\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} t)
+\item 
+\mbox{\Hypertarget{ast_8c_afc9fe91d0346fb7e0f69dc43092f8d6f}\label{ast_8c_afc9fe91d0346fb7e0f69dc43092f8d6f}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+condition} (\hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right, char $\ast$op, \hyperlink{structast}{ast} $\ast$interne, \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type)
+>>>>>>> Stashed changes
 \item 
 void \hyperlink{ast_8c_adc84673a1feec531ce0e52042cd95350}{ast\+\_\+print} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast}, int indent)
 \begin{DoxyCompactList}\small\item\em Fonction d\textquotesingle{}affichage d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
 \hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a3514108c9fa188e5459e385a0822a2cd}{ast\+\_\+link} (\hyperlink{structast}{ast} $\ast$a, \hyperlink{structast}{ast} $\ast$next)
 \begin{DoxyCompactList}\small\item\em Fonction reliant un ast (à noeud unique!) à un objet ast. \end{DoxyCompactList}\item 
+<<<<<<< Updated upstream
 void \hyperlink{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}{free\+\_\+ast} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast})
+=======
+void \hyperlink{ast_8c_a3f240e2e5451152693046cd961e5e918}{free\+\_\+ast} (\hyperlink{structast}{ast} $\ast$a)
+>>>>>>> Stashed changes
 \begin{DoxyCompactList}\small\item\em Libération de l\textquotesingle{}arbre. \end{DoxyCompactList}\item 
 void \hyperlink{ast_8c_a0e610b0cffa352959446a1f3194c4d31}{ast\+\_\+to\+\_\+code} (\hyperlink{structast}{ast} $\ast$a)
 \begin{DoxyCompactList}\small\item\em Transformation de l\textquotesingle{}arbre en code C dans un fichier res\+\_\+c.\+c. \end{DoxyCompactList}\item 
@@ -87,6 +102,25 @@ Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+<<<<<<< Updated upstream
+=======
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em left} & ast gauche de l\textquotesingle{}opération. \\
+\hline
+{\em right} & ast droite de l\textquotesingle{}opération. \\
+\hline
+{\em op} & operation entre les arbres \\
+\hline
+{\em interne} & ast présent dans le if \\
+\hline
+{\em type} & type de l\textquotesingle{}opération ayant lieu entre les arbres. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+>>>>>>> Stashed changes
 Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{ast_8c_a7384bf7aaefc4778f48ad881c3c0e8b9}\label{ast_8c_a7384bf7aaefc4778f48ad881c3c0e8b9}} 
@@ -156,7 +190,11 @@ Fonction auxiliaire de ast\+\_\+to\+\_\+code.
 {\em fichier} & fichier où écrire le code. \\
 \hline
 \end{DoxyParams}
+<<<<<<< Updated upstream
 \mbox{\Hypertarget{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}\label{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}} 
+=======
+\mbox{\Hypertarget{ast_8c_a3f240e2e5451152693046cd961e5e918}\label{ast_8c_a3f240e2e5451152693046cd961e5e918}} 
+>>>>>>> Stashed changes
 \index{ast.\+c@{ast.\+c}!free\+\_\+ast@{free\+\_\+ast}}
 \index{free\+\_\+ast@{free\+\_\+ast}!ast.\+c@{ast.\+c}}
 \subsubsection{\texorpdfstring{free\+\_\+ast()}{free\_ast()}}

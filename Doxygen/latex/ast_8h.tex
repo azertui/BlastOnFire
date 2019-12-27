@@ -29,7 +29,17 @@ enum \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} \{ \new
 \newline
 {\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+M\+O\+I\+NS}, 
 {\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+D\+IV}, 
+<<<<<<< Updated upstream
 {\bfseries A\+S\+T\+\_\+\+F\+CT}
+=======
+{\bfseries A\+S\+T\+\_\+\+F\+CT}, 
+{\bfseries A\+S\+T\+\_\+\+IF}, 
+\newline
+{\bfseries A\+S\+T\+\_\+\+E\+L\+S\+E\+\_\+\+IF}, 
+{\bfseries A\+S\+T\+\_\+\+E\+L\+SE}, 
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+I\+N\+CR}, 
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+D\+E\+CR}
+>>>>>>> Stashed changes
  \}\begin{DoxyCompactList}\small\item\em types. \end{DoxyCompactList}
 \end{DoxyCompactItemize}
 \subsection*{Functions}
@@ -37,6 +47,7 @@ enum \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} \{ \new
 \item 
 \hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_adadecb0fc277173ec4f47af96504da86}{ast\+\_\+new\+\_\+main\+\_\+fct} (\hyperlink{structast}{ast} $\ast$next)
 \begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{}fonction principale d\textquotesingle{}un programme C\char`\"{} d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
+<<<<<<< Updated upstream
 \mbox{\Hypertarget{ast_8h_ab204880dc101896180b797fa4c380125}\label{ast_8h_ab204880dc101896180b797fa4c380125}} 
 \hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+operation} (\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type}, \hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right)
 \item 
@@ -44,6 +55,18 @@ enum \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} \{ \new
 \begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{ast_8h_ac973d5dbd1151d80f0967bd0260c0b82}\label{ast_8h_ac973d5dbd1151d80f0967bd0260c0b82}} 
 \hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init)
+=======
+\mbox{\Hypertarget{ast_8h_a0566ec58f68bad96164f4a53dec7870c}\label{ast_8h_a0566ec58f68bad96164f4a53dec7870c}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+operation} (\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type, \hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right)
+\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_a7306edc16f0429eca91e3e43ee5cc425}{ast\+\_\+new\+\_\+number} (int number)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ast_8h_ac9a58be82b1b511f20fe93253e6555c9}\label{ast_8h_ac9a58be82b1b511f20fe93253e6555c9}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init, int constant)
+\item 
+\mbox{\Hypertarget{ast_8h_a14b4afcf7bf566d4b92752ee172d9171}\label{ast_8h_a14b4afcf7bf566d4b92752ee172d9171}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+condition} (\hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right, char $\ast$op, \hyperlink{structast}{ast} $\ast$interne, \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type})
+>>>>>>> Stashed changes
 \item 
 void \hyperlink{ast_8h_adc84673a1feec531ce0e52042cd95350}{ast\+\_\+print} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast}, int indent)
 \begin{DoxyCompactList}\small\item\em Fonction d\textquotesingle{}affichage d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
@@ -121,6 +144,25 @@ Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+<<<<<<< Updated upstream
+=======
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em left} & ast gauche de l\textquotesingle{}opération. \\
+\hline
+{\em right} & ast droite de l\textquotesingle{}opération. \\
+\hline
+{\em op} & operation entre les arbres \\
+\hline
+{\em interne} & ast présent dans le if \\
+\hline
+{\em type} & type de l\textquotesingle{}opération ayant lieu entre les arbres. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+>>>>>>> Stashed changes
 Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{ast_8h_a7306edc16f0429eca91e3e43ee5cc425}\label{ast_8h_a7306edc16f0429eca91e3e43ee5cc425}} 
@@ -194,7 +236,11 @@ Fonction auxiliaire de ast\+\_\+to\+\_\+code.
 \index{ast.\+h@{ast.\+h}!free\+\_\+ast@{free\+\_\+ast}}
 \index{free\+\_\+ast@{free\+\_\+ast}!ast.\+h@{ast.\+h}}
 \subsubsection{\texorpdfstring{free\+\_\+ast()}{free\_ast()}}
+<<<<<<< Updated upstream
 {\footnotesize\ttfamily void free\+\_\+ast (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{ast }\end{DoxyParamCaption})}
+=======
+{\footnotesize\ttfamily void free\+\_\+ast (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a }\end{DoxyParamCaption})}
+>>>>>>> Stashed changes
 
 
 
