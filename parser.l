@@ -25,6 +25,6 @@ ID [a-zA-Z]+
 {NUMBER} {yylval->val=atoi(yytext);return INTEGER;}
 {ID} {yylval->name=strdup(yytext); return ID;}
 [\!\%] {return yytext[0];}
-[\n;,{()}=+*\-] {return yytext[0];}
+[\n;,{()}=+*\-<>] {return yytext[0];}
 [[:blank:]] {}
 %%
