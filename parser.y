@@ -27,6 +27,7 @@
 %type <ast> condition
 %type <ast> condition_suite
 %type <ast> ligne
+%type <ast> boolean
 
 %left '+'
 %left '*'
@@ -34,8 +35,8 @@
 %left '/'
 
 %token <val>INTEGER 
-%token DOUBLE INTEGER_T DOUBLE_T 
-%token IF ELSE FOR WHILE
+%token DOUBLE INTEGER_T DOUBLE_T
+%token IF ELSE FOR WHILE AND OR 
 %token <name>ID 
 %parse-param {ast* parsed_ast} {void * scanner}
 %%
@@ -76,14 +77,21 @@ instruction:
 ;
 
 condition:                                              
-      IF '(' operation operation ')' instruction condition_suite                  { if($7!=NULL)$$ = ast_link(ast_new_condition($3,$4,"==",$6,AST_IF),$7);else $$ = ast_new_condition($3,$4,"==",$6,AST_IF); }    
+      IF '(' boolean ')' instruction condition_suite                  { if($6!=NULL)$$ = ast_link(ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF),$6);else $$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF); free($3->condition.op);free($3);}    
 
-    | IF '(' operation operation ')' '\n' instruction condition_suite                  { if($8!=NULL)$$ = ast_link(ast_new_condition($3,$4,"==",$7,AST_IF),$8);else $$ = ast_new_condition($3,$4,"==",$7,AST_IF); }    
+    | IF '(' boolean ')' '\n' instruction condition_suite                  { if($7!=NULL)$$ = ast_link(ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$6,AST_IF),$7);else $$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$6,AST_IF); free($3->condition.op);free($3);}    
     
-    | IF '(' operation operation ')' instruction               { ;$$ = ast_new_condition($3,$4,"==",$6,AST_IF); }    
+    | IF '(' boolean ')' instruction               {$$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF); free($3->condition.op);free($3);}    
 
-    | IF '(' operation operation ')' '{' body '}' condition_suite                { $$ = ast_new_condition($3,$4,"==",$7,AST_IF); }    
+    | IF '(' boolean ')' '{' body '}' condition_suite                { $$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$6,AST_IF); free($3->condition.op);free($3);}    
                                                                     
+;
+
+boolean:
+    operation '=' '=' operation {$$=ast_new_condition($1,$4,"==",NULL,AST_IF);}
+  | operation '!' '=' operation {$$=ast_new_condition($1,$4,"!=",NULL,AST_IF);}
+  | '!' operation {$$=ast_new_condition($2,NULL,"false",NULL,AST_IF);}
+  | operation {$$=ast_new_condition($1,NULL,"true",NULL,AST_IF);}
 ;
 
 condition_suite:
