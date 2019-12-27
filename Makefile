@@ -1,8 +1,10 @@
 TESTDIR = tests
 PREFIX = parser
 CFLAGS =
+yFLAGS =
 ifdef DEBUG
 CFLAGS = -Wall -ggdb3
+yFLAGS = -v
 endif
 
 #All
@@ -14,7 +16,7 @@ $(PREFIX): main.o y.tab.o lex.yy.o ast.o symboles.o
 
 #Fichier objet YACC
 y.tab.o: $(PREFIX).y lex.h
-	yacc -t -d $(PREFIX).y
+	yacc $(yFLAGS) -t -d $(PREFIX).y
 	gcc -c $(CFLAGS) y.tab.c
 
 #Fichier objet LEX

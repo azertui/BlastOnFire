@@ -39,12 +39,13 @@ ast* ast_new_number(int number) {
   return new;
 }
 
-ast* ast_new_id(char* id, ast* value, int init) {
+ast* ast_new_id(char* id, ast* value, int init, int constant) {
   ast* new = malloc(sizeof(ast));
   new->type = AST_ID;
   new->type_int.id = strndup(id,strlen(id));
   new->type_int.value = value;
   new->type_int.init = init;
+  new->type_int.constant=constant;
   new->next=NULL;
   return new;
 }
@@ -130,7 +131,15 @@ void ast_print(ast* ast, int indent) {
       case AST_ELSE:
         printf("ELSE : ");
         ast_print(ast->condition.interne,indent+1);
-        ast_print(ast->next,indent);        
+        ast_print(ast->next,indent);   
+        break;
+      case  AST_OP_INCR:
+        printf("++\n");
+        break;
+      case AST_OP_DECR:
+        printf("--\n");
+        break;
+      default: fprintf(stderr,"print_ast:Unknown ast type\n");
     }  
   } 
 }
