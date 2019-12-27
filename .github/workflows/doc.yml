@@ -1,0 +1,48 @@
+name: DOCUMENTATION
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: apt update
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -qq flex bison
+        sudo apt-get install -qq cmocka-doc libcmocka-dev libcmocka0
+        sudo apt-get install -qq valgrind
+        sudo apt-get install -qq doxygen
+    - name: git setup
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        remote_repo="https://azertui:${{secrets.TOKEN_ACTIONS}}@github.com/azertui/BlastOnFire.git"
+        git pull ${remote_repo}
+        git checkout gh-pages
+        git checkout master
+    - name: setup
+      run: make
+    - name: verify
+      run: make test
+    - name: generate doc
+      run: make doxygen
+    - name: stash and switch then pop and commit
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add Doxygen/
+        git stash
+        git checkout gh-pages
+        git stash pop | echo
+        git commit -m "auto update Documentation" | echo
+    - name: Push changes
+      run: |
+        remote_repo="https://azertui:${{secrets.TOKEN_ACTIONS}}@github.com/azertui/BlastOnFire.git"
+        git push "${remote_repo}" gh-pages --follow-tags |echo

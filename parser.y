@@ -3,13 +3,14 @@
   #include <string.h>
   #include "ast.h"
   #include "symboles.h"
-  void yyerror(char*);
-  extern int yylex();
-  extern FILE *yyin;
-  extern int yyparse();
+  #include "y.tab.h"
+  #include "lex.h"
+  void yyerror(ast*,void*,char*);
   symboles tab_S;
 %}
-
+%debug
+%lex-param {void * scanner}
+%pure-parser
 %union {
     int val;
     char* name;
@@ -17,12 +18,16 @@
     ast_type type;
 }
 
-%type <ast> ligne
+%type <ast> code
 %type <ast> function
 %type <ast> instruction
 %type <ast> operation
 %type <type> affectation_op
 %type <ast> body
+%type <ast> condition
+%type <ast> condition_suite
+%type <ast> ligne
+%type <ast> boolean
 
 %left '+'
 %left '*'
@@ -30,13 +35,14 @@
 %left '/'
 
 %token <val>INTEGER 
-%token DOUBLE INTEGER_T DOUBLE_T 
-%token IF ELSE FOR WHILE
+%token DOUBLE INTEGER_T DOUBLE_T
+%token IF ELSE FOR WHILE AND OR 
 %token <name>ID 
+%parse-param {ast* parsed_ast} {void * scanner}
 %%
  
-ligne:
-    function         { printf("Chaine reconnue !\n");ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
+code:
+    function         { printf("Chaine reconnue !\n");*parsed_ast=*$1;ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
     | '\n'                { printf("Chaine reconnue !\n");return 0;}
   ;
 
@@ -45,8 +51,18 @@ function:
     ;
 
 body:
-    instruction body { $$ = ast_link($1,$2);}
+    ligne body { if($1!=NULL)$$ = ast_link($1,$2);else $$ = $2;}
     | /*epsilon*/{$$ = NULL;}
+;
+
+ligne:
+     instruction {$$ = $1;}
+
+    | condition {$$ = $1;}
+
+    | '\n' { $$ = NULL;}
+    
+    | ';' { $$ = NULL;}
 ;
 
 instruction:
@@ -54,11 +70,47 @@ instruction:
                                               tab_S = add_symbole(tab_S,$2,0); free($2);}
     | INTEGER_T ID '=' operation ';'  { $$ = ast_new_id($2,$4,1); 
                                               tab_S = add_symbole(tab_S,$2,0);free($2);}
-    | ID '=' operation ';'                  { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
+    | '+' '+'  ID {if(getSymbole(tab_S,$3)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$3);free($3);return 1;}
+                                                    $$=ast_new_id($3,ast_new_operation(AST_OP_INCR,ast_new_id($3,NULL,0),NULL),0);free($3);}
+    | ID '+' '+' {if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;}
+                                                    $$=ast_new_id($1,ast_new_operation(AST_OP_INCR,ast_new_id($1,NULL,0),NULL),0);free($1);}
+
+    | '-' '-' ID {if(getSymbole(tab_S,$3)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$3);free($3);return 1;}
+                                                    $$=ast_new_id($3,ast_new_operation(AST_OP_DECR,ast_new_id($3,NULL,0),NULL),0);free($3);}
+    | ID '-' '-' {if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;}
+                                                    $$=ast_new_id($1,ast_new_operation(AST_OP_DECR,ast_new_id($1,NULL,0),NULL),0);free($1);}
+
+    | ID '=' operation ';'                  { if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;} 
                                               $$ = ast_new_id($1,$3,0);free($1);}
-    | ID affectation_op '=' operation              { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;} 
-                                              $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0),$4),0);free($1);}
-    | '\n' { $$ = NULL;}
+    | ID affectation_op '=' operation              { if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;} 
+                                                        $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0),$4),0);free($1);}
+;
+
+condition:                                              
+      IF '(' boolean ')' instruction condition_suite                  { if($6!=NULL)$$ = ast_link(ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF),$6);else $$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF); free($3->condition.op);free($3);}    
+
+    | IF '(' boolean ')' '\n' instruction condition_suite                  { if($7!=NULL)$$ = ast_link(ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$6,AST_IF),$7);else $$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$6,AST_IF); free($3->condition.op);free($3);}    
+    
+    | IF '(' boolean ')' instruction               {$$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF); free($3->condition.op);free($3);}    
+
+    | IF '(' boolean ')' '{' body '}' condition_suite                { $$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$6,AST_IF); free($3->condition.op);free($3);}    
+                                                                    
+;
+
+boolean:
+    operation '=' '=' operation {$$=ast_new_condition($1,$4,"==",NULL,AST_IF);}
+  | operation '!' '=' operation {$$=ast_new_condition($1,$4,"!=",NULL,AST_IF);}
+  | '!' operation {$$=ast_new_condition($2,NULL,"false",NULL,AST_IF);}
+  | operation {$$=ast_new_condition($1,NULL,"true",NULL,AST_IF);}
+;
+
+condition_suite:
+      ELSE '{' body '}' { $$ = ast_new_condition(NULL,NULL,NULL,$3,AST_ELSE); }
+
+    | ELSE instruction  { $$ = ast_new_condition(NULL,NULL,NULL,$2,AST_ELSE); }
+
+    | ELSE condition  { $$ = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF);free($2->condition.op);free($2);}
+
 ;
 
 affectation_op:
@@ -69,38 +121,57 @@ affectation_op:
 ;
 
 operation:
-    operation '+' operation { $$ = ast_new_operation(AST_OP_PLUS,$1,$3);}
+    '(' operation ')' {$$ = $2;}
+  | operation '+' operation { $$ = ast_new_operation(AST_OP_PLUS,$1,$3);}
   | operation '*' operation { $$ = ast_new_operation(AST_OP_MUL,$1,$3);}
   | operation '/' operation { $$ = ast_new_operation(AST_OP_DIV,$1,$3);}
   | operation '-' operation { $$ = ast_new_operation(AST_OP_MOINS,$1,$3);}
   | INTEGER   {$$ = ast_new_number($1);}
-  | ID        { if(getSymbole(tab_S,$1)==NULL){printf("ID (%s) non reconnu\n",$1);free($1);return 1;}
+  | ID        { if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;}
                 $$ = ast_new_id($1,NULL,0);free($1);}
 ;
 
 %%
-extern int yylex_destroy();
 
-int parseFile(FILE* f){
-    yyin=f;
-    tab_S = new_table();
-    int res= yyparse();
-    yylex_destroy();
-    return res;
+int parseFile(FILE* f, ast *result_ast){
+  yyscan_t scanner;
+  yylex_init (&scanner);
+  yyset_in(f,scanner);
+  tab_S = new_table();
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast,scanner);
+  if(result_ast!=NULL){
+    *result_ast=parsed_ast;
+  }
+  yylex_destroy(scanner);
+  return res;
 }
-extern int yy_scan_string(char*);
-int parseString(char *s) {
-    printf("%lu:%s",strlen(s),s);
-  yy_scan_string(s);
-  int yylex();
-  int res= yyparse();
-  yylex_destroy();
+
+int parseString(char *s,ast *result_ast ) {
+  yyscan_t scanner;
+  tab_S = new_table();
+  if(yylex_init (&scanner)){
+    perror("parseString");
+    return 1;
+  }
+  YY_BUFFER_STATE buf =yy_scan_string(s,scanner);
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast,scanner);
+  if(result_ast!=NULL){
+    *result_ast=parsed_ast;
+  }
+  yy_delete_buffer(buf, scanner);
+  yylex_destroy(scanner);
   return res;
 }
 
 int parse() {
+  tab_S = new_table();
+  yyscan_t scanner;
+  yylex_init (&scanner);
   printf("Entrez une expression :\n");
-  int res= yyparse();
-  yylex_destroy();
+  ast parsed_ast;
+  int res= yyparse(&parsed_ast,scanner);
+  yylex_destroy(scanner);
   return res;
 }

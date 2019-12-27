@@ -1,5 +1,9 @@
 # Prerequisites
 *.d
+.vscode/
+
+#Documentation
+Doxygen/
 
 # Object files
 *.o
@@ -15,7 +19,10 @@
 # Yacc output 
 *.tab.h
 *.tab.c
+
+#Lex output
 *.yy.c
+lex.h
 
 # Precompiled Headers
 *.gch
