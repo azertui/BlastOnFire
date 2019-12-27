@@ -16,12 +16,16 @@ ID [a-zA-Z]+
 {INTEGER} {return INTEGER_T;}
 {DOUBLE} {return DOUBLE_T;}
 {NUMBER}\.{NUMBER} {yylval->val=atof(yytext);return DOUBLE;}
+"&&" {return AND;}
+"||" {return OR;}
 "if" {return IF;}
 "else" {return ELSE;}
 "for" {return FOR;}
 "while" {return WHILE;}
+"const" {return CONST;}
 {NUMBER} {yylval->val=atoi(yytext);return INTEGER;}
 {ID} {yylval->name=strdup(yytext); return ID;}
-[\n;,{()}=+*-] {return yytext[0];}
+[\!\%] {return yytext[0];}
+[\n;,{()}=+*\-<>] {return yytext[0];}
 [[:blank:]] {}
 %%
