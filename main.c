@@ -25,7 +25,7 @@ int main(int argc,char* const argv[]){
     int res=EXIT_FAILURE;
     if (fichier != NULL)
     {
-        res=parseFile(fichier);        
+        res=parseFile(fichier,NULL);        
         fclose(fichier);     
     }
     else

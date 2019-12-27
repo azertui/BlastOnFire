@@ -27,6 +27,7 @@ ast* ast_new_operation(ast_type type, ast* left, ast* right) {
   new->type = type;
   new->operation.left = left;
   new->operation.right = right;
+  new->next=NULL;
   return new;
 }
 
@@ -34,6 +35,7 @@ ast* ast_new_number(int number) {
   ast* new = malloc(sizeof(ast));
   new->type = AST_NUMBER;
   new->number = number;
+  new->next=NULL;
   return new;
 }
 
@@ -43,6 +45,7 @@ ast* ast_new_id(char* id, ast* value, int init) {
   new->type_int.id = strndup(id,strlen(id));
   new->type_int.value = value;
   new->type_int.init = init;
+  new->next=NULL;
   return new;
 }
 
@@ -52,15 +55,17 @@ ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne, ast_type t
   if (type == AST_IF || type == AST_ELSE_IF ){
     new->condition.left = left;
     new->condition.right = right;
-    new->condition.op = strndup(op,strlen(op));
+    if(op!=NULL)
+      new->condition.op = strndup(op,strlen(op));
   }
   new->condition.interne = interne;
+  new->next=NULL;
   return new;
 }
 
 
 void ast_print(ast* ast, int indent) {
-  if (ast!=NULL){  
+  /* if (ast!=NULL){  
   for (int i = 0; i < indent; i++)
     printf("    ");    
     switch(ast->type){
@@ -108,7 +113,10 @@ void ast_print(ast* ast, int indent) {
       case AST_ELSE_IF:
         printf("ELSE " );  
       case AST_IF:
-        printf("IF : %s",ast->condition.op);
+        if(ast->condition.op!=NULL)
+          printf("IF : %s",ast->condition.op);
+        else
+          printf("IF : NULL");
         ast_print(ast->condition.left,indent+1);
         ast_print(ast->condition.right,indent+1);
         ast_print(ast->condition.interne,indent+2);
@@ -119,7 +127,7 @@ void ast_print(ast* ast, int indent) {
         ast_print(ast->condition.interne,indent+1);
         ast_print(ast->next,indent);        
     }  
-  }
+  } */
 }
 
 ast* ast_link(ast* a, ast* next){
@@ -131,46 +139,46 @@ ast* ast_link(ast* a, ast* next){
   return a;
 }
 
-void free_ast(ast* ast){
-  if (ast!=NULL){  
-  switch(ast->type){
+void free_ast(ast* a){
+  if (a!=NULL){
+  switch(a->type){
     case AST_FCT:
-      free_ast(ast->next);
-      free(ast);
+      free_ast(a->next);
       break;    
     case AST_ID:
-      free_ast(ast->next);
-      free_ast(ast->type_int.value);
-      free(ast->type_int.id);
-      free(ast);
-      break;
-    case AST_NUMBER:
-      free(ast);
+      free_ast(a->type_int.value);
+      free(a->type_int.id);
+      free_ast(a->next);
       break;
     case AST_OP_PLUS:
     case AST_OP_MUL:
     case AST_OP_MOINS:
     case AST_OP_DIV:
-      free_ast(ast->next);
-      free_ast(ast->operation.left);
-      free_ast(ast->operation.right);
-      free(ast);
+      free_ast(a->operation.left);
+      free_ast(a->operation.right);
+      free_ast(a->next);
       break;
     case AST_IF:
     case AST_ELSE_IF:
-      free(ast->condition.op);
-      free_ast(ast->condition.left);
-      free_ast(ast->condition.right);
-      free_ast(ast->condition.interne);
-      free_ast(ast->next);
-      free(ast);
+      if(a->condition.op!=NULL)
+        free(a->condition.op);
+      free_ast(a->condition.left);
+      free_ast(a->condition.right);
+      free_ast(a->condition.interne);
+      free_ast(a->next);
       break;  
     case AST_ELSE:
-      free_ast(ast->condition.interne);
-      free_ast(ast->next);
-      free(ast);      
-      break;    
-  }  
+      if(a->condition.op!=NULL)
+        free(a->condition.op);
+      free_ast(a->condition.interne);
+      free_ast(a->next);
+      break;
+    case AST_NUMBER:
+      free_ast(a->next);
+      break;
+      default: fprintf(stderr,"unknow ast type\n");
+  }
+  free(a);
   }
 }
 

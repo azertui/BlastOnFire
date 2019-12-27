@@ -91,7 +91,7 @@ condition_suite:
 
     | ELSE instruction  { $$ = ast_new_condition(NULL,NULL,NULL,$2,AST_ELSE); }
 
-    | ELSE condition  { $$ = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF); }
+    | ELSE condition  { $$ = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF);}
 
 ;
 
@@ -115,18 +115,21 @@ operation:
 
 %%
 
-int parseFile(FILE* f){
+int parseFile(FILE* f, ast *result_ast){
   yyscan_t scanner;
   yylex_init (&scanner);
   yyset_in(f,scanner);
   tab_S = new_table();
   ast parsed_ast;
   int res= yyparse(&parsed_ast,scanner);
+  if(result_ast!=NULL){
+    *result_ast=parsed_ast;
+  }
   yylex_destroy(scanner);
   return res;
 }
 
-int parseString(char *s) {
+int parseString(char *s,ast *result_ast ) {
   yyscan_t scanner;
   tab_S = new_table();
   if(yylex_init (&scanner)){
@@ -136,6 +139,9 @@ int parseString(char *s) {
   YY_BUFFER_STATE buf =yy_scan_string(s,scanner);
   ast parsed_ast;
   int res= yyparse(&parsed_ast,scanner);
+  if(result_ast!=NULL){
+    *result_ast=parsed_ast;
+  }
   yy_delete_buffer(buf, scanner);
   yylex_destroy(scanner);
   return res;
