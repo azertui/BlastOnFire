@@ -5,6 +5,7 @@
 typedef struct symboles 
 {
     int portee;
+    int constant;
     char* id;
     struct symboles *pnext;
     struct symboles *suivant;
@@ -14,7 +15,7 @@ symboles new_table();
 
 symboles getSymbole(symboles s, char* id);
 
-symboles add_symbole(symboles s,char * id, int portee);
+symboles add_symbole(symboles s,char * id, int portee,int constant);
 
 symboles change_symbole(symboles s,char * id, int portee);
 

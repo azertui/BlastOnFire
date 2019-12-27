@@ -42,12 +42,13 @@ symboles add_portee(symboles s,char * id, int portee){
   return NULL;
 }
 
-symboles add_symbole(symboles s,char * id, int portee){
+symboles add_symbole(symboles s,char * id, int portee,int constant){
   symboles s_same = getSymbole(s, id);
     if (s_same == NULL){
       symboles new = malloc(sizeof(struct symboles));
       new->id = strndup(id,strlen(id));
       new->portee = portee;
+      new->constant=constant;
       new->pnext = NULL;
       new->suivant = s;
      return new;
