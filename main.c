@@ -32,4 +32,5 @@ int main(int argc,char* const argv[]){
     {
         printf("Impossible d'ouvrir le fichier code_c.c\n");
     }
+    return res;
 }

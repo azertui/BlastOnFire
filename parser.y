@@ -76,11 +76,11 @@ instruction:
 ;
 
 condition:                                              
-     IF '(' operation operation ')' instruction               { $$ = ast_new_condition($3,$4,"==",$6,AST_IF); }    
-
-    | IF '(' operation operation ')' instruction condition_suite                  { if($7!=NULL)$$ = ast_link(ast_new_condition($3,$4,"==",$6,AST_IF),$7);else $$ = ast_new_condition($3,$4,"==",$6,AST_IF); }    
+      IF '(' operation operation ')' instruction condition_suite                  { if($7!=NULL)$$ = ast_link(ast_new_condition($3,$4,"==",$6,AST_IF),$7);else $$ = ast_new_condition($3,$4,"==",$6,AST_IF); }    
 
     | IF '(' operation operation ')' '\n' instruction condition_suite                  { if($8!=NULL)$$ = ast_link(ast_new_condition($3,$4,"==",$7,AST_IF),$8);else $$ = ast_new_condition($3,$4,"==",$7,AST_IF); }    
+    
+    | IF '(' operation operation ')' instruction               { ;$$ = ast_new_condition($3,$4,"==",$6,AST_IF); }    
 
     | IF '(' operation operation ')' '{' body '}' condition_suite                { $$ = ast_new_condition($3,$4,"==",$7,AST_IF); }    
                                                                     
@@ -91,7 +91,7 @@ condition_suite:
 
     | ELSE instruction  { $$ = ast_new_condition(NULL,NULL,NULL,$2,AST_ELSE); }
 
-    | ELSE condition  { $$ = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF);}
+    | ELSE condition  { $$ = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF);free($2->condition.op);free($2);}
 
 ;
 

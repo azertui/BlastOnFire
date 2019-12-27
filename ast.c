@@ -49,6 +49,11 @@ ast* ast_new_id(char* id, ast* value, int init) {
   return new;
 }
 
+char* ast_type_to_string1(ast_type t){
+  char* tab[10]={"AST_ID","AST_NUMBER","AST_OP_PLUS","AST_OP_MUL","AST_OP_MOINS","AST_OP_DIV","AST_FCT","AST_IF","AST_ELSE_IF","AST_ELSE"};
+  return tab[t];
+}
+
 ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne, ast_type type){
   ast* new = malloc(sizeof(ast));
   new->type = type;
@@ -65,9 +70,9 @@ ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne, ast_type t
 
 
 void ast_print(ast* ast, int indent) {
-  /* if (ast!=NULL){  
-  for (int i = 0; i < indent; i++)
-    printf("    ");    
+  if (ast!=NULL){  
+    for (int i = 0; i < indent; i++)
+      printf("    ");    
     switch(ast->type){
       case AST_FCT:
         printf("FCT (%s)\n",ast->id);
@@ -127,7 +132,7 @@ void ast_print(ast* ast, int indent) {
         ast_print(ast->condition.interne,indent+1);
         ast_print(ast->next,indent);        
     }  
-  } */
+  } 
 }
 
 ast* ast_link(ast* a, ast* next){
@@ -186,9 +191,10 @@ void ast_to_code(ast* a){
   ast* parcours = a;
   FILE* fichier = NULL;
   fichier = fopen("res_c.c", "w");
-  if (fichier != NULL)
+  if (fichier != NULL){
     ast_to_code_recur(parcours,fichier);
-    fclose(fichier);     
+    fclose(fichier); 
+  }    
 }
 
 void ast_to_code_recur(ast* a, FILE* fichier){
