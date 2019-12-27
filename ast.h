@@ -16,7 +16,7 @@
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE} ast_type;
+typedef enum { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE, AST_OP_INCR,AST_OP_DECR} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.

@@ -181,6 +181,10 @@ void free_ast(ast* a){
     case AST_NUMBER:
       free_ast(a->next);
       break;
+    case AST_OP_INCR:
+    case AST_OP_DECR:
+    free_ast(a->operation.left);
+    break;
       default: fprintf(stderr,"unknow ast type\n");
   }
   free(a);
