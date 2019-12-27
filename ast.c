@@ -262,7 +262,7 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             else if(strcmp(a->condition.op,"false")==0)
               fprintf(fichier, " == 0");
             else
-              fprintf(fichier, "%s", a->condition.op);
+              fprintf(fichier, " %s ", a->condition.op);
             ast_to_code_recur(a->condition.right,fichier);
             fputs("){\n",fichier);
             ast_to_code_recur(a->condition.interne,fichier);
