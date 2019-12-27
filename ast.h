@@ -35,6 +35,7 @@ typedef struct ast {
       char* id; /*!< identificateur */
       struct ast* value;  /*!< noeud de valeur*/
       int init; /*!< booléen pour l'initialisation*/
+      int constant;/*!< boolean pour définir si la variable est une constante*/
     } type_int; /*!< variable, constante */
     int number;
     char* id;
@@ -86,7 +87,7 @@ ast* ast_new_number(int number);
  * \param init 1 si initialisation, 0 sinon.
  * \return Ast de l'id.
  */
-ast* ast_new_id(char* id,ast* value, int init);
+ast* ast_new_id(char* id,ast* value, int init, int constant);
 
 /**
  * \fn ast* ast_new_main_fct(ast* next);

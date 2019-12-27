@@ -28,15 +28,16 @@
 %type <ast> condition_suite
 %type <ast> ligne
 %type <ast> boolean
+%type <val> pre_type
 
 %left '+'
 %left '*'
 %left '-'
 %left '/'
 
-%token <val>INTEGER 
-%token DOUBLE INTEGER_T DOUBLE_T
-%token IF ELSE FOR WHILE AND OR 
+%token <val>INTEGER
+%token DOUBLE INTEGER_T DOUBLE_T CONST
+%token IF ELSE FOR WHILE AND OR
 %token <name>ID 
 %parse-param {ast* parsed_ast} {void * scanner}
 %%
@@ -44,11 +45,12 @@
 code:
     function         { printf("Chaine reconnue !\n");*parsed_ast=*$1;ast_print($1,0);ast_to_code($1);free_ast($1);free_symboles(tab_S);return 0;}
     | '\n'                { printf("Chaine reconnue !\n");return 0;}
+    | /*epsilon*/ {printf("Chaine reconnue !\n");return 0;}
   ;
 
 function:
     INTEGER_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6); free($2);}
-    ;
+;
 
 body:
     ligne body { if($1!=NULL)$$ = ast_link($1,$2);else $$ = $2;}
@@ -66,24 +68,29 @@ ligne:
 ;
 
 instruction:
-     INTEGER_T ID';'                  { $$ = ast_new_id($2,NULL,1); 
-                                              tab_S = add_symbole(tab_S,$2,0); free($2);}
-    | INTEGER_T ID '=' operation ';'  { $$ = ast_new_id($2,$4,1); 
-                                              tab_S = add_symbole(tab_S,$2,0);free($2);}
-    | '+' '+'  ID {if(getSymbole(tab_S,$3)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$3);free($3);return 1;}
-                                                    $$=ast_new_id($3,ast_new_operation(AST_OP_INCR,ast_new_id($3,NULL,0),NULL),0);free($3);}
-    | ID '+' '+' {if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;}
-                                                    $$=ast_new_id($1,ast_new_operation(AST_OP_INCR,ast_new_id($1,NULL,0),NULL),0);free($1);}
+     pre_type INTEGER_T ID';'                  { $$ = ast_new_id($3,NULL,1,$1); 
+                                              tab_S = add_symbole(tab_S,$3,0,$1); free($3);}
+    | pre_type INTEGER_T ID '=' operation ';'  { $$ = ast_new_id($3,$5,1,$1); 
+                                              tab_S = add_symbole(tab_S,$3,0,$1);free($3);}
+    | '+' '+'  ID {symboles s; if((s=getSymbole(tab_S,$3))==NULL || s->constant){fprintf(stderr,"ID (%s) non reconnu ou constant\n",$3);free($3);return 1;}
+                                                    $$=ast_new_id($3,ast_new_operation(AST_OP_INCR,ast_new_id($3,NULL,0,0),NULL),0,0);free($3);}
+    | ID '+' '+' {symboles s; if((s=getSymbole(tab_S,$1))==NULL || s->constant){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;}
+                                                    $$=ast_new_id($1,ast_new_operation(AST_OP_INCR,ast_new_id($1,NULL,0,0),NULL),0,0);free($1);}
 
-    | '-' '-' ID {if(getSymbole(tab_S,$3)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$3);free($3);return 1;}
-                                                    $$=ast_new_id($3,ast_new_operation(AST_OP_DECR,ast_new_id($3,NULL,0),NULL),0);free($3);}
-    | ID '-' '-' {if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;}
-                                                    $$=ast_new_id($1,ast_new_operation(AST_OP_DECR,ast_new_id($1,NULL,0),NULL),0);free($1);}
+    | '-' '-' ID {symboles s; if((s=getSymbole(tab_S,$3))==NULL || s->constant){fprintf(stderr,"ID (%s) non reconnu\n",$3);free($3);return 1;}
+                                                    $$=ast_new_id($3,ast_new_operation(AST_OP_DECR,ast_new_id($3,NULL,0,0),NULL),0,0);free($3);}
+    | ID '-' '-' {symboles s; if((s=getSymbole(tab_S,$1))==NULL || s->constant){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;}
+                                                    $$=ast_new_id($1,ast_new_operation(AST_OP_DECR,ast_new_id($1,NULL,0,0),NULL),0,0);free($1);}
 
-    | ID '=' operation ';'                  { if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;} 
-                                              $$ = ast_new_id($1,$3,0);free($1);}
-    | ID affectation_op '=' operation              { if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;} 
-                                                        $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0),$4),0);free($1);}
+    | ID '=' operation ';'                  {symboles s; if((s=getSymbole(tab_S,$1))==NULL || s->constant){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;} 
+                                              $$ = ast_new_id($1,$3,0,0);free($1);}
+    | ID affectation_op '=' operation              {symboles s; if((s=getSymbole(tab_S,$1))==NULL || s->constant){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;} 
+                                                        $$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0,0),$4),0,0);free($1);}
+;
+
+pre_type:
+  CONST {$$=1;}
+  | {$$=0;}
 ;
 
 condition:                                              
@@ -100,6 +107,12 @@ condition:
 boolean:
     operation '=' '=' operation {$$=ast_new_condition($1,$4,"==",NULL,AST_IF);}
   | operation '!' '=' operation {$$=ast_new_condition($1,$4,"!=",NULL,AST_IF);}
+  | operation '<' '=' operation {$$=ast_new_condition($1,$4,"<=",NULL,AST_IF);}
+  | operation '>' '=' operation {$$=ast_new_condition($1,$4,">=",NULL,AST_IF);}
+  | operation '<' operation {$$=ast_new_condition($1,$3,"<",NULL,AST_IF);}
+  | operation '>' operation {$$=ast_new_condition($1,$3,">",NULL,AST_IF);}
+  | operation AND operation {$$=ast_new_condition($1,$3,"&&",NULL,AST_IF);}
+  | operation OR operation {$$=ast_new_condition($1,$3,"||",NULL,AST_IF);}
   | '!' operation {$$=ast_new_condition($2,NULL,"false",NULL,AST_IF);}
   | operation {$$=ast_new_condition($1,NULL,"true",NULL,AST_IF);}
 ;
@@ -128,7 +141,7 @@ operation:
   | operation '-' operation { $$ = ast_new_operation(AST_OP_MOINS,$1,$3);}
   | INTEGER   {$$ = ast_new_number($1);}
   | ID        { if(getSymbole(tab_S,$1)==NULL){fprintf(stderr,"ID (%s) non reconnu\n",$1);free($1);return 1;}
-                $$ = ast_new_id($1,NULL,0);free($1);}
+                $$ = ast_new_id($1,NULL,0,0);free($1);}
 ;
 
 %%
