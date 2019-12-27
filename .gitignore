@@ -3,7 +3,7 @@
 .vscode/
 
 #Documentation
-Doxygen/
+#Doxygen/
 
 # Object files
 *.o
