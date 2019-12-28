@@ -5,6 +5,8 @@ int main()
         int b = 6;
     else if (8 && 9)
         i = 2;
+    else if (8 && 9)
+        i = 2;
     i++;
     int a = 5;
     int b = 8 * 2;

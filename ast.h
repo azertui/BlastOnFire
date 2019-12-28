@@ -100,8 +100,8 @@ ast* ast_new_id(char* id,ast* value, int init, int constant);
 ast* ast_double_to_integer(ast* number);
 
 /**
- * \fn ast* ast_new_main_fct(ast* next);
- * \brief Fonction de création d'une nouvelle instance de type "fonction principale d'un programme C" d'un objet ast.
+ * \fn ast* ast_new_condition(ast* left, ast* right, char* op,ast* interne, ast_type);
+ * \brief Fonction de création d'une nouvelle condition.
  *
  * \param left ast gauche de l'opération.
  * \param right ast droite de l'opération.
@@ -125,11 +125,11 @@ void ast_print(ast* ast, int indent);
 
 /**
  * \fn ast* ast_link(ast* a, ast* next);
- * \brief Fonction reliant un ast (à noeud unique!) à un objet ast.
+ * \brief Fonction reliant le dernier noeud d'un ast à un objet ast.
  *
- * \param a noeud.
+ * \param a arbre.
  * \param next arbre.
- * \return Noeud a dont l'élément a->next pointe sur l'arbre.
+ * \return Arbre a dont le dernier élément next pointe sur l'arbre.
 */
 ast* ast_link(ast* a, ast* next);
 

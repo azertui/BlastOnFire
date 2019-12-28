@@ -124,11 +124,11 @@ boolean:
 ;
 
 condition_suite:
-      ELSE '{' body '}' { $$ = ast_new_condition(NULL,NULL,NULL,$3,AST_ELSE); }
+      ELSE '{' body '}' {$$ = ast_new_condition(NULL,NULL,NULL,$3,AST_ELSE); }
 
     | ELSE instruction  { $$ = ast_new_condition(NULL,NULL,NULL,$2,AST_ELSE); }
 
-    | ELSE condition  { $$ = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF);free($2->condition.op);free($2);}
+    | ELSE condition  { ast* test = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF);ast_link(test,$2->next);free($2->condition.op);free($2);$$ = test;}
 
 ;
 
