@@ -31,9 +31,11 @@ ast* ast_new_operation(ast_type type, ast* left, ast* right) {
   return new;
 }
 
-ast* ast_new_number(int number) {
+ast* ast_new_number(double number,int is_int) {
   ast* new = malloc(sizeof(ast));
-  new->type = AST_NUMBER;
+  new->type = AST_DOUBLE;
+  if(is_int)
+    new->type = AST_INT;
   new->number = number;
   new->next=NULL;
   return new;
@@ -53,6 +55,19 @@ ast* ast_new_id(char* id, ast* value, int init, int constant) {
 char* ast_type_to_string1(ast_type t){
   char* tab[10]={"AST_ID","AST_NUMBER","AST_OP_PLUS","AST_OP_MUL","AST_OP_MOINS","AST_OP_DIV","AST_FCT","AST_IF","AST_ELSE_IF","AST_ELSE"};
   return tab[t];
+}
+
+ast* ast_double_to_integer(ast* number){
+  if(number->type==AST_INT){
+    return number;
+  } 
+  if(number->type!=AST_DOUBLE){
+    fprintf(stderr,"ast_double_to_integer: not an integer type\n");
+    return NULL;
+  }
+  number->number=(int)number->number;
+  number->type=AST_INT;
+  return number;
 }
 
 ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne, ast_type type){
@@ -89,8 +104,11 @@ void ast_print(ast* ast, int indent) {
         
         ast_print(ast->next,indent);
         break;
-      case AST_NUMBER:
-        printf("NUMBER (%d)\n",ast->number);
+      case AST_DOUBLE:
+        printf("NUMBER (%lf)\n",ast->number);
+        break;
+      case AST_INT:
+        printf("NUMBER (%d)\n",(int) ast->number);
         break;
       case AST_OP_PLUS:
         printf("+\n");
@@ -187,7 +205,8 @@ void free_ast(ast* a){
       free_ast(a->condition.interne);
       free_ast(a->next);
       break;
-    case AST_NUMBER:
+    case AST_INT:
+    case AST_DOUBLE:
       free_ast(a->next);
       break;
     case AST_OP_INCR:
@@ -230,8 +249,11 @@ void ast_to_code_recur(ast* a, FILE* fichier){
               fputs(";\n", fichier);
             ast_to_code_recur(a->next,fichier);
             break;
-          case AST_NUMBER:
-            fprintf(fichier, "%d", a->number);
+          case AST_INT:
+            fprintf(fichier, "%d",(int) a->number);
+            break;
+          case AST_DOUBLE:
+            fprintf(fichier, "%lf", a->number);
             break;
           case AST_OP_PLUS:
             ast_to_code_recur(a->operation.left,fichier);

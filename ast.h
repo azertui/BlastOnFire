@@ -16,7 +16,7 @@
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_NUMBER, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE, AST_OP_INCR,AST_OP_DECR} ast_type;
+typedef enum { AST_ID, AST_INT,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE, AST_OP_INCR,AST_OP_DECR} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -37,7 +37,7 @@ typedef struct ast {
       int init; /*!< booléen pour l'initialisation*/
       int constant;/*!< boolean pour définir si la variable est une constante*/
     } type_int; /*!< variable, constante */
-    int number;
+    double number;
     char* id;
     struct {
       char* op;
@@ -73,10 +73,11 @@ ast* ast_new_operation(ast_type type, ast* left, ast* right);
  * \fn ast* ast_new_number(int);
  * \brief Fonction de création d'un noeud d'un int
  *
- * \param number valeur entière.
+ * \param number valeur flottante ou entiere.
+ * \param is_int booléen vrai si le nombre est un entier
  * \return Noeud du nombre.
  */
-ast* ast_new_number(int number);
+ast* ast_new_number(double number, int is_int);
 
 /**
  * \fn ast* ast_new_id(char* id,ast* value);
@@ -90,8 +91,17 @@ ast* ast_new_number(int number);
 ast* ast_new_id(char* id,ast* value, int init, int constant);
 
 /**
- * \fn ast* ast_new_main_fct(ast* next);
- * \brief Fonction de création d'une nouvelle instance de type "fonction principale d'un programme C" d'un objet ast.
+ * \fn ast* ast_double_to_integer(ast* number);
+ * \brief Fonction spécifiant qu'un ast de nombre est de type entier
+ * 
+ * \param number ast du nombre devant être converti
+ * \return l'ast du nombre converti ou NULL en cas d'erreur
+ */
+ast* ast_double_to_integer(ast* number);
+
+/**
+ * \fn ast* ast_new_condition(ast* left, ast* right, char* op,ast* interne, ast_type);
+ * \brief Fonction de création d'une nouvelle condition.
  *
  * \param left ast gauche de l'opération.
  * \param right ast droite de l'opération.
@@ -115,11 +125,11 @@ void ast_print(ast* ast, int indent);
 
 /**
  * \fn ast* ast_link(ast* a, ast* next);
- * \brief Fonction reliant un ast (à noeud unique!) à un objet ast.
+ * \brief Fonction reliant le dernier noeud d'un ast à un objet ast.
  *
- * \param a noeud.
+ * \param a arbre.
  * \param next arbre.
- * \return Noeud a dont l'élément a->next pointe sur l'arbre.
+ * \return Arbre a dont le dernier élément next pointe sur l'arbre.
 */
 ast* ast_link(ast* a, ast* next);
 

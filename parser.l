@@ -15,7 +15,9 @@ ID [a-zA-Z]+
 %%
 {INTEGER} {return INTEGER_T;}
 {DOUBLE} {return DOUBLE_T;}
-{NUMBER}\.{NUMBER} {yylval->val=atof(yytext);return DOUBLE;}
+{NUMBER}"."{NUMBER} {yylval->fval=atof(yytext);return DOUBLE;}
+"++" {return INCR;}
+"--" {return DECR;}
 "&&" {return AND;}
 "||" {return OR;}
 "if" {return IF;}
@@ -26,6 +28,6 @@ ID [a-zA-Z]+
 {NUMBER} {yylval->val=atoi(yytext);return INTEGER;}
 {ID} {yylval->name=strdup(yytext); return ID;}
 [\!\%] {return yytext[0];}
-[\n;,{()}=+*\-<>] {return yytext[0];}
-[[:blank:]] {}
+[;,{()}=+*\-<>] {return yytext[0];}
+[[:blank:]\n] {}
 %%

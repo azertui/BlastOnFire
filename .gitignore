@@ -17,6 +17,7 @@
 *.exp
 
 # Yacc output 
+y.output
 *.tab.h
 *.tab.c
 
