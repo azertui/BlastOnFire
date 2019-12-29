@@ -40,7 +40,7 @@ jobs:
         git add Doxygen/
         git stash
         git checkout gh-pages
-        git stash pop | echo
+        git stash apply | echo
         git commit -m "auto update Documentation" | echo
     - name: Push changes
       run: |

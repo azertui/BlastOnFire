@@ -3,7 +3,7 @@
 .vscode/
 
 #Documentation
-Doxygen/
+#Doxygen/
 
 # Object files
 *.o
@@ -60,6 +60,7 @@ res_c.c
 *.su
 *.idb
 *.pdb
+.vscode/
 
 # Kernel Module Compile Results
 *.mod*
