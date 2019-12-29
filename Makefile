@@ -48,8 +48,7 @@ $(TESTDIR)/%.o : $(TESTDIR)/%.c $(TESTDIR)
 #Cible de test
 test : $(TESTDIR)/tests $(PREFIX)
 	./$(TESTDIR)/tests 2>/dev/null
-	valgrind --tool=memcheck --undef-value-errors=no --error-exitcode=1 --leak-resolution=high --leak-check=full --quiet --child-silent-after-fork=yes ./$(PREFIX) >/dev/null
-
+	./testing.sh
 #Clean
 clean :
 	rm -f $(TESTDIR)/*.o $(TESTDIR)/tests

@@ -22,7 +22,6 @@ symboles new_symboles(char *id, int constant)
 int analyse_ast_aux(ast *a, table t)
 {
   static int ident = 0;
-  int res = 0;
   if (a != NULL)
   {
     for (int k = 0; k < ident; k++)
@@ -93,7 +92,9 @@ int analyse_ast(ast *a)
 {
   printf("analyse en cours...\n");
   table t = new_table();
-  return analyse_ast_aux(a, t);
+  int res = analyse_ast_aux(a, t);
+  free_table(t);
+  return res;
 }
 
 table add_table(table t)
@@ -129,12 +130,12 @@ void free_table(table t)
 {
   if (t != NULL)
   {
-    if (t->next != NULL)
+    if (t->next != (table)NULL)
     {
       fprintf(stderr, "free_table: not the latest table\n");
-      exit(EXIT_FAILURE);
     }
     free_symboles(t->available);
+    free(t);
   }
 }
 
@@ -177,12 +178,10 @@ symboles find_symbole(table t, char *id)
 
 void add_symbole(table tab, symboles s)
 {
-
   printf("add %s\n", s->id);
   if (tab == NULL)
   {
     fprintf(stderr, "add_symbole:empty table\n");
-    exit(EXIT_FAILURE);
   }
   table t = tab;
   while (t->next != NULL)
@@ -201,7 +200,6 @@ void add_symbole(table tab, symboles s)
       if (strcmp(s->id, pointer->id) == 0)
       {
         fprintf(stderr, "Erreur: redeclaration de %s\n", s->id);
-        exit(EXIT_FAILURE);
       }
       pointer = pointer->next;
     }
