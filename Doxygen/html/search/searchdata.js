@@ -5,7 +5,11 @@ var indexSectionsWithContent =
   2: "a",
   3: "af",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   4: "intvy",
+=======
+  4: "cintvy",
+>>>>>>> Stashed changes
 =======
   4: "cintvy",
 >>>>>>> Stashed changes

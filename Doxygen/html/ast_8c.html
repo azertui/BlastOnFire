@@ -88,6 +88,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a0566ec58f68bad96164f4a53dec7870c"><td class="memItemLeft" align="right" valign="top"><a id="a0566ec58f68bad96164f4a53dec7870c"></a>
 <a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_new_operation</b> (<a class="el" href="ast_8h.html#a77091c187ac9a89404fac2e8226daef3">ast_type</a> type, <a class="el" href="structast.html">ast</a> *left, <a class="el" href="structast.html">ast</a> *right)</td></tr>
 <tr class="separator:a0566ec58f68bad96164f4a53dec7870c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<<<<<<< Updated upstream
 <tr class="memitem:a7384bf7aaefc4778f48ad881c3c0e8b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ast_8c.html#a7384bf7aaefc4778f48ad881c3c0e8b9">ast_new_number</a> (int number)</td></tr>
 <tr class="memdesc:a7384bf7aaefc4778f48ad881c3c0e8b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction de création d'un noeud d'un int.  <a href="#a7384bf7aaefc4778f48ad881c3c0e8b9">More...</a><br /></td></tr>
 <tr class="separator:a7384bf7aaefc4778f48ad881c3c0e8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -96,20 +97,35 @@ Functions</h2></td></tr>
 <a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_new_id</b> (char *id, <a class="el" href="structast.html">ast</a> *value, int init)</td></tr>
 <tr class="separator:ac973d5dbd1151d80f0967bd0260c0b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 =======
+=======
+<tr class="memitem:a4b1934f0fd9f14f87bdbd145575180db"><td class="memItemLeft" align="right" valign="top"><a id="a4b1934f0fd9f14f87bdbd145575180db"></a>
+<a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_new_number</b> (double number, int is_int)</td></tr>
+<tr class="separator:a4b1934f0fd9f14f87bdbd145575180db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+>>>>>>> Stashed changes
 <tr class="memitem:ac9a58be82b1b511f20fe93253e6555c9"><td class="memItemLeft" align="right" valign="top"><a id="ac9a58be82b1b511f20fe93253e6555c9"></a>
 <a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_new_id</b> (char *id, <a class="el" href="structast.html">ast</a> *value, int init, int constant)</td></tr>
 <tr class="separator:ac9a58be82b1b511f20fe93253e6555c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07418a35692dcb5b379b73219021e593"><td class="memItemLeft" align="right" valign="top"><a id="a07418a35692dcb5b379b73219021e593"></a>
 char *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_type_to_string1</b> (<a class="el" href="ast_8h.html#a77091c187ac9a89404fac2e8226daef3">ast_type</a> t)</td></tr>
 <tr class="separator:a07418a35692dcb5b379b73219021e593"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<<<<<<< Updated upstream
 <tr class="memitem:afc9fe91d0346fb7e0f69dc43092f8d6f"><td class="memItemLeft" align="right" valign="top"><a id="afc9fe91d0346fb7e0f69dc43092f8d6f"></a>
 <a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_new_condition</b> (<a class="el" href="structast.html">ast</a> *left, <a class="el" href="structast.html">ast</a> *right, char *op, <a class="el" href="structast.html">ast</a> *interne, <a class="el" href="ast_8h.html#a77091c187ac9a89404fac2e8226daef3">ast_type</a> type)</td></tr>
 <tr class="separator:afc9fe91d0346fb7e0f69dc43092f8d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+>>>>>>> Stashed changes
+=======
+<tr class="memitem:a69e7fba07710301ab62a69f625b5476e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ast_8c.html#a69e7fba07710301ab62a69f625b5476e">ast_double_to_integer</a> (<a class="el" href="structast.html">ast</a> *number)</td></tr>
+<tr class="memdesc:a69e7fba07710301ab62a69f625b5476e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction spécifiant qu'un ast de nombre est de type entier.  <a href="#a69e7fba07710301ab62a69f625b5476e">More...</a><br /></td></tr>
+<tr class="separator:a69e7fba07710301ab62a69f625b5476e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45276b76770d8ce061295496bb511a23"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ast_8c.html#a45276b76770d8ce061295496bb511a23">ast_new_condition</a> (<a class="el" href="structast.html">ast</a> *left, <a class="el" href="structast.html">ast</a> *right, char *op, <a class="el" href="structast.html">ast</a> *interne, <a class="el" href="ast_8h.html#a77091c187ac9a89404fac2e8226daef3">ast_type</a> type)</td></tr>
+<tr class="memdesc:a45276b76770d8ce061295496bb511a23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction de création d'une nouvelle condition.  <a href="#a45276b76770d8ce061295496bb511a23">More...</a><br /></td></tr>
+<tr class="separator:a45276b76770d8ce061295496bb511a23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 >>>>>>> Stashed changes
 <tr class="memitem:adc84673a1feec531ce0e52042cd95350"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ast_8c.html#adc84673a1feec531ce0e52042cd95350">ast_print</a> (<a class="el" href="structast.html">ast</a> *<a class="el" href="structast.html">ast</a>, int indent)</td></tr>
 <tr class="memdesc:adc84673a1feec531ce0e52042cd95350"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction d'affichage d'un objet ast.  <a href="#adc84673a1feec531ce0e52042cd95350">More...</a><br /></td></tr>
 <tr class="separator:adc84673a1feec531ce0e52042cd95350"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3514108c9fa188e5459e385a0822a2cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structast.html">ast</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ast_8c.html#a3514108c9fa188e5459e385a0822a2cd">ast_link</a> (<a class="el" href="structast.html">ast</a> *a, <a class="el" href="structast.html">ast</a> *next)</td></tr>
+<<<<<<< Updated upstream
 <tr class="memdesc:a3514108c9fa188e5459e385a0822a2cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction reliant un ast (à noeud unique!) à un objet ast.  <a href="#a3514108c9fa188e5459e385a0822a2cd">More...</a><br /></td></tr>
 <tr class="separator:a3514108c9fa188e5459e385a0822a2cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <<<<<<< Updated upstream
@@ -117,6 +133,13 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_type_to_string1
 <tr class="memdesc:ab0dc5b3909a42eee6f6cbe4c7beb2397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Libération de l'arbre.  <a href="#ab0dc5b3909a42eee6f6cbe4c7beb2397">More...</a><br /></td></tr>
 <tr class="separator:ab0dc5b3909a42eee6f6cbe4c7beb2397"><td class="memSeparator" colspan="2">&#160;</td></tr>
 =======
+<tr class="memitem:a3f240e2e5451152693046cd961e5e918"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ast_8c.html#a3f240e2e5451152693046cd961e5e918">free_ast</a> (<a class="el" href="structast.html">ast</a> *a)</td></tr>
+<tr class="memdesc:a3f240e2e5451152693046cd961e5e918"><td class="mdescLeft">&#160;</td><td class="mdescRight">Libération de l'arbre.  <a href="#a3f240e2e5451152693046cd961e5e918">More...</a><br /></td></tr>
+<tr class="separator:a3f240e2e5451152693046cd961e5e918"><td class="memSeparator" colspan="2">&#160;</td></tr>
+>>>>>>> Stashed changes
+=======
+<tr class="memdesc:a3514108c9fa188e5459e385a0822a2cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fonction reliant le dernier noeud d'un ast à un objet ast.  <a href="#a3514108c9fa188e5459e385a0822a2cd">More...</a><br /></td></tr>
+<tr class="separator:a3514108c9fa188e5459e385a0822a2cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f240e2e5451152693046cd961e5e918"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ast_8c.html#a3f240e2e5451152693046cd961e5e918">free_ast</a> (<a class="el" href="structast.html">ast</a> *a)</td></tr>
 <tr class="memdesc:a3f240e2e5451152693046cd961e5e918"><td class="mdescLeft">&#160;</td><td class="mdescRight">Libération de l'arbre.  <a href="#a3f240e2e5451152693046cd961e5e918">More...</a><br /></td></tr>
 <tr class="separator:a3f240e2e5451152693046cd961e5e918"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,6 +158,36 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_type_to_string1
 <dl class="section date"><dt>Date</dt><dd>11 décembre 2019</dd></dl>
 <p>Code source des fonctions de l'arbre de syntaxe </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<<<<<<< Updated upstream
+=======
+<a id="a69e7fba07710301ab62a69f625b5476e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69e7fba07710301ab62a69f625b5476e">&#9670;&nbsp;</a></span>ast_double_to_integer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structast.html">ast</a> * ast_double_to_integer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structast.html">ast</a> *&#160;</td>
+          <td class="paramname"><em>number</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fonction spécifiant qu'un ast de nombre est de type entier. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">number</td><td>ast du nombre devant être converti </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>l'ast du nombre converti ou NULL en cas d'erreur </dd></dl>
+
+</div>
+</div>
+>>>>>>> Stashed changes
 <a id="a3514108c9fa188e5459e385a0822a2cd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3514108c9fa188e5459e385a0822a2cd">&#9670;&nbsp;</a></span>ast_link()</h2>
 
@@ -161,34 +214,87 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_type_to_string1
       </table>
 </div><div class="memdoc">
 
+<<<<<<< Updated upstream
 <p>Fonction reliant un ast (à noeud unique!) à un objet ast. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>noeud. </td></tr>
+=======
+<p>Fonction reliant le dernier noeud d'un ast à un objet ast. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>arbre. </td></tr>
+>>>>>>> Stashed changes
     <tr><td class="paramname">next</td><td>arbre. </td></tr>
   </table>
   </dd>
 </dl>
+<<<<<<< Updated upstream
 <dl class="section return"><dt>Returns</dt><dd>Noeud a dont l'élément a-&gt;next pointe sur l'arbre. </dd></dl>
 
 </div>
 </div>
 <a id="a96d86d9fadad3e336e610bc5cb040573"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a96d86d9fadad3e336e610bc5cb040573">&#9670;&nbsp;</a></span>ast_new_main_fct()</h2>
+=======
+<dl class="section return"><dt>Returns</dt><dd>Arbre a dont le dernier élément next pointe sur l'arbre. </dd></dl>
+
+</div>
+</div>
+<a id="a45276b76770d8ce061295496bb511a23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45276b76770d8ce061295496bb511a23">&#9670;&nbsp;</a></span>ast_new_condition()</h2>
+>>>>>>> Stashed changes
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
+<<<<<<< Updated upstream
           <td class="memname"><a class="el" href="structast.html">ast</a> * ast_new_main_fct </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structast.html">ast</a> *&#160;</td>
           <td class="paramname"><em>next</em></td><td>)</td>
           <td></td>
+=======
+          <td class="memname"><a class="el" href="structast.html">ast</a> * ast_new_condition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structast.html">ast</a> *&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structast.html">ast</a> *&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>op</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structast.html">ast</a> *&#160;</td>
+          <td class="paramname"><em>interne</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="ast_8h.html#a77091c187ac9a89404fac2e8226daef3">ast_type</a>&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+>>>>>>> Stashed changes
         </tr>
       </table>
 </div><div class="memdoc">
 
+<<<<<<< Updated upstream
 <p>Fonction de création d'une nouvelle instance de type "fonction principale d'un programme C" d'un objet ast. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -199,6 +305,9 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_type_to_string1
 <<<<<<< Updated upstream
 =======
 <dl class="section return"><dt>Returns</dt><dd>Instance nouvelle allouée d'un objet de type ast.</dd></dl>
+=======
+<p>Fonction de création d'une nouvelle condition. </p>
+>>>>>>> Stashed changes
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">left</td><td>ast gauche de l'opération. </td></tr>
@@ -209,27 +318,43 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_type_to_string1
   </table>
   </dd>
 </dl>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 <dl class="section return"><dt>Returns</dt><dd>Instance nouvelle allouée d'un objet de type ast. </dd></dl>
 
 </div>
 </div>
+<<<<<<< Updated upstream
 <a id="a7384bf7aaefc4778f48ad881c3c0e8b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7384bf7aaefc4778f48ad881c3c0e8b9">&#9670;&nbsp;</a></span>ast_new_number()</h2>
+=======
+<a id="a96d86d9fadad3e336e610bc5cb040573"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96d86d9fadad3e336e610bc5cb040573">&#9670;&nbsp;</a></span>ast_new_main_fct()</h2>
+>>>>>>> Stashed changes
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
+<<<<<<< Updated upstream
           <td class="memname"><a class="el" href="structast.html">ast</a> * ast_new_number </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>number</em></td><td>)</td>
+=======
+          <td class="memname"><a class="el" href="structast.html">ast</a> * ast_new_main_fct </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structast.html">ast</a> *&#160;</td>
+          <td class="paramname"><em>next</em></td><td>)</td>
+>>>>>>> Stashed changes
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<<<<<<< Updated upstream
 <p>Fonction de création d'un noeud d'un int. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -238,6 +363,16 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_type_to_string1
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Noeud du nombre. </dd></dl>
+=======
+<p>Fonction de création d'une nouvelle instance de type "fonction principale d'un programme C" d'un objet ast. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">next</td><td>ast à attacher au nouveau noeud ou NULL. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Instance nouvelle allouée d'un objet de type ast. </dd></dl>
+>>>>>>> Stashed changes
 
 </div>
 </div>
@@ -342,8 +477,13 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>ast_type_to_string1
 </div>
 </div>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <a id="ab0dc5b3909a42eee6f6cbe4c7beb2397"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab0dc5b3909a42eee6f6cbe4c7beb2397">&#9670;&nbsp;</a></span>free_ast()</h2>
+=======
+<a id="a3f240e2e5451152693046cd961e5e918"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f240e2e5451152693046cd961e5e918">&#9670;&nbsp;</a></span>free_ast()</h2>
+>>>>>>> Stashed changes
 =======
 <a id="a3f240e2e5451152693046cd961e5e918"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3f240e2e5451152693046cd961e5e918">&#9670;&nbsp;</a></span>free_ast()</h2>

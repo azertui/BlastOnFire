@@ -4,6 +4,10 @@ var searchData=
   ['yy_5ftrans_5finfo',['yy_trans_info',['../structyy__trans__info.html',1,'']]],
   ['yyalloc',['yyalloc',['../unionyyalloc.html',1,'']]],
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+  ['yyguts_5ft',['yyguts_t',['../structyyguts__t.html',1,'']]],
+>>>>>>> Stashed changes
 =======
   ['yyguts_5ft',['yyguts_t',['../structyyguts__t.html',1,'']]],
 >>>>>>> Stashed changes

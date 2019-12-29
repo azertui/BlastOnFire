@@ -19,18 +19,25 @@ Include dependency graph for ast.\+c\+:
 \mbox{\Hypertarget{ast_8c_a0566ec58f68bad96164f4a53dec7870c}\label{ast_8c_a0566ec58f68bad96164f4a53dec7870c}} 
 \hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+operation} (\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type, \hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right)
 \item 
+<<<<<<< Updated upstream
 \hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a7384bf7aaefc4778f48ad881c3c0e8b9}{ast\+\_\+new\+\_\+number} (int number)
 \begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. \end{DoxyCompactList}\item 
 <<<<<<< Updated upstream
 \mbox{\Hypertarget{ast_8c_ac973d5dbd1151d80f0967bd0260c0b82}\label{ast_8c_ac973d5dbd1151d80f0967bd0260c0b82}} 
 \hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init)
 =======
+=======
+\mbox{\Hypertarget{ast_8c_a4b1934f0fd9f14f87bdbd145575180db}\label{ast_8c_a4b1934f0fd9f14f87bdbd145575180db}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+number} (double number, int is\+\_\+int)
+\item 
+>>>>>>> Stashed changes
 \mbox{\Hypertarget{ast_8c_ac9a58be82b1b511f20fe93253e6555c9}\label{ast_8c_ac9a58be82b1b511f20fe93253e6555c9}} 
 \hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init, int constant)
 \item 
 \mbox{\Hypertarget{ast_8c_a07418a35692dcb5b379b73219021e593}\label{ast_8c_a07418a35692dcb5b379b73219021e593}} 
 char $\ast$ {\bfseries ast\+\_\+type\+\_\+to\+\_\+string1} (\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} t)
 \item 
+<<<<<<< Updated upstream
 \mbox{\Hypertarget{ast_8c_afc9fe91d0346fb7e0f69dc43092f8d6f}\label{ast_8c_afc9fe91d0346fb7e0f69dc43092f8d6f}} 
 \hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+condition} (\hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right, char $\ast$op, \hyperlink{structast}{ast} $\ast$interne, \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type)
 >>>>>>> Stashed changes
@@ -42,6 +49,17 @@ void \hyperlink{ast_8c_adc84673a1feec531ce0e52042cd95350}{ast\+\_\+print} (\hype
 <<<<<<< Updated upstream
 void \hyperlink{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}{free\+\_\+ast} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast})
 =======
+void \hyperlink{ast_8c_a3f240e2e5451152693046cd961e5e918}{free\+\_\+ast} (\hyperlink{structast}{ast} $\ast$a)
+>>>>>>> Stashed changes
+=======
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a69e7fba07710301ab62a69f625b5476e}{ast\+\_\+double\+\_\+to\+\_\+integer} (\hyperlink{structast}{ast} $\ast$number)
+\begin{DoxyCompactList}\small\item\em Fonction spécifiant qu\textquotesingle{}un ast de nombre est de type entier. \end{DoxyCompactList}\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a45276b76770d8ce061295496bb511a23}{ast\+\_\+new\+\_\+condition} (\hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right, char $\ast$op, \hyperlink{structast}{ast} $\ast$interne, \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}une nouvelle condition. \end{DoxyCompactList}\item 
+void \hyperlink{ast_8c_adc84673a1feec531ce0e52042cd95350}{ast\+\_\+print} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast}, int indent)
+\begin{DoxyCompactList}\small\item\em Fonction d\textquotesingle{}affichage d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8c_a3514108c9fa188e5459e385a0822a2cd}{ast\+\_\+link} (\hyperlink{structast}{ast} $\ast$a, \hyperlink{structast}{ast} $\ast$next)
+\begin{DoxyCompactList}\small\item\em Fonction reliant le dernier noeud d\textquotesingle{}un ast à un objet ast. \end{DoxyCompactList}\item 
 void \hyperlink{ast_8c_a3f240e2e5451152693046cd961e5e918}{free\+\_\+ast} (\hyperlink{structast}{ast} $\ast$a)
 >>>>>>> Stashed changes
 \begin{DoxyCompactList}\small\item\em Libération de l\textquotesingle{}arbre. \end{DoxyCompactList}\item 
@@ -66,6 +84,27 @@ Monfouga Marie
 Code source des fonctions de l\textquotesingle{}arbre de syntaxe 
 
 \subsection{Function Documentation}
+<<<<<<< Updated upstream
+=======
+\mbox{\Hypertarget{ast_8c_a69e7fba07710301ab62a69f625b5476e}\label{ast_8c_a69e7fba07710301ab62a69f625b5476e}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+double\+\_\+to\+\_\+integer@{ast\+\_\+double\+\_\+to\+\_\+integer}}
+\index{ast\+\_\+double\+\_\+to\+\_\+integer@{ast\+\_\+double\+\_\+to\+\_\+integer}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+double\+\_\+to\+\_\+integer()}{ast\_double\_to\_integer()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast} $\ast$ ast\+\_\+double\+\_\+to\+\_\+integer (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{number }\end{DoxyParamCaption})}
+
+
+
+Fonction spécifiant qu\textquotesingle{}un ast de nombre est de type entier. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & ast du nombre devant être converti \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+l\textquotesingle{}ast du nombre converti ou N\+U\+LL en cas d\textquotesingle{}erreur 
+\end{DoxyReturn}
+>>>>>>> Stashed changes
 \mbox{\Hypertarget{ast_8c_a3514108c9fa188e5459e385a0822a2cd}\label{ast_8c_a3514108c9fa188e5459e385a0822a2cd}} 
 \index{ast.\+c@{ast.\+c}!ast\+\_\+link@{ast\+\_\+link}}
 \index{ast\+\_\+link@{ast\+\_\+link}!ast.\+c@{ast.\+c}}
@@ -74,16 +113,25 @@ Code source des fonctions de l\textquotesingle{}arbre de syntaxe
 
 
 
+<<<<<<< Updated upstream
 Fonction reliant un ast (à noeud unique!) à un objet ast. 
 
 
 \begin{DoxyParams}{Parameters}
 {\em a} & noeud. \\
+=======
+Fonction reliant le dernier noeud d\textquotesingle{}un ast à un objet ast. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & arbre. \\
+>>>>>>> Stashed changes
 \hline
 {\em next} & arbre. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+<<<<<<< Updated upstream
 Noeud a dont l\textquotesingle{}élément a-\/$>$next pointe sur l\textquotesingle{}arbre. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{ast_8c_a96d86d9fadad3e336e610bc5cb040573}\label{ast_8c_a96d86d9fadad3e336e610bc5cb040573}} 
@@ -106,6 +154,20 @@ Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{
 =======
 Instance nouvelle allouée d\textquotesingle{}un objet de type ast.
 \end{DoxyReturn}
+=======
+Arbre a dont le dernier élément next pointe sur l\textquotesingle{}arbre. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8c_a45276b76770d8ce061295496bb511a23}\label{ast_8c_a45276b76770d8ce061295496bb511a23}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+new\+\_\+condition@{ast\+\_\+new\+\_\+condition}}
+\index{ast\+\_\+new\+\_\+condition@{ast\+\_\+new\+\_\+condition}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+condition()}{ast\_new\_condition()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast} $\ast$ ast\+\_\+new\+\_\+condition (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{left,  }\item[{\hyperlink{structast}{ast} $\ast$}]{right,  }\item[{char $\ast$}]{op,  }\item[{\hyperlink{structast}{ast} $\ast$}]{interne,  }\item[{\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type}}]{type }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}une nouvelle condition. 
+
+>>>>>>> Stashed changes
 
 \begin{DoxyParams}{Parameters}
 {\em left} & ast gauche de l\textquotesingle{}opération. \\
@@ -120,6 +182,7 @@ Instance nouvelle allouée d\textquotesingle{}un objet de type ast.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
 \end{DoxyReturn}
@@ -140,6 +203,27 @@ Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Noeud du nombre. 
+=======
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8c_a96d86d9fadad3e336e610bc5cb040573}\label{ast_8c_a96d86d9fadad3e336e610bc5cb040573}} 
+\index{ast.\+c@{ast.\+c}!ast\+\_\+new\+\_\+main\+\_\+fct@{ast\+\_\+new\+\_\+main\+\_\+fct}}
+\index{ast\+\_\+new\+\_\+main\+\_\+fct@{ast\+\_\+new\+\_\+main\+\_\+fct}!ast.\+c@{ast.\+c}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+main\+\_\+fct()}{ast\_new\_main\_fct()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast} $\ast$ ast\+\_\+new\+\_\+main\+\_\+fct (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{next }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{}fonction principale d\textquotesingle{}un programme C\char`\"{} d\textquotesingle{}un objet ast. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em next} & ast à attacher au nouveau noeud ou N\+U\+LL. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
+>>>>>>> Stashed changes
 \end{DoxyReturn}
 \mbox{\Hypertarget{ast_8c_adc84673a1feec531ce0e52042cd95350}\label{ast_8c_adc84673a1feec531ce0e52042cd95350}} 
 \index{ast.\+c@{ast.\+c}!ast\+\_\+print@{ast\+\_\+print}}
@@ -191,7 +275,11 @@ Fonction auxiliaire de ast\+\_\+to\+\_\+code.
 \hline
 \end{DoxyParams}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 \mbox{\Hypertarget{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}\label{ast_8c_ab0dc5b3909a42eee6f6cbe4c7beb2397}} 
+=======
+\mbox{\Hypertarget{ast_8c_a3f240e2e5451152693046cd961e5e918}\label{ast_8c_a3f240e2e5451152693046cd961e5e918}} 
+>>>>>>> Stashed changes
 =======
 \mbox{\Hypertarget{ast_8c_a3f240e2e5451152693046cd961e5e918}\label{ast_8c_a3f240e2e5451152693046cd961e5e918}} 
 >>>>>>> Stashed changes

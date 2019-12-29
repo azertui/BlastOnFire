@@ -4,7 +4,11 @@ digraph "ast"
   node [fontname="Helvetica",fontsize="10",shape=record];
   Node1 [label="ast",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   Node1 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next\nright\nleft\nvalue" ];
+=======
+  Node1 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next\ninterne\nright\nleft\nvalue" ];
+>>>>>>> Stashed changes
 =======
   Node1 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next\ninterne\nright\nleft\nvalue" ];
 >>>>>>> Stashed changes
