@@ -3,6 +3,7 @@
     #include "ast.h"
     #include "y.tab.h"
 %}
+%option yylineno
 %option reentrant
 %option bison-bridge
 %option header-file = "lex.h"

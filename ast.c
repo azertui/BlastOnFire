@@ -14,12 +14,17 @@
 #include <string.h>
 #include "ast.h"
 
-ast* ast_new_main_fct(ast* next){
+#define YYERROR_VERBOSE 1
+
+ast* ast_new_main_fct(ast* body,ast* next,char* id,ast_type returnType){
   ast* new = malloc(sizeof(ast));
   new->type = AST_FCT;
-  new->id = "main";
+  attribute_uid(new);
+  new->fonction.id = strndup(id,strlen(id));
+  new->fonction.interne=body;
+  new->fonction.returnType=returnType;
   new->next=next;
-  return new; 
+  return new;
 }
 
 ast* ast_new_operation(ast_type type, ast* left, ast* right) {
@@ -52,8 +57,13 @@ ast* ast_new_id(char* id, ast* value, int init, int constant) {
   return new;
 }
 
+void attribute_uid(ast* a){
+  static unsigned int count=1;
+  a->uid=count++;
+}
+
 char* ast_type_to_string1(ast_type t){
-  char* tab[10]={"AST_ID","AST_NUMBER","AST_OP_PLUS","AST_OP_MUL","AST_OP_MOINS","AST_OP_DIV","AST_FCT","AST_IF","AST_ELSE_IF","AST_ELSE"};
+  char* tab[(AST_OP_DECR-AST_ID)+1]={"AST_ID", "int","double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_IF", "AST_ELSE_IF" ,"AST_ELSE", "AST_OP_INCR","AST_OP_DECR"};
   return tab[t];
 }
 
@@ -73,6 +83,7 @@ ast* ast_double_to_integer(ast* number){
 ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne, ast_type type){
   ast* new = malloc(sizeof(ast));
   new->type = type;
+  attribute_uid(new);
   if (type == AST_IF || type == AST_ELSE_IF ){
     new->condition.left = left;
     new->condition.right = right;
@@ -91,11 +102,12 @@ void ast_print(ast* ast, int indent) {
       printf("    ");    
     switch(ast->type){
       case AST_FCT:
-        printf("FCT (%s)\n",ast->id);
+        printf("FCT (%s) type:%s\n",ast->fonction.id,ast_type_to_string1(ast->fonction.returnType));
+        ast_print(ast->fonction.interne,indent+1);
         ast_print(ast->next,indent);
         break;    
       case AST_ID:
-        printf("ID (%s)",ast->type_int.id);
+        printf("ID (%s)%s",ast->type_int.id,ast->type_int.constant?": const":"");
         if (ast->type_int.value!=NULL){
           printf(" = \n");ast_print(ast->type_int.value,indent+1);
         }
@@ -105,31 +117,31 @@ void ast_print(ast* ast, int indent) {
         ast_print(ast->next,indent);
         break;
       case AST_DOUBLE:
-        printf("NUMBER (%lf)\n",ast->number);
+        printf("NUMBER %s (%lf)\n",ast_type_to_string1(ast->type), ast->number);
         break;
       case AST_INT:
-        printf("NUMBER (%d)\n",(int) ast->number);
+        printf("NUMBER %s (%d)\n",ast_type_to_string1(ast->type), (int) ast->number);
         break;
       case AST_OP_PLUS:
-        printf("+\n");
+        printf("+ \n");
         ast_print(ast->operation.left,indent+1);
         ast_print(ast->operation.right,indent+1);
         ast_print(ast->next,indent);
         break;
       case AST_OP_MUL:
-        printf("*\n");
+        printf("* \n");
         ast_print(ast->operation.left,indent+1);
         ast_print(ast->operation.right,indent+1);
         ast_print(ast->next,indent);
         break;
       case AST_OP_MOINS:
-        printf("-\n");
+        printf("- \n");
         ast_print(ast->operation.left,indent+1);
         ast_print(ast->operation.right,indent+1);
         ast_print(ast->next,indent);
         break;
       case AST_OP_DIV:
-        printf("/\n");
+        printf("/ \n");
         ast_print(ast->operation.left,indent+1);
         ast_print(ast->operation.right,indent+1);
         ast_print(ast->next,indent);
@@ -157,7 +169,7 @@ void ast_print(ast* ast, int indent) {
       case AST_OP_DECR:
         printf("--\n");
         break;
-      default: fprintf(stderr,"print_ast:Unknown ast type\n");
+      default: fprintf(stderr,"print_ast:Unknown ast type:%d\n",ast->type);
     }  
   } 
 }
@@ -175,6 +187,8 @@ void free_ast(ast* a){
   if (a!=NULL){
   switch(a->type){
     case AST_FCT:
+      free(a->fonction.id);
+      free_ast(a->fonction.interne);
       free_ast(a->next);
       break;    
     case AST_ID:
@@ -233,13 +247,14 @@ void ast_to_code_recur(ast* a, FILE* fichier){
       if (a!=NULL){
         switch(a->type){
           case AST_FCT:
-            fputs("int main(){\n", fichier);
+            fprintf(fichier,"%s %s(){\n",ast_type_to_string1(a->fonction.returnType),a->fonction.id);
+            ast_to_code_recur(a->fonction.interne,fichier);
+            fputs(";\nreturn 0;\n}\n", fichier);
             ast_to_code_recur(a->next,fichier);
-            fputs(";\nreturn 0;\n}", fichier);
             break; 
           case AST_ID:
             if (a->type_int.init)
-              fputs("int ", fichier);
+              fprintf(fichier,"%sint ",a->type_int.constant?"const ":"");
             fprintf(fichier, "%s", a->type_int.id);
             if(a->type_int.value!=NULL){
               fputs(" = ", fichier);

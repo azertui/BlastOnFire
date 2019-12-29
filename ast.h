@@ -1,3 +1,5 @@
+#ifndef AST_H 
+#define AST_H
 /**
  * \file ast.h
  * \brief Header de l'arbre de syntaxe
@@ -16,7 +18,7 @@
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_INT,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE, AST_OP_INCR,AST_OP_DECR} ast_type;
+typedef enum { AST_ID, AST_INT,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE, AST_OP_INCR,AST_OP_DECR} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -45,9 +47,23 @@ typedef struct ast {
       struct ast* right;
       struct ast* interne;  
     } condition;
+    struct {
+      struct ast* interne;  
+      char* id;
+      ast_type returnType;
+    } fonction;
     } ;
   struct ast* next; /*!< Pointeur vers un autre noeud, la suite de l'arbre*/
+  unsigned int uid;
 } ast;
+
+/**
+ * \fn void attribute_uid(ast* a);
+ * \brief Permet d'attribuer un id unique à un contenant
+ * 
+ * \param a ast se voyant attribuer un uid
+ */
+void attribute_uid(ast* a);
 
 /**
  * \fn ast* ast_new_main_fct(ast* next);
@@ -56,7 +72,9 @@ typedef struct ast {
  * \param next ast à attacher au nouveau noeud ou NULL.
  * \return Instance nouvelle allouée d'un objet de type ast.
  */
-ast* ast_new_main_fct(ast* next);
+ast* ast_new_main_fct(ast* body,ast* next,char* id,ast_type returnType);
+
+ast* new_ast_fake();
 
 /**
  * \fn ast* ast_new_operation(enum ast_type, ast*, ast*);
@@ -157,3 +175,5 @@ void ast_to_code(ast* a);
  * \param fichier fichier où écrire le code.
 */
 void ast_to_code_recur(ast* a, FILE* fichier);
+
+#endif
