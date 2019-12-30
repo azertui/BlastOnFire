@@ -80,10 +80,9 @@ ast* ast_double_to_integer(ast* number){
   return number;
 }
 
-ast* ast_new_condition(ast* left, ast* right, char* op, ast_type type){
+ast* ast_new_condition(ast* left, ast* right, char* op){
   ast* new = malloc(sizeof(ast));
-  new->type = type;
-  attribute_uid(new);
+  new->type = AST_COND;
     new->condition.left = left;
     new->condition.right = right;
     if(op!=NULL)

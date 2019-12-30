@@ -113,16 +113,16 @@ condition:
 ;
 
 boolean:
-    operation '=' '=' operation {$$=ast_new_condition($1,$4,"==",AST_COND);}
-  | operation '!' '=' operation {$$=ast_new_condition($1,$4,"!=",AST_COND);}
-  | operation '<' '=' operation {$$=ast_new_condition($1,$4,"<=",AST_COND);}
-  | operation '>' '=' operation {$$=ast_new_condition($1,$4,">=",AST_COND);}
-  | operation '<' operation {$$=ast_new_condition($1,$3,"<",AST_COND);}
-  | operation '>' operation {$$=ast_new_condition($1,$3,">",AST_COND);}
-  | operation AND boolean {$$=ast_new_condition($1,$3,"&&",AST_COND);}
-  | operation OR boolean {$$=ast_new_condition($1,$3,"||",AST_COND);}
-  | '!' operation {$$=ast_new_condition($2,NULL,"false",AST_COND);}
-  | operation {$$=ast_new_condition($1,NULL,"true",AST_COND);}
+    operation '=' '=' operation {$$=ast_new_condition($1,$4,"==");}
+  | operation '!' '=' operation {$$=ast_new_condition($1,$4,"!=");}
+  | operation '<' '=' operation {$$=ast_new_condition($1,$4,"<=");}
+  | operation '>' '=' operation {$$=ast_new_condition($1,$4,">=");}
+  | operation '<' operation {$$=ast_new_condition($1,$3,"<");}
+  | operation '>' operation {$$=ast_new_condition($1,$3,">");}
+  | operation AND boolean {$$=ast_new_condition($1,$3,"&&");}
+  | operation OR boolean {$$=ast_new_condition($1,$3,"||");}
+  | '!' operation {$$=ast_new_condition($2,NULL,"false");}
+  | operation {$$=ast_new_condition($1,NULL,"true");}
 ;
 
 condition_suite:

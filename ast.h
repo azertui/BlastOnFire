@@ -127,10 +127,9 @@ ast* ast_double_to_integer(ast* number);
  * \param left ast gauche de l'opération.
  * \param right ast droite de l'opération.
  * \param op operation entre les arbres
- * \param type type de l'opération ayant lieu entre les arbres.
  * \return Instance nouvelle allouée d'un objet de type ast.
  */
-ast* ast_new_condition(ast* left, ast* right, char* op, ast_type type);
+ast* ast_new_condition(ast* left, ast* right, char* op);
 
 /**
  * \fn ast* ast_new_comparateur(ast* cond,ast* interne, ast_type);
