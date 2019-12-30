@@ -21,21 +21,16 @@ symboles new_symboles(char *id, int constant)
 
 int analyse_ast_aux(ast *a, table t)
 {
-  static int ident = 0;
   if (a != NULL)
   {
-    for (int k = 0; k < ident; k++)
-      printf("\t");
     switch (a->type)
     {
     case AST_FCT:
       add_symbole(t, new_symboles(a->fonction.id, 0));
       add_table(t);
-      ident++;
       if (analyse_ast_aux(a->fonction.interne, t))
         return 1;
       pop_table(t);
-      ident--;
       break;
     case AST_OP_PLUS:
     case AST_OP_MOINS:
@@ -61,11 +56,9 @@ int analyse_ast_aux(ast *a, table t)
         return 1;
     case AST_ELSE:
       add_table(t);
-      ident++;
       if (analyse_ast_aux(a->comparateur.interne, t))
         return 1;
       pop_table(t);
-      ident--;
       break;
     case AST_ID:
       if (a->type_int.init)
@@ -159,7 +152,6 @@ void pop_table(table t)
 
 symboles find_symbole(table t, char *id)
 {
-  printf("search symbol %s\n", id);
   if (t == NULL)
     return NULL;
   table last = t;
@@ -182,7 +174,6 @@ symboles find_symbole(table t, char *id)
 
 void add_symbole(table tab, symboles s)
 {
-  printf("add %s\n", s->id);
   if (tab == NULL)
   {
     fprintf(stderr, "add_symbole:empty table\n");

@@ -61,6 +61,12 @@ static void parsingFile_test(){
 static void parsingFail_undeclared_test(){
 	assert_true(parseString("int main(){a=2;}",NULL));
 }
+static void ast_test(){
+	ast* a=malloc(sizeof(ast));
+	if(parseString("int main(){}",a)!=0)
+		fail();
+	assert_int_equal(a->type,AST_FCT);
+}
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
@@ -69,6 +75,7 @@ int main(void) {
 		cmocka_unit_test_setup_teardown(parsingFail_function_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFile_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFail_undeclared_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(ast_test,setup,teardown),
 	};
 	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }

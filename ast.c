@@ -201,11 +201,13 @@ void free_ast(ast* a){
       free(a->fonction.id);
       free_ast(a->fonction.interne);
       free_ast(a->next);
+      free(a);
       break;    
     case AST_ID:
       free_ast(a->type_int.value);
       free(a->type_int.id);
       free_ast(a->next);
+      free(a);
       break;
     case AST_OP_PLUS:
     case AST_OP_MUL:
@@ -214,34 +216,42 @@ void free_ast(ast* a){
       free_ast(a->operation.left);
       free_ast(a->operation.right);
       free_ast(a->next);
+      free(a);
       break;
     case AST_COND:
       if(a->condition.op!=NULL)
         free(a->condition.op);
       free_ast(a->condition.left);
       free_ast(a->condition.right);
+      free(a);
       break;
     case AST_IF:
     case AST_ELSE_IF:
       free_ast(a->comparateur.cond);
       free_ast(a->comparateur.interne);
       free_ast(a->next);
+      free(a);
       break;  
     case AST_ELSE:
       free_ast(a->comparateur.interne);
       free_ast(a->next);
+      free(a);
       break;
     case AST_INT:
     case AST_DOUBLE:
       free_ast(a->next);
+      free(a);
       break;
     case AST_OP_INCR:
     case AST_OP_DECR:
     free_ast(a->operation.left);
+    free(a);
     break;
-      default: fprintf(stderr,"unknow ast type\n");
+      default:
+        fprintf(stderr,"unknow ast type\n");
+        free(a);
+        break;
   }
-  free(a);
   }
 }
 

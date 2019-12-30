@@ -6,9 +6,8 @@
   #include "y.tab.h"
   #include "lex.h"
   void yyerror(ast* a,void* scanner,const char* msg){
+    (void)a;
     fprintf(stderr,"%s\n##########\n",msg);
-    printf("contenu ast:\n");
-    ast_print(a,0);
     fprintf(stderr,"lineno:%d column:%d content:%s\n##########\n",yyget_lineno(scanner),yyget_column(scanner),yyget_text(scanner));
   };
 %}
@@ -48,7 +47,7 @@
 %%
  
 start:
-    code {printf("Chaine reconnue!\n"); *parsed_ast=*$1; ast_print($1,0); if(analyse_ast($1))return 1; ast_to_code($1); free_ast($1); return 0;}
+    code {printf("Chaine reconnue!\n"); ast_print($1,0); if(analyse_ast($1))return 1; *parsed_ast=*$1;free($1); ast_to_code($1); return 0;}
 ;
 
 code:
@@ -161,11 +160,13 @@ int parseFile(FILE* f, ast *result_ast){
   yylex_init (&scanner);
   yyset_debug(5, scanner);
   yyset_in(f,scanner);
-  ast parsed_ast;
-  int res= yyparse(&parsed_ast,scanner);
-  if(res) return res;
-  if(result_ast!=NULL){
-    *result_ast=parsed_ast;
+  ast* parsed_ast=malloc(sizeof(ast));
+  int res= yyparse(parsed_ast,scanner);
+  if(result_ast!=NULL && !res){
+    *result_ast=*parsed_ast;
+    free(parsed_ast);
+  }else{
+    free_ast(parsed_ast);
   }
   yylex_destroy(scanner);
   return res;
@@ -178,22 +179,31 @@ int parseString(char *s,ast *result_ast ) {
     return 1;
   }
   YY_BUFFER_STATE buf =yy_scan_string(s,scanner);
-  ast parsed_ast;
-  int res= yyparse(&parsed_ast,scanner);
-  if(result_ast!=NULL){
-    *result_ast=parsed_ast;
+  ast* parsed_ast= malloc(sizeof(ast));
+  int res= yyparse(parsed_ast,scanner);
+  if(result_ast!=NULL && res==0){
+    *result_ast=*parsed_ast;
+    free(parsed_ast);
+  }else{
+    free_ast(parsed_ast);
   }
   yy_delete_buffer(buf, scanner);
   yylex_destroy(scanner);
   return res;
 }
-
-int parse() {
+//TODO: màj la fonction
+int parse(ast* result_ast) {
   yyscan_t scanner;
   yylex_init (&scanner);
   printf("Entrez une expression :\n");
-  ast parsed_ast;
-  int res= yyparse(&parsed_ast,scanner);
+  ast* parsed_ast=malloc(sizeof(ast));
+  int res= yyparse(parsed_ast,scanner);
+  if(result_ast==NULL && res==0){
+    *result_ast=*parsed_ast;
+    free(parsed_ast);
+  }else{
+    free_ast(parsed_ast);
+  }
   yylex_destroy(scanner);
   return res;
 }
