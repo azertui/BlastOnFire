@@ -49,16 +49,20 @@ int analyse_ast_aux(ast *a, table t)
       if (analyse_ast_aux(a->operation.left, t))
         return 1;
       break;
-    case AST_IF:
-    case AST_ELSE_IF:
+    case AST_COND:
       if (analyse_ast_aux(a->condition.left, t))
         return 1;
       if (analyse_ast_aux(a->condition.right, t))
         return 1;
+      break;
+    case AST_IF:
+    case AST_ELSE_IF:
+      if (analyse_ast_aux(a->comparateur.cond, t))
+        return 1;
     case AST_ELSE:
       add_table(t);
       ident++;
-      if (analyse_ast_aux(a->condition.interne, t))
+      if (analyse_ast_aux(a->comparateur.interne, t))
         return 1;
       pop_table(t);
       ident--;
