@@ -80,17 +80,26 @@ ast* ast_double_to_integer(ast* number){
   return number;
 }
 
-ast* ast_new_condition(ast* left, ast* right, char* op, ast* interne, ast_type type){
+ast* ast_new_condition(ast* left, ast* right, char* op, ast_type type){
   ast* new = malloc(sizeof(ast));
   new->type = type;
   attribute_uid(new);
-  if (type == AST_IF || type == AST_ELSE_IF ){
     new->condition.left = left;
     new->condition.right = right;
     if(op!=NULL)
       new->condition.op = strndup(op,strlen(op));
+  new->next=NULL;
+  return new;
+}
+
+ast* ast_new_comparateur(ast* cond,ast* interne, ast_type type){
+  ast* new = malloc(sizeof(ast));
+  new->type = type;
+  attribute_uid(new);
+  if (type == AST_IF || type == AST_ELSE_IF ){
+    new->comparateur.cond = cond;
   }
-  new->condition.interne = interne;
+  new->comparateur.interne = interne;
   new->next=NULL;
   return new;
 }
@@ -146,21 +155,24 @@ void ast_print(ast* ast, int indent) {
         ast_print(ast->operation.right,indent+1);
         ast_print(ast->next,indent);
         break;   
+      case AST_COND:
+        if(ast->condition.op!=NULL)
+          printf("%s",ast->condition.op);
+        printf("\n");
+        ast_print(ast->condition.left,indent+1);
+        ast_print(ast->condition.right,indent+1);
+        break;
       case AST_ELSE_IF:
         printf("ELSE " );  
       case AST_IF:
-        if(ast->condition.op!=NULL)
-          printf("IF : %s",ast->condition.op);
-        else
-          printf("IF : NULL");
-        ast_print(ast->condition.left,indent+1);
-        ast_print(ast->condition.right,indent+1);
-        ast_print(ast->condition.interne,indent+2);
+        printf("IF : \n");
+        ast_print(ast->comparateur.cond,indent+1);
+        ast_print(ast->comparateur.interne,indent+1);
         ast_print(ast->next,indent);
         break;
       case AST_ELSE:
-        printf("ELSE : ");
-        ast_print(ast->condition.interne,indent+1);
+        printf("ELSE : \n");
+        ast_print(ast->comparateur.interne,indent+1);
         ast_print(ast->next,indent);   
         break;
       case  AST_OP_INCR:
@@ -204,19 +216,20 @@ void free_ast(ast* a){
       free_ast(a->operation.right);
       free_ast(a->next);
       break;
-    case AST_IF:
-    case AST_ELSE_IF:
+    case AST_COND:
       if(a->condition.op!=NULL)
         free(a->condition.op);
       free_ast(a->condition.left);
       free_ast(a->condition.right);
-      free_ast(a->condition.interne);
+      break;
+    case AST_IF:
+    case AST_ELSE_IF:
+      free_ast(a->comparateur.cond);
+      free_ast(a->comparateur.interne);
       free_ast(a->next);
       break;  
     case AST_ELSE:
-      if(a->condition.op!=NULL)
-        free(a->condition.op);
-      free_ast(a->condition.interne);
+      free_ast(a->comparateur.interne);
       free_ast(a->next);
       break;
     case AST_INT:
@@ -298,10 +311,7 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             ast_to_code_recur(a->operation.left,fichier);
             fputs("-1",fichier);
           break;
-          case AST_ELSE_IF:
-            fputs("else ",fichier);          
-          case AST_IF:
-            fputs("if (",fichier);          
+          case AST_COND:
             ast_to_code_recur(a->condition.left,fichier);
             if(strcmp(a->condition.op,"true")==0)
               fprintf(fichier, " != 0");
@@ -310,15 +320,21 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             else
               fprintf(fichier, " %s ", a->condition.op);
             ast_to_code_recur(a->condition.right,fichier);
+            break;
+          case AST_ELSE_IF:
+            fputs("else ",fichier);          
+          case AST_IF:
+            fputs("if (",fichier);          
+            ast_to_code_recur(a->comparateur.cond,fichier);            
             fputs("){\n",fichier);
-            ast_to_code_recur(a->condition.interne,fichier);
+            ast_to_code_recur(a->comparateur.interne,fichier);
             fputs(";}\n",fichier);        
             ast_to_code_recur(a->next,fichier);
             break;   
           case AST_ELSE:
             fputs("else\n ",fichier);          
             fputs("{\n",fichier);
-            ast_to_code_recur(a->condition.interne,fichier);
+            ast_to_code_recur(a->comparateur.interne,fichier);
             fputs(";}\n",fichier);        
             ast_to_code_recur(a->next,fichier);
             break;  

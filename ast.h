@@ -18,7 +18,7 @@
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_INT,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE, AST_OP_INCR,AST_OP_DECR} ast_type;
+typedef enum { AST_ID, AST_INT,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -45,8 +45,11 @@ typedef struct ast {
       char* op;
       struct ast* left;
       struct ast* right;
-      struct ast* interne;  
     } condition;
+    struct {
+      struct ast* cond;
+      struct ast* interne;  
+    } comparateur;
     struct {
       struct ast* interne;  
       char* id;
@@ -118,17 +121,28 @@ ast* ast_new_id(char* id,ast* value, int init, int constant);
 ast* ast_double_to_integer(ast* number);
 
 /**
- * \fn ast* ast_new_condition(ast* left, ast* right, char* op,ast* interne, ast_type);
+ * \fn ast* ast_new_condition(ast* left, ast* right, char* op, ast_type);
  * \brief Fonction de création d'une nouvelle condition.
  *
  * \param left ast gauche de l'opération.
  * \param right ast droite de l'opération.
  * \param op operation entre les arbres
+ * \param type type de l'opération ayant lieu entre les arbres.
+ * \return Instance nouvelle allouée d'un objet de type ast.
+ */
+ast* ast_new_condition(ast* left, ast* right, char* op, ast_type type);
+
+/**
+ * \fn ast* ast_new_comparateur(ast* cond,ast* interne, ast_type);
+ * \brief Fonction de création d'une nouvelle condition.
+ *
+ * \param cond ast de la condition.
  * \param interne ast présent dans le if
  * \param type type de l'opération ayant lieu entre les arbres.
  * \return Instance nouvelle allouée d'un objet de type ast.
  */
-ast* ast_new_condition(ast* left, ast* right, char* op,ast* interne, ast_type);
+ast* ast_new_comparateur(ast* cond,ast* interne, ast_type type);
+
 
 
 /**

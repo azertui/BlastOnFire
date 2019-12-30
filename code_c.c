@@ -5,8 +5,11 @@ int main()
         i = 2;
     else if (8 && 9)
         i = 2;
-    else if (8 && 9)
+    else if (8 && 9 || 5)
         i = 2;
+    else{
+        i=5;
+    }
     i++;
     int a = 5;
     int b = 8 * 2;

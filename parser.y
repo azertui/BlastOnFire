@@ -104,33 +104,33 @@ pre_type:
 ;
 
 condition:                                              
-      IF '(' boolean ')' instruction condition_suite                  { if($6!=NULL)$$ = ast_link(ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF),$6);else $$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF); free($3->condition.op);free($3);}
+      IF '(' boolean ')' instruction condition_suite                  { if($6!=NULL)$$ = ast_link(ast_new_comparateur($3,$5,AST_IF),$6);else $$ = ast_new_comparateur($3,$5,AST_IF);}
     
-    | IF '(' boolean ')' instruction                        {$$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$5,AST_IF); free($3->condition.op);free($3);}    
+    | IF '(' boolean ')' instruction                        {$$ = ast_new_comparateur($3,$5,AST_IF);}    
 
-    | IF '(' boolean ')' '{' body '}' condition_suite                { $$ = ast_new_condition($3->condition.left,$3->condition.right,$3->condition.op,$6,AST_IF); free($3->condition.op);free($3);}    
+    | IF '(' boolean ')' '{' body '}' condition_suite                { $$ = ast_new_comparateur($3,$6,AST_IF);}    
                                                                     
 ;
 
 boolean:
-    operation '=' '=' operation {$$=ast_new_condition($1,$4,"==",NULL,AST_IF);}
-  | operation '!' '=' operation {$$=ast_new_condition($1,$4,"!=",NULL,AST_IF);}
-  | operation '<' '=' operation {$$=ast_new_condition($1,$4,"<=",NULL,AST_IF);}
-  | operation '>' '=' operation {$$=ast_new_condition($1,$4,">=",NULL,AST_IF);}
-  | operation '<' operation {$$=ast_new_condition($1,$3,"<",NULL,AST_IF);}
-  | operation '>' operation {$$=ast_new_condition($1,$3,">",NULL,AST_IF);}
-  | operation AND operation {$$=ast_new_condition($1,$3,"&&",NULL,AST_IF);}
-  | operation OR operation {$$=ast_new_condition($1,$3,"||",NULL,AST_IF);}
-  | '!' operation {$$=ast_new_condition($2,NULL,"false",NULL,AST_IF);}
-  | operation {$$=ast_new_condition($1,NULL,"true",NULL,AST_IF);}
+    operation '=' '=' operation {$$=ast_new_condition($1,$4,"==",AST_COND);}
+  | operation '!' '=' operation {$$=ast_new_condition($1,$4,"!=",AST_COND);}
+  | operation '<' '=' operation {$$=ast_new_condition($1,$4,"<=",AST_COND);}
+  | operation '>' '=' operation {$$=ast_new_condition($1,$4,">=",AST_COND);}
+  | operation '<' operation {$$=ast_new_condition($1,$3,"<",AST_COND);}
+  | operation '>' operation {$$=ast_new_condition($1,$3,">",AST_COND);}
+  | operation AND boolean {$$=ast_new_condition($1,$3,"&&",AST_COND);}
+  | operation OR boolean {$$=ast_new_condition($1,$3,"||",AST_COND);}
+  | '!' operation {$$=ast_new_condition($2,NULL,"false",AST_COND);}
+  | operation {$$=ast_new_condition($1,NULL,"true",AST_COND);}
 ;
 
 condition_suite:
-      ELSE '{' body '}' {$$ = ast_new_condition(NULL,NULL,NULL,$3,AST_ELSE); }
+      ELSE '{' body '}' {$$ = ast_new_comparateur(NULL,$3,AST_ELSE); }
 
-    | ELSE instruction { $$ = ast_new_condition(NULL,NULL,NULL,$2,AST_ELSE);}
+    | ELSE instruction { $$ = ast_new_comparateur(NULL,$2,AST_ELSE);}
 
-    | ELSE condition  { ast* test = ast_new_condition($2->condition.left,$2->condition.right,$2->condition.op,$2->condition.interne,AST_ELSE_IF);ast_link(test,$2->next);free($2->condition.op);free($2);$$ = test;}
+    | ELSE condition  { ast* test = ast_new_comparateur($2->comparateur.cond,$2->comparateur.interne,AST_ELSE_IF);ast_link(test,$2->next);free($2);$$ = test;}
 
 ;
 
