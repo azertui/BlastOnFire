@@ -62,10 +62,10 @@ static void parsingFail_undeclared_test(){
 	assert_true(parseString("int main(){a=2;}",NULL));
 }
 static void ast_test(){
-	ast* a=malloc(sizeof(ast));
-	if(parseString("int main(){}",a)!=0)
+	ast a;
+	if(parseString("int main(){}",&a)!=0)
 		fail();
-	assert_int_equal(a->type,AST_FCT);
+	assert_int_equal(a.type,AST_FCT);
 }
 
 int main(void) {
