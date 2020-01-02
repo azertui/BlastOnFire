@@ -32,8 +32,12 @@
 %type <ast> condition_suite
 %type <ast> ligne
 %type <ast> boolean
+%type <ast> unary
 %type <val> pre_type
 %type <ast> declaration
+%type <ast> for_boolean
+%type <ast> for_declaration
+%type <ast> for_unary
 
 %left '+' '-'
 %left '*' '/' '%'
@@ -87,15 +91,17 @@ declaration:
     | pre_type DOUBLE_T ID '=' operation  { $$ = ast_new_id($3,$5,1,$1); free($3);}
 ;
 
-instruction:
-      declaration ';'{$$=$1;}
-
-    | INCR  ID {$$=ast_new_id($2,ast_new_operation(AST_OP_INCR,ast_new_id($2,NULL,0,0),NULL),0,0);free($2);}
+unary:
+      INCR ID {$$=ast_new_id($2,ast_new_operation(AST_OP_INCR,ast_new_id($2,NULL,0,0),NULL),0,0);free($2);}
     | ID INCR {$$=ast_new_id($1,ast_new_operation(AST_OP_INCR,ast_new_id($1,NULL,0,0),NULL),0,0);free($1);}
 
     | DECR ID {$$=ast_new_id($2,ast_new_operation(AST_OP_DECR,ast_new_id($2,NULL,0,0),NULL),0,0);free($2);}
     | ID DECR {$$=ast_new_id($1,ast_new_operation(AST_OP_DECR,ast_new_id($1,NULL,0,0),NULL),0,0);free($1);}
+;
 
+instruction:
+      declaration ';'{$$=$1;}
+    | unary ';' {$$=$1;}
     | ID '=' operation ';'                  {$$ = ast_new_id($1,$3,0,0);free($1);}
     | ID affectation_op '=' operation       {$$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0,0),$4),0,0);free($1);}
 ;
@@ -136,8 +142,24 @@ condition_suite:
 
 ;
 
+for_declaration:
+   declaration {$$=NULL;}
+  |%empty      {$$=NULL;}
+;
+
+for_boolean:
+   boolean     {$$=NULL;}
+  |%empty      {$$=NULL;}
+;
+
+for_unary:
+  unary        {$$=NULL;}
+  |%empty      {$$=NULL;}
+;
+
 boucle:
-   FOR '(' declaration ';' boolean ';' ')' '{' body '}'
+   FOR '(' for_declaration ';' for_boolean ';' for_unary ')' '{' body '}' {$$=NULL;}
+  |FOR '(' for_declaration ';' for_boolean ';' for_unary ')' instruction  {$$=NULL;}
 ;
 
 affectation_op:
