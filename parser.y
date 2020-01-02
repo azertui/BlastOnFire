@@ -27,6 +27,7 @@
 %type <ast> operation
 %type <type> affectation_op
 %type <ast> body
+%type <ast> boucle
 %type <ast> condition
 %type <ast> condition_suite
 %type <ast> ligne
@@ -69,6 +70,8 @@ body:
 
 ligne:
      instruction {$$ = $1;}
+
+    | boucle {$$ = $1;}
 
     | condition {$$ = $1;}
 
@@ -131,6 +134,10 @@ condition_suite:
 
     | ELSE condition  { ast* test = ast_new_comparateur($2->comparateur.cond,$2->comparateur.interne,AST_ELSE_IF);ast_link(test,$2->next);free($2);$$ = test;}
 
+;
+
+boucle:
+   FOR '(' declaration ';' boolean ';' ')' '{' body '}'
 ;
 
 affectation_op:
