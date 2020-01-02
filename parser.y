@@ -47,7 +47,7 @@
 %%
  
 start:
-    code {printf("Chaine reconnue!\n"); ast_print($1,0); if(analyse_ast($1))return 1; *parsed_ast=*$1;free($1); ast_to_code($1); return 0;}
+    code {printf("Chaine reconnue!\n"); ast_print($1,0); if(analyse_ast($1))return 1; *parsed_ast=*$1;free($1); ast_to_code(parsed_ast); return 0;}
 ;
 
 code:
