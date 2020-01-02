@@ -70,6 +70,12 @@ int analyse_ast_aux(ast *a, table t)
         return 1;      
       pop_table(t);
       break;
+    case AST_WHILE:
+      add_table(t);
+      if (analyse_ast_aux(a->boucle_while.cond, t))
+        return 1;   
+      pop_table(t);
+      break;
     case AST_ID:
       if (a->type_int.init)
       {

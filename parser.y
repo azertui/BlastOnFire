@@ -160,7 +160,9 @@ for_unary:
 
 boucle:
    FOR '(' for_declaration ';' for_boolean ';' for_unary ')' '{' body '}' {$$=ast_new_boucle_for($3,$5,$7,$10);}
-  |FOR '(' for_declaration ';' for_boolean ';' for_unary ')' instruction  {$$=NULL;}
+  |FOR '(' for_declaration ';' for_boolean ';' for_unary ')' instruction  {$$=ast_new_boucle_for($3,$5,$7,$9);}
+  |WHILE '(' for_boolean ')' '{' body '}' {$$ = ast_new_boucle_while($3,$6);}
+  |WHILE '(' for_boolean ')' instruction {$$ = ast_new_boucle_while($3,$5);}
 ;
 
 affectation_op:

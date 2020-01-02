@@ -115,6 +115,17 @@ ast* ast_new_boucle_for(ast* first,ast* second,ast* third,ast* interne){
   return new;
 }
 
+ast* ast_new_boucle_while(ast* cond,ast* interne){
+  ast* new = malloc(sizeof(ast));
+  new->type = AST_WHILE;  
+  attribute_uid(new);
+  new->boucle_while.cond = cond;
+  new->boucle_while.interne = interne;
+  new->next=NULL;
+  return new;  
+}
+
+
 void ast_print(ast* ast, int indent) {
   if (ast!=NULL){  
     for (int i = 0; i < indent; i++)
@@ -192,14 +203,19 @@ void ast_print(ast* ast, int indent) {
         printf("--\n");
         break;
       case AST_FOR:
-        printf("FOR (");
+        printf("FOR \n");
         ast_print(ast->boucle_for.first,indent+1);
-        printf(";");
         ast_print(ast->boucle_for.second,indent+1);
-        printf(";");
         ast_print(ast->boucle_for.third,indent+1);
-        printf(")\n");
-        ast_print(ast->boucle_for.interne,indent);
+        ast_print(ast->boucle_for.interne,indent+1);
+        ast_print(ast->next,indent);   
+        break;
+      case AST_WHILE:
+        printf("WHILE \n");
+        ast_print(ast->boucle_while.cond,indent+1);
+        printf("\n");
+        ast_print(ast->boucle_while.interne,indent+1);
+        ast_print(ast->next,indent);   
         break;
       default: fprintf(stderr,"print_ast:Unknown ast type:%d\n",ast->type);
     }  
@@ -273,7 +289,14 @@ void free_ast(ast* a){
       free_ast(a->boucle_for.second);
       free_ast(a->boucle_for.third);
       free_ast(a->boucle_for.interne);
+      free_ast(a->next);
       free(a);
+      break;
+    case AST_WHILE:
+      free_ast(a->boucle_while.cond);
+      free_ast(a->boucle_while.interne);
+      free_ast(a->next);
+      free(a);      
       break;
       default:
         fprintf(stderr,"unknow ast type\n");
@@ -384,27 +407,17 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             ast_to_code_recur(a->boucle_for.third,fichier);
             fputs(")\n{",fichier);
             ast_to_code_recur(a->boucle_for.interne,fichier);
-            fputs("}\n",fichier);            
+            fputs(";}\n",fichier);            
             ast_to_code_recur(a->next,fichier);
             break; 
+          case AST_WHILE:
+            fputs("while (",fichier);
+            ast_to_code_recur(a->boucle_while.cond,fichier);
+            fputs(")\n{",fichier);
+            ast_to_code_recur(a->boucle_while.interne,fichier);
+            fputs(";}\n",fichier);            
+            ast_to_code_recur(a->next,fichier);
+            break;
         }
     }
 }
-
-  /*int main(){
-    ast* cinq = ast_new_number(5);
-    ast* deux = ast_new_number(2); 
-    ast* dix = ast_new_number(10); 
-    ast* test = ast_new_id("a",cinq,1);
-    ast* test2 = ast_new_id("b",deux,1);
-    ast* test3 = ast_new_operation(AST_OP_MOINS,cinq,ast_new_id("b",NULL,0));
-    ast* test4 = ast_new_id("c",dix,1);
-    ast* test5 = ast_new_condition(ast_new_id("b",NULL,0),ast_new_number(5),"==");
-    test4 = ast_link(test4,test5);
-    test2 = ast_link(test2,test4);
-    test = ast_link(test,test2);
-    test = ast_new_main_fct(test);
-    ast_print(test,0);
-    ast_to_code(test);
-    free_ast(test);
-  }*/
