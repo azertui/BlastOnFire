@@ -60,6 +60,16 @@ int analyse_ast_aux(ast *a, table t)
         return 1;
       pop_table(t);
       break;
+    case AST_FOR:
+      add_table(t);
+      if (analyse_ast_aux(a->boucle_for.first, t))
+        return 1;
+      if (analyse_ast_aux(a->boucle_for.second, t))
+        return 1;      
+      if (analyse_ast_aux(a->boucle_for.third, t))
+        return 1;      
+      pop_table(t);
+      break;
     case AST_ID:
       if (a->type_int.init)
       {

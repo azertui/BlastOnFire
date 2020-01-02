@@ -1,7 +1,7 @@
 int main()
 {
     int i;
-    for(j=5;j<5;j++){
+    for(int j=5;j<5;j++){
         i=2;
     }
     if (5 == 2)
