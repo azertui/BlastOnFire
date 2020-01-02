@@ -260,6 +260,7 @@ void free_ast(ast* a){
         free(a->condition.op);
       free_ast(a->condition.left);
       free_ast(a->condition.right);
+      free_ast(a->next);
       free(a);
       break;
     case AST_IF:
@@ -282,6 +283,7 @@ void free_ast(ast* a){
     case AST_OP_INCR:
     case AST_OP_DECR:
     free_ast(a->operation.left);
+    free_ast(a->next);
     free(a);
     break;
     case AST_FOR:
@@ -300,6 +302,7 @@ void free_ast(ast* a){
       break;
       default:
         fprintf(stderr,"unknow ast type\n");
+        free_ast(a->next);
         free(a);
         break;
   }

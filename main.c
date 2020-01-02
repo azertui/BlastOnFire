@@ -30,7 +30,7 @@ int main(int argc,char* const argv[]){
     }
     else
     {
-        printf("Impossible d'ouvrir le fichier code_c.c\n");
+        fprintf(stderr,"Impossible d'ouvrir le fichier code_c.c\n");
     }
     return res;
 }

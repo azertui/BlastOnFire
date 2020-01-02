@@ -149,7 +149,7 @@ for_declaration:
 ;
 
 for_boolean:
-   boolean     {$$=$$=$1;}
+   boolean     {$$=$1;}
   |%empty      {$$=NULL;}
 ;
 
