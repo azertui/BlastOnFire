@@ -143,22 +143,23 @@ condition_suite:
 ;
 
 for_declaration:
-   declaration {$$=NULL;}
+   declaration {$$=$1;}
+  | ID '=' operation                  {$$ = ast_new_id($1,$3,0,0);free($1);}
   |%empty      {$$=NULL;}
 ;
 
 for_boolean:
-   boolean     {$$=NULL;}
+   boolean     {$$=$$=$1;}
   |%empty      {$$=NULL;}
 ;
 
 for_unary:
-  unary        {$$=NULL;}
+  unary        {$$=$1;}
   |%empty      {$$=NULL;}
 ;
 
 boucle:
-   FOR '(' for_declaration ';' for_boolean ';' for_unary ')' '{' body '}' {$$=NULL;}
+   FOR '(' for_declaration ';' for_boolean ';' for_unary ')' '{' body '}' {$$=ast_new_boucle_for($3,$5,$7,$10);}
   |FOR '(' for_declaration ';' for_boolean ';' for_unary ')' instruction  {$$=NULL;}
 ;
 

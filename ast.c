@@ -103,6 +103,17 @@ ast* ast_new_comparateur(ast* cond,ast* interne, ast_type type){
   return new;
 }
 
+ast* ast_new_boucle_for(ast* first,ast* second,ast* third,ast* interne){
+  ast* new = malloc(sizeof(ast));
+  new->type = AST_FOR;  
+  attribute_uid(new);
+  new->boucle_for.first = first;
+  new->boucle_for.second = second;
+  new->boucle_for.third = third;
+  new->boucle_for.interne = interne;
+  new->next=NULL;
+  return new;
+}
 
 void ast_print(ast* ast, int indent) {
   if (ast!=NULL){  
@@ -180,6 +191,16 @@ void ast_print(ast* ast, int indent) {
       case AST_OP_DECR:
         printf("--\n");
         break;
+      case AST_FOR:
+        printf("FOR (");
+        ast_print(ast->boucle_for.first,indent+1);
+        printf(";");
+        ast_print(ast->boucle_for.second,indent+1);
+        printf(";");
+        ast_print(ast->boucle_for.third,indent+1);
+        printf(")\n");
+        ast_print(ast->boucle_for.interne,indent);
+        break;
       default: fprintf(stderr,"print_ast:Unknown ast type:%d\n",ast->type);
     }  
   } 
@@ -247,6 +268,13 @@ void free_ast(ast* a){
     free_ast(a->operation.left);
     free(a);
     break;
+    case AST_FOR:
+      free_ast(a->boucle_for.first);
+      free_ast(a->boucle_for.second);
+      free_ast(a->boucle_for.third);
+      free_ast(a->boucle_for.interne);
+      free(a);
+      break;
       default:
         fprintf(stderr,"unknow ast type\n");
         free(a);
@@ -346,7 +374,19 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             ast_to_code_recur(a->comparateur.interne,fichier);
             fputs(";}\n",fichier);        
             ast_to_code_recur(a->next,fichier);
-            break;  
+            break; 
+          case AST_FOR:
+            fputs("for (",fichier);
+            ast_to_code_recur(a->boucle_for.first,fichier);
+            fputs(";",fichier);
+            ast_to_code_recur(a->boucle_for.second,fichier);
+            fputs(";",fichier);
+            ast_to_code_recur(a->boucle_for.third,fichier);
+            fputs(")\n{",fichier);
+            ast_to_code_recur(a->boucle_for.interne,fichier);
+            fputs("}\n",fichier);            
+            ast_to_code_recur(a->next,fichier);
+            break; 
         }
     }
 }

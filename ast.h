@@ -18,7 +18,7 @@
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_INT,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR} ast_type;
+typedef enum { AST_ID, AST_INT,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -55,6 +55,12 @@ typedef struct ast {
       char* id;
       ast_type returnType;
     } fonction;
+    struct {
+      struct ast* interne;
+      struct ast* first;  
+      struct ast* second;  
+      struct ast* third;  
+    } boucle_for;
     } ;
   struct ast* next; /*!< Pointeur vers un autre noeud, la suite de l'arbre*/
   unsigned int uid;
@@ -142,6 +148,17 @@ ast* ast_new_condition(ast* left, ast* right, char* op);
  */
 ast* ast_new_comparateur(ast* cond,ast* interne, ast_type type);
 
+/**
+ * \fn ast* ast_new_boucle_for(ast* first,ast* second,ast* third,ast* interne);
+ * \brief Fonction de création d'une nouvelle boucle for.
+ *
+ * \param first ast de l'initialisation de variable.
+ * \param second ast des condtions.
+ * \param third ast de modification des variables.
+ * \param interne ast présent dans le if
+ * \return Instance nouvelle allouée d'un objet de type ast.
+ */
+ast* ast_new_boucle_for(ast* first,ast* second,ast* third,ast* interne);
 
 
 /**
