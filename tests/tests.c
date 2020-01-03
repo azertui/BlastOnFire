@@ -84,8 +84,40 @@ static void parsing_division_simple_test(){
 	assert_null(parseString("int main(){int a=2/5;}",NULL));
 }
 
+static void parsing_operation_test(){
+	assert_null(parseString("int main(){int a=2+5*8/1;}",NULL));
+}
+
 static void parsing_multilignes_test(){
 	assert_null(parseString("int main(){int a;a=2+5;}",NULL));
+}
+
+static void parsing_while_test(){
+	assert_null(parseString("int main(){while(1){}}",NULL));
+}
+
+static void parsing_while_test2(){
+	assert_null(parseString("int main(){int a=5; while(a<5){}}",NULL));
+}
+
+static void parsing_while_test3(){
+	assert_null(parseString("int main(){int a=5; while(a<5){int c;c=5+6;}}",NULL));
+}
+
+static void parsing_while_test4(){
+	assert_null(parseString("int main(){int a=1; while(a<5)a+=1;}",NULL));
+}
+
+static void parsingFAIL_while_test(){
+	assert_true(parseString("int main(){while(a);}",NULL));
+}
+
+static void parsingFAIL_while_test2(){
+	assert_true(parseString("int main(){while(4)",NULL));
+}
+
+static void parsingFAIL_while_test3(){
+	assert_true(parseString("int main(){while(1){int c = 5;}c=6;}",NULL));
 }
 
 int main(void) {
@@ -100,7 +132,15 @@ int main(void) {
 		cmocka_unit_test_setup_teardown(parsing_soustraction_simple_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsing_multiplication_simple_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsing_division_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_operation_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsing_multilignes_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_while_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_while_test2,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_while_test3,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_while_test4,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_while_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_while_test2,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_while_test3,setup,teardown),
 	};
 	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }
