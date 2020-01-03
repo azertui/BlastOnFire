@@ -96,7 +96,7 @@ array:
 declaration:
      pre_type INTEGER_T ID array                 { if ($4==NULL)$$ = ast_new_id($3,NULL,1,$1);else{$$ = ast_new_tab_int($3,NULL,1,$4,$1);}free($3);}
                                                    
-    | pre_type INTEGER_T ID '=' operation   { $$ = ast_new_id($3,$5,1,$1); free($3);}
+    | pre_type INTEGER_T ID array '=' operation   {if ($4==NULL)$$ = ast_new_id($3,$6,1,$1);else{$$ = ast_new_tab_int($3,$6,1,$4,$1);}free($3);}
     | pre_type DOUBLE_T ID array               { $$ = ast_new_id($3,NULL,1,$1); free($3);
                                                 /*TODO initialiser tableau*/ }
     | pre_type DOUBLE_T ID '=' operation  { $$ = ast_new_id($3,$5,1,$1); free($3);}
@@ -113,8 +113,8 @@ unary:
 instruction:
       declaration ';'{$$=$1;}
     | unary ';' {$$=$1;}
-    | ID '=' operation ';'                  {$$ = ast_new_id($1,$3,0,0);free($1);}
-    | ID affectation_op '=' operation       {$$ = ast_new_id($1,ast_new_operation($2,ast_new_id($1,NULL,0,0),$4),0,0);free($1);}
+    | ID array '=' operation ';'            {if($2==NULL) $$ = ast_new_id($1,$4,0,0) ; else $$ = ast_new_tab_int($1,$4,0,$2,0);free($1);}
+    | ID array affectation_op '=' operation ';'  {if($2==NULL) $$ = ast_new_id($1,ast_new_operation($3,ast_new_id($1,NULL,0,0),$5),0,0);else $$ = ast_new_tab_int($1,ast_new_operation($3,ast_new_tab_int($1,NULL,0,$2,0),$5),0,$2,0);free($1);}
 ;
 
 pre_type:

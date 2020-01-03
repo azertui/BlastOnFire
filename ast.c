@@ -183,6 +183,12 @@ void ast_print(ast* ast, int indent) {
         break;
       case AST_INT_TAB:
         printf("ID (%s)%s",ast->type_int_tab.id,ast->type_int_tab.constant?": const":"");
+        array b = ast->type_int_tab.nb;
+        while (b!=NULL)
+        {
+          printf("[%d]", b->n_dim);
+          b = b->next;
+        }
         if (ast->type_int_tab.value!=NULL){
           printf(" = \n");ast_print(ast->type_int_tab.value,indent+1);
         }
@@ -393,7 +399,7 @@ void ast_to_code_recur(ast* a, FILE* fichier){
             ast_to_code_recur(a->next,fichier);
             break;
           case AST_INT_TAB:
-            if (a->type_int_tab.init){
+            if (a->type_int_tab.init)
               fprintf(fichier,"%sint ",a->type_int_tab.constant?"const ":"");
               fprintf(fichier, "%s", a->type_int_tab.id);
               array b = a->type_int_tab.nb;
@@ -402,12 +408,12 @@ void ast_to_code_recur(ast* a, FILE* fichier){
                 fprintf(fichier, "[%d]", b->n_dim);
                 b = b->next;
               }
-              
-            }
-            /*if(a->type_int.value!=NULL){
+
+            if(a->type_int.value!=NULL){
               fputs(" = ", fichier);
               ast_to_code_recur(a->type_int.value,fichier);
-            }*/
+            }
+
             if (a->next!=NULL)
               fputs(";\n", fichier);
             ast_to_code_recur(a->next,fichier);
