@@ -11,21 +11,7 @@
     fprintf(stderr,"%s\n##########\n",msg);
     fprintf(stderr,"lineno:%d column:%d content:%s\n##########\n",yyget_lineno(scanner),yyget_column(scanner),yyget_text(scanner));
   };
-  typedef struct array{
-    int n_dim;
-    struct array* next;
-  } *array;
 
-  void free_arr(array a){
-    if(a!=NULL){
-      array tmp=NULL;
-      while(a->next!=NULL){
-        tmp=a->next;
-        free(a);
-        a=tmp;
-      }
-    }
-  }
 %}
 %debug
 %lex-param {void * scanner}

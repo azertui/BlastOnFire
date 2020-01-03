@@ -78,6 +78,12 @@ typedef struct ast {
   unsigned int uid;
 } ast;
 
+typedef struct array{
+    int n_dim;
+    struct array* next;
+  } *array;
+void free_arr(array a);
+
 /**
  * \fn void attribute_uid(ast* a);
  * \brief Permet d'attribuer un id unique à un contenant
