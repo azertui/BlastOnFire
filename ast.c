@@ -57,6 +57,20 @@ ast* ast_new_id(char* id, ast* value, int init, int constant) {
   return new;
 }
 
+ast* ast_new_tab_int(char* id,ast* value, int init, int * nb, int nb_elem, int constant){
+  ast* new = malloc(sizeof(ast));
+  new->type = AST_INT_TAB;
+  new->type_int.id = strndup(id,strlen(id));
+  new->type_int.value = value;
+  new->type_int.init = init;
+  new->type_int.constant=constant;
+  new->type_int_tab.nb_elem = nb_elem;
+  int* tab = (int*)malloc(nb_elem*sizeof(int));
+  new->type_int_tab.nb = nb;
+  new->next=NULL;
+  return new;  
+}
+
 void attribute_uid(ast* a){
   static unsigned int count=1;
   a->uid=count++;

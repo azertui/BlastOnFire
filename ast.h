@@ -40,12 +40,12 @@ typedef struct ast {
       int constant;/*!< boolean pour définir si la variable est une constante*/
     } type_int; /*!< variable, constante */
     struct {
-      int first;
       char* id; /*!< identificateur */
-      int bn_elem;
+      struct ast* value;  /*!< noeud de valeur*/
+      int nb_elem;
+      int *nb;
       int init; /*!< booléen pour l'initialisation*/
       int constant;/*!< boolean pour définir si la variable est une constante*/
-      struct ast* suite ; /* !< dimension suivante */
     } type_int_tab;
     double number;
     char* id;
@@ -125,9 +125,24 @@ ast* ast_new_number(double number, int is_int);
  * \param id nom de l'identificateur.
  * \param value valeur associée à l'ID, null si pas initialisée.
  * \param init 1 si initialisation, 0 sinon.
+ * \param constant variable constante?.
  * \return Ast de l'id.
  */
 ast* ast_new_id(char* id,ast* value, int init, int constant);
+
+/**
+ * \fn ast* ast_new_tab_int(char* id,ast* value, int init, int * nb, int nb_elem, int constant);
+ * \brief Fonction de création d'un noeud d'un tableau d'entiers
+ * \param id nom de l'identificateur.
+ * \param nb_elem;
+ * \param nb;
+ * \param value valeur associée à l'ID, null si pas initialisée.
+ * \param init 1 si initialisation, 0 sinon.
+ * \param constant variable constante?.
+ * \return Ast de l'id.
+ */
+ast* ast_new_tab_int(char* id,ast* value, int init, int * nb, int nb_elem, int constant);
+
 
 /**
  * \fn ast* ast_double_to_integer(ast* number);
