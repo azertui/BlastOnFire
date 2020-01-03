@@ -92,6 +92,22 @@ int analyse_ast_aux(ast *a, table t)
       if(analyse_ast_aux(a->type_int.value,t))
         return 1;
       break;
+    case AST_INT_TAB:
+      if (a->type_int_tab.init)
+      {
+        add_symbole(t, new_symboles(a->type_int_tab.id, a->type_int_tab.constant));
+      }
+      /*else
+      {
+        if (find_symbole(t, a->type_int.id) == NULL)
+        {
+          fprintf(stderr, "Unknown reference to %s\n", a->type_int.id);
+          return 1;
+        }
+      }*/
+      if(analyse_ast_aux(a->type_int_tab.value,t))
+        return 1;
+      break;
     default:
       break;
     }

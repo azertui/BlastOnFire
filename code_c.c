@@ -2,6 +2,7 @@ int main()
 {
     int i;
     int tab[4];
+    int tabb[4][5];
     int a = 2/5;
     while(i<5){
         i=5;

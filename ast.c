@@ -36,6 +36,17 @@ ast* ast_new_operation(ast_type type, ast* left, ast* right) {
   return new;
 }
 
+int nb_dim(array a ){
+  int res = 0;
+    if(a!=NULL){
+      while(a->next!=NULL){
+        res++;
+        a=a->next;
+      }
+    }  
+  return res;
+}
+
 void free_arr(array a){
     if(a!=NULL){
       array tmp=NULL;
@@ -68,15 +79,14 @@ ast* ast_new_id(char* id, ast* value, int init, int constant) {
   return new;
 }
 
-ast* ast_new_tab_int(char* id,ast* value, int init, int * nb, int nb_elem, int constant){
+ast* ast_new_tab_int(char* id,ast* value, int init, array nb, int constant){
   ast* new = malloc(sizeof(ast));
   new->type = AST_INT_TAB;
-  new->type_int.id = strndup(id,strlen(id));
-  new->type_int.value = value;
-  new->type_int.init = init;
-  new->type_int.constant=constant;
-  new->type_int_tab.nb_elem = nb_elem;
-  int* tab = (int*)malloc(nb_elem*sizeof(int));
+  new->type_int_tab.id = strndup(id,strlen(id));
+  new->type_int_tab.value = value;
+  new->type_int_tab.init = init;
+  new->type_int_tab.constant=constant;
+  new->type_int_tab.nb_elem = nb_dim(nb);
   new->type_int_tab.nb = nb;
   new->next=NULL;
   return new;  
@@ -165,6 +175,16 @@ void ast_print(ast* ast, int indent) {
         printf("ID (%s)%s",ast->type_int.id,ast->type_int.constant?": const":"");
         if (ast->type_int.value!=NULL){
           printf(" = \n");ast_print(ast->type_int.value,indent+1);
+        }
+        else
+          printf("\n");
+        
+        ast_print(ast->next,indent);
+        break;
+      case AST_INT_TAB:
+        printf("ID (%s)%s",ast->type_int_tab.id,ast->type_int_tab.constant?": const":"");
+        if (ast->type_int_tab.value!=NULL){
+          printf(" = \n");ast_print(ast->type_int_tab.value,indent+1);
         }
         else
           printf("\n");
@@ -271,6 +291,13 @@ void free_ast(ast* a){
       free_ast(a->next);
       free(a);
       break;
+    case AST_INT_TAB:
+      free_ast(a->type_int.value);
+      free(a->type_int.id);
+      free_ast(a->next);
+      free_arr(a->type_int_tab.nb);
+      free(a);
+      break;
     case AST_OP_PLUS:
     case AST_OP_MUL:
     case AST_OP_MOINS:
@@ -361,6 +388,26 @@ void ast_to_code_recur(ast* a, FILE* fichier){
               fputs(" = ", fichier);
               ast_to_code_recur(a->type_int.value,fichier);
             }
+            if (a->next!=NULL)
+              fputs(";\n", fichier);
+            ast_to_code_recur(a->next,fichier);
+            break;
+          case AST_INT_TAB:
+            if (a->type_int_tab.init){
+              fprintf(fichier,"%sint ",a->type_int_tab.constant?"const ":"");
+              fprintf(fichier, "%s", a->type_int_tab.id);
+              array b = a->type_int_tab.nb;
+              while (b!=NULL)
+              {
+                fprintf(fichier, "[%d]", b->n_dim);
+                b = b->next;
+              }
+              
+            }
+            /*if(a->type_int.value!=NULL){
+              fputs(" = ", fichier);
+              ast_to_code_recur(a->type_int.value,fichier);
+            }*/
             if (a->next!=NULL)
               fputs(";\n", fichier);
             ast_to_code_recur(a->next,fichier);

@@ -94,8 +94,8 @@ array:
 ;
 
 declaration:
-     pre_type INTEGER_T ID array                 { $$ = ast_new_id($3,NULL,1,$1); free($3);
-                                                    /*TODO: initialiser tableau*/}
+     pre_type INTEGER_T ID array                 { if ($4==NULL)$$ = ast_new_id($3,NULL,1,$1);else{$$ = ast_new_tab_int($3,NULL,1,$4,$1);}free($3);}
+                                                   
     | pre_type INTEGER_T ID '=' operation   { $$ = ast_new_id($3,$5,1,$1); free($3);}
     | pre_type DOUBLE_T ID array               { $$ = ast_new_id($3,NULL,1,$1); free($3);
                                                 /*TODO initialiser tableau*/ }
