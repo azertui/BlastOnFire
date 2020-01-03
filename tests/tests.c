@@ -68,6 +68,26 @@ static void ast_test(){
 	assert_int_equal(a.type,AST_FCT);
 }
 
+static void parsing_addition_simple_test(){
+	assert_null(parseString("int main(){int a=2+5;}",NULL));
+}
+
+static void parsing_soustraction_simple_test(){
+	assert_null(parseString("int main(){int a=2-5;}",NULL));
+}
+
+static void parsing_multiplication_simple_test(){
+	assert_null(parseString("int main(){int a=2*5;}",NULL));
+}
+
+static void parsing_division_simple_test(){
+	assert_null(parseString("int main(){int a=2/5;}",NULL));
+}
+
+static void parsing_multilignes_test(){
+	assert_null(parseString("int main(){int a;a=2+5;}",NULL));
+}
+
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test_setup_teardown(parsing_basicExemple_test,setup,teardown),
@@ -76,6 +96,11 @@ int main(void) {
 		cmocka_unit_test_setup_teardown(parsingFile_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFail_undeclared_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(ast_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_addition_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_soustraction_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_multiplication_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_division_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_multilignes_test,setup,teardown),
 	};
 	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }

@@ -1,6 +1,7 @@
 int main()
 {
     int i;
+    int a = 2/5;
     while(i<5){
         i=5;
     }
