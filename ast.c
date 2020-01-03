@@ -56,13 +56,15 @@ void free_arr(array a)
 {
   if (a != NULL)
   {
-    array tmp = NULL;
-    while (a->next != NULL)
+    array p=a;
+    array next=a->next;
+    while (next!=NULL)
     {
-      tmp = a->next;
-      free(a);
-      a = tmp;
+      free(p);
+      p=next;
+      next=next->next;
     }
+    free(p);
   }
 }
 
