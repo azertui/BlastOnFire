@@ -1,6 +1,7 @@
 int main()
 {
     int i;
+    int tab[4];
     int a = 2/5;
     while(i<5){
         i=5;
@@ -18,7 +19,7 @@ int main()
         i=5;
     }
     i++;
-    int a = 5;
+    a = 5;
     int b = 8 * 2;
     double d = 2.5;
     b = 5 * 3 + 8;

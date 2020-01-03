@@ -18,7 +18,7 @@
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_INT,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR, AST_WHILE} ast_type;
+typedef enum { AST_ID, AST_INT,AST_INT_TAB,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR, AST_WHILE} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -39,6 +39,14 @@ typedef struct ast {
       int init; /*!< booléen pour l'initialisation*/
       int constant;/*!< boolean pour définir si la variable est une constante*/
     } type_int; /*!< variable, constante */
+    struct {
+      int first;
+      char* id; /*!< identificateur */
+      int bn_elem;
+      int init; /*!< booléen pour l'initialisation*/
+      int constant;/*!< boolean pour définir si la variable est une constante*/
+      struct ast* suite ; /* !< dimension suivante */
+    } type_int_tab;
     double number;
     char* id;
     struct {

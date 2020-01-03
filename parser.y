@@ -86,6 +86,7 @@ ligne:
 
 declaration:
      pre_type INTEGER_T ID                 { $$ = ast_new_id($3,NULL,1,$1); free($3);}
+    | pre_type INTEGER_T ID '[' INTEGER ']' { $$ = ast_new_id($3,NULL,1,$1); free($3);}
     | pre_type INTEGER_T ID '=' operation   { $$ = ast_new_id($3,$5,1,$1); free($3);}
     | pre_type DOUBLE_T ID                { $$ = ast_new_id($3,NULL,1,$1); free($3);}
     | pre_type DOUBLE_T ID '=' operation  { $$ = ast_new_id($3,$5,1,$1); free($3);}
