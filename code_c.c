@@ -1,6 +1,7 @@
 int main()
 {
     int i;
+    int _oze2901U;
     int tab[4];
     int tabb[4][5] = 5;
     tabb[4][2] += 5;
