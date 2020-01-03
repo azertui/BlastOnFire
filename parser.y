@@ -5,11 +5,13 @@
   #include "symboles.h"
   #include "y.tab.h"
   #include "lex.h"
+  #include <stdlib.h>
   void yyerror(ast* a,void* scanner,const char* msg){
     (void)a;
     fprintf(stderr,"%s\n##########\n",msg);
     fprintf(stderr,"lineno:%d column:%d content:%s\n##########\n",yyget_lineno(scanner),yyget_column(scanner),yyget_text(scanner));
   };
+
 %}
 %debug
 %lex-param {void * scanner}
@@ -19,6 +21,7 @@
     double fval;
     char* name;
     struct ast* ast;
+    struct array *arr;
     ast_type type;
 }
 %type <ast> code
@@ -38,7 +41,7 @@
 %type <ast> for_boolean
 %type <ast> for_declaration
 %type <ast> for_unary
-
+%type <arr> array
 %left '+' '-'
 %left '*' '/' '%'
 
@@ -84,11 +87,18 @@ ligne:
     | ';' { $$ = NULL;}
 ;
 
+array:
+  '[' INTEGER ']' array {if($2<0){fprintf(stderr,"invalid array size\n");return 1;}
+                         $$=malloc(sizeof(struct array)); $$->n_dim=$2;$$->next=$4;}
+  | %empty {$$=NULL;}
+;
+
 declaration:
-     pre_type INTEGER_T ID                 { $$ = ast_new_id($3,NULL,1,$1); free($3);}
-    | pre_type INTEGER_T ID '[' INTEGER ']' { $$ = ast_new_id($3,NULL,1,$1); free($3);}
+     pre_type INTEGER_T ID array                 { if($4==NULL){$$ = ast_new_id($3,NULL,1,$1); free($3);}
+                                                    /*TODO: initialiser tableau*/}
     | pre_type INTEGER_T ID '=' operation   { $$ = ast_new_id($3,$5,1,$1); free($3);}
-    | pre_type DOUBLE_T ID                { $$ = ast_new_id($3,NULL,1,$1); free($3);}
+    | pre_type DOUBLE_T ID array               { if($4==NULL){$$ = ast_new_id($3,NULL,1,$1); free($3);}
+                                                /*TODO initialiser tableau*/ }
     | pre_type DOUBLE_T ID '=' operation  { $$ = ast_new_id($3,$5,1,$1); free($3);}
 ;
 

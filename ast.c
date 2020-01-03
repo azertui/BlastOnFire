@@ -36,6 +36,17 @@ ast* ast_new_operation(ast_type type, ast* left, ast* right) {
   return new;
 }
 
+void free_arr(array a){
+    if(a!=NULL){
+      array tmp=NULL;
+      while(a->next!=NULL){
+        tmp=a->next;
+        free(a);
+        a=tmp;
+      }
+    }
+  }
+
 ast* ast_new_number(double number,int is_int) {
   ast* new = malloc(sizeof(ast));
   new->type = AST_DOUBLE;
