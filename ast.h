@@ -4,8 +4,8 @@
  * \file ast.h
  * \brief Header de l'arbre de syntaxe
  * \author Monfouga Marie
- * \version 0.2
- * \date 11 décembre 2019
+ * \version 3.0
+ * \date 03 janvier 2020
  *
  * Header de l'arbre de syntaxe
  *
@@ -23,7 +23,7 @@ typedef struct array{
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_INT,AST_INT_TAB,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR, AST_WHILE} ast_type;
+typedef enum { AST_ID, AST_INT ,AST_INT_TAB,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR, AST_WHILE} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -117,7 +117,7 @@ ast* new_ast_fake();
 ast* ast_new_operation(ast_type type, ast* left, ast* right);
 
 /**
- * \fn ast* ast_new_number(int);
+ * \fn ast* ast_new_number(double number, int is_int);
  * \brief Fonction de création d'un noeud d'un int
  *
  * \param number valeur flottante ou entiere.

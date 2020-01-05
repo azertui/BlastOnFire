@@ -2,8 +2,8 @@
  * \file ast.c
  * \brief Source de l'arbre de syntaxe
  * \author Monfouga Marie
- * \version 0.2
- * \date 11 décembre 2019
+ * \version 3.0
+ * \date 03 janvier 2020
  *
  * Code source des fonctions de l'arbre de syntaxe
  *

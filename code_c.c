@@ -3,8 +3,10 @@ int main()
     int i;
     int _oze2901U;
     int tab[4];
-    int tabb[4][5] = 5;
-    tabb[4][2] += 5;
+    int tabb[4][5];
+    tabb[6][2] += 5;
+    double t[4][6];
+    t[2][3] = 6;
     int a = 2/5;
     while(i<5){
         i=5;
