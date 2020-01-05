@@ -43,6 +43,7 @@ typedef struct ast {
       struct ast* value;  /*!< noeud de valeur*/
       int init; /*!< booléen pour l'initialisation*/
       int constant;/*!< boolean pour définir si la variable est une constante*/
+      int is_int;/*!< boolean pour définir si la variable est de type int*/
     } type_int; /*!< variable, constante */
     struct {
       char* id; /*!< identificateur */
@@ -134,9 +135,10 @@ ast* ast_new_number(double number, int is_int);
  * \param value valeur associée à l'ID, null si pas initialisée.
  * \param init 1 si initialisation, 0 sinon.
  * \param constant variable constante?.
+ * \param is_int variable de type int?
  * \return Ast de l'id.
  */
-ast* ast_new_id(char* id,ast* value, int init, int constant);
+ast* ast_new_id(char* id,ast* value, int init, int constant, int is_int);
 
 /**
  * \fn ast* ast_new_tab_int(char* id,ast* value, int init, int * nb, int nb_elem, int constant);

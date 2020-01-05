@@ -79,7 +79,7 @@ ast *ast_new_number(double number, int is_int)
   return new;
 }
 
-ast *ast_new_id(char *id, ast *value, int init, int constant)
+ast *ast_new_id(char *id, ast *value, int init, int constant, int is_int)
 {
   ast *new = malloc(sizeof(ast));
   new->type = AST_ID;
@@ -87,6 +87,7 @@ ast *ast_new_id(char *id, ast *value, int init, int constant)
   new->type_int.value = value;
   new->type_int.init = init;
   new->type_int.constant = constant;
+  new->type_int.is_int=is_int;
   new->next = NULL;
   return new;
 }
@@ -428,7 +429,7 @@ void ast_to_code_recur(ast *a, FILE *fichier)
       break;
     case AST_ID:
       if (a->type_int.init)
-        fprintf(fichier, "%sint ", a->type_int.constant ? "const " : "");
+        fprintf(fichier, "%s%s ", a->type_int.constant ? "const " : "",a->type_int.is_int?"int":"double");
       fprintf(fichier, "%s", a->type_int.id);
       if (a->type_int.value != NULL)
       {
