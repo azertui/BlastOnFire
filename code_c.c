@@ -14,7 +14,11 @@ int main()
     for(int j=5;j<5;j++){
         i=2;
     }
-    if (5 == 2)
+    /*
+    int op=2;
+    apinnpiaepin
+    aaa*/int h2O;
+    if (5 == 2)  // Commentaire
         i = 2;
     else if (8 && 9)
         i = 2;

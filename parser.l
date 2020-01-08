@@ -11,9 +11,12 @@ INTEGER int
 DOUBLE double
 NUMBER [0-9]+
 ID [a-zA-Z_][a-zA-Z0-9_]*
-
-
+COMMENT1 "/*"(.|\n)*"*/"
+COMMENT2 "//"(.)*"\n"
 %%
+
+{COMMENT1} {}
+{COMMENT2} {}
 {INTEGER} {return INTEGER_T;}
 {DOUBLE} {return DOUBLE_T;}
 {NUMBER}"."{NUMBER} {yylval->fval=atof(yytext);return DOUBLE;}
