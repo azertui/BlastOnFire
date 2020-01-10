@@ -23,7 +23,7 @@ typedef struct array{
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_INT ,AST_INT_TAB,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR, AST_WHILE} ast_type;
+typedef enum { AST_ID, AST_INT ,AST_INT_TAB,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_APP, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR, AST_WHILE} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -70,6 +70,11 @@ typedef struct ast {
       ast_type returnType;
     } fonction;
     struct {
+      char* id;
+      int nb_param;
+      ast** params;
+    } appel;
+    struct {
       struct ast* interne;
       struct ast* first;  
       struct ast* second;  
@@ -103,6 +108,17 @@ void attribute_uid(ast* a);
  * \return Instance nouvelle allouée d'un objet de type ast.
  */
 ast* ast_new_main_fct(ast* body,ast* next,char* id,ast_type returnType);
+
+/**
+ * \fn ast* ast_new_app(char* id, int nb_param, ast** params);
+ * \brief Fonction de création d'une nouvelle instance de type "Appel de fonction" d'un objet ast.
+ *
+ * \param id est le nom de la fonction appelée
+ * \param nb_param est le nombre de paramètres passés à la fonction
+ * \param params est un tableau dynamique de taille nb_param contenant les paramètres passés à la fonction
+ * \return Instance nouvelle allouée d'un objet de type ast.
+ */
+ast *ast_new_app(char* id, int nb_param, ast** params);
 
 ast* new_ast_fake();
 
