@@ -61,6 +61,86 @@ static void parsingFile_test(){
 static void parsingFail_undeclared_test(){
 	assert_true(parseString("int main(){a=2;}",NULL));
 }
+static void ast_test(){
+	ast a;
+	if(parseString("int main(){}",&a)!=0)
+		fail();
+	assert_int_equal(a.type,AST_FCT);
+}
+
+static void parsing_addition_simple_test(){
+	assert_null(parseString("int main(){int a=2+5;}",NULL));
+}
+
+static void parsing_soustraction_simple_test(){
+	assert_null(parseString("int main(){int a=2-5;}",NULL));
+}
+
+static void parsing_multiplication_simple_test(){
+	assert_null(parseString("int main(){int a=2*5;}",NULL));
+}
+
+static void parsing_division_simple_test(){
+	assert_null(parseString("int main(){int a=2/5;}",NULL));
+}
+
+static void parsing_operation_test(){
+	assert_null(parseString("int main(){int a=2+5*8/1;}",NULL));
+}
+
+static void parsing_tab_int_test(){
+	assert_null(parseString("int main(){int a[5][8];a[4][7]=6;}",NULL));
+}
+
+static void parsing_multilignes_test(){
+	assert_null(parseString("int main(){int a;a=2+5;}",NULL));
+}
+
+static void parsing_while_test(){
+	assert_null(parseString("int main(){while(1){}}",NULL));
+}
+
+static void parsing_while_test2(){
+	assert_null(parseString("int main(){int a=5; while(a<5){}}",NULL));
+}
+
+static void parsing_while_test3(){
+	assert_null(parseString("int main(){int a=5; while(a<5){int c;c=5+6;}}",NULL));
+}
+
+static void parsing_while_test4(){
+	assert_null(parseString("int main(){int a=1; while(a<5)a+=1;}",NULL));
+}
+
+static void parsingFAIL_while_test(){
+	assert_true(parseString("int main(){while(a);}",NULL));
+}
+static void parsingFAIL_while_test2(){
+	assert_true(parseString("int main(){while(4)",NULL));
+}
+static void parsingFAIL_while_test3(){
+	assert_true(parseString("int main(){while(1){int c = 5;}c=6;}",NULL));
+}
+
+static void parsing_for_test1(){
+	assert_null(parseString("int main(){for(int j=0;j<5;j++)int i; }",NULL));
+}
+static void parsing_for_test2(){
+	assert_null(parseString("int main(){int j; for(j=0;j<5;j++)int i; }",NULL));
+}
+static void parsing_for_test3(){
+	assert_null(parseString("int main(){int j; for(j=0;j<5;)int i; }",NULL));
+}
+
+static void parsingFAIL_for_test1(){
+	assert_true(parseString("int main(){for(j=0;j<5;j++)int i;}",NULL));
+}
+static void parsingFAIL_for_test2(){
+	assert_true(parseString("int main(){for(int j=0;j<5;k++)int i;}",NULL));
+}
+static void parsingFAIL_for_test3(){
+	assert_true(parseString("int main(){for(j=0;j++;j<5)int i;}",NULL));
+}
 
 int main(void) {
 	const struct CMUnitTest tests[] = {
@@ -69,6 +149,27 @@ int main(void) {
 		cmocka_unit_test_setup_teardown(parsingFail_function_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFile_test,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFail_undeclared_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(ast_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_addition_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_soustraction_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_multiplication_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_division_simple_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_operation_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_tab_int_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_multilignes_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_while_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_while_test2,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_while_test3,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_while_test4,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_while_test,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_while_test2,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_while_test3,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_for_test1,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_for_test2,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsing_for_test3,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_for_test1,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_for_test2,setup,teardown),
+		cmocka_unit_test_setup_teardown(parsingFAIL_for_test3,setup,teardown),
 	};
 	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }
