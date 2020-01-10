@@ -29,6 +29,9 @@
 %type <ast> appel
 %type <ast> parametres_appel
 %type <ast> instruction
+%type <ast> parametres_function
+%type <ast> parametre_function
+%type <ast> array_function
 %type <ast> operation
 %type <type> affectation_op
 %type <ast> body
@@ -70,6 +73,21 @@ function:
      INTEGER_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6,NULL,$2,AST_INT); free($2);}
     
     |DOUBLE_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6,NULL,$2,AST_DOUBLE); free($2);}
+;
+
+parametres_function:
+      parametre_function ',' parametres_function {$$->fonction.nb_param++; $$->fonction.params = realloc($$->fonction.nb_param * sizeof(ast*)); }
+     |parametre_function                         {$$ = ast_new_main_fct(NULL, NULL, NULL, 0); $$->fonction.nb_param = 1; $$->fonction.params = malloc(sizeof(ast*)); $$->fonction.params[0] = $1;}
+     |/*empty*/                                  {$$ = ast_new_main_fct(NULL, NULL, NULL, 0);}
+;
+
+parametre_function:
+      pre_type INTEGER_T ID array_function       {if($4)$$=ast_new_tab_int($3, NULL, 0, $4, $1);else $$=ast_new_id($3, NULL, 0, $1, 1);}
+;
+
+array_function:
+      '[' ']' array_function {$$=malloc(sizeof(struct array)); $$->n_dim=0;$$->next=$3;}
+      |/*epsilon*/           {$$ = NULL;}
 ;
 
 appel:

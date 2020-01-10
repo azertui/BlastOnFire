@@ -22,6 +22,8 @@ ast *ast_new_main_fct(ast *body, ast *next, char *id, ast_type returnType)
   new->type = AST_FCT;
   attribute_uid(new);
   new->fonction.id = strndup(id, strlen(id));
+  new->fonction.nb_param = 0;
+  new->fonction.params   = NULL;
   new->fonction.interne = body;
   new->fonction.returnType = returnType;
   new->next = next;
