@@ -34,11 +34,6 @@ int main()
     b = 5 * 3 + 8;
     int c = a;
     b = c * a;
-    if(true)
-    {
-        int tempo = 5;
-        i = tempo;
-    }
     b = i;
 }
 const double g = 2.67;

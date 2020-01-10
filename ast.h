@@ -72,7 +72,7 @@ typedef struct ast {
     struct {
       char* id;
       int nb_param;
-      ast** params;
+      struct ast** params;
     } appel;
     struct {
       struct ast* interne;
