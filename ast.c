@@ -28,6 +28,18 @@ ast *ast_new_main_fct(ast *body, ast *next, char *id, ast_type returnType)
   return new;
 }
 
+ast *ast_new_app(char* id, int nb_param, ast** params)
+{
+    ast* new = malloc(sizeof(ast));
+    new->type = AST_APP;
+    new->appel.id = id;
+    new->appel.nb_param = nb_param;
+    new->appel.params = params;
+    new->next = NULL;
+
+    return new;
+}
+
 ast *ast_new_operation(ast_type type, ast *left, ast *right)
 {
   ast *new = malloc(sizeof(ast));
@@ -114,7 +126,7 @@ void attribute_uid(ast *a)
 
 char *ast_type_to_string1(ast_type t)
 {
-  char *tab[(AST_WHILE - AST_ID) + 1] = {"AST_ID", "int" ,"AST_INT_TAB","double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_IF", "AST_ELSE_IF" ,"AST_ELSE","AST_COND", "AST_OP_INCR","AST_OP_DECR", "AST_FOR", "AST_WHILE"};
+  char *tab[(AST_WHILE - AST_ID) + 1] = {"AST_ID", "int" ,"AST_INT_TAB","double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_APP", "AST_IF", "AST_ELSE_IF" ,"AST_ELSE","AST_COND", "AST_OP_INCR","AST_OP_DECR", "AST_FOR", "AST_WHILE"};
   return tab[t];
 }
 
@@ -195,6 +207,16 @@ void ast_print(ast *ast, int indent)
     case AST_FCT:
       printf("FCT (%s) type:%s\n", ast->fonction.id, ast_type_to_string1(ast->fonction.returnType));
       ast_print(ast->fonction.interne, indent + 1);
+      ast_print(ast->next, indent);
+      break;
+    case AST_APP:
+      printf("fct (%s)\n", ast->appel.id);
+      if(ast->appel.nb_param)
+      {
+          for(int i = ast->appel.nb_param-1; i > 0; i--)
+              ast_print(ast->appel.params[i], indent + 1);
+          ast_print(ast->appel.params[0], indent + 1);
+      }
       ast_print(ast->next, indent);
       break;
     case AST_ID:
@@ -327,6 +349,17 @@ void free_ast(ast *a)
       free_ast(a->next);
       free(a);
       break;
+    case AST_APP:
+      free(a->appel.id);
+      if(a->appel.nb_param)
+      {
+          for(int i = 0; i < a->appel.nb_param; i++)
+              free_ast(a->appel.params[i]);
+      }
+      free(a->appel.params);
+      free_ast(a->next);
+      free(a);
+      break;
     case AST_ID:
       free_ast(a->type_int.value);
       free(a->type_int.id);
@@ -425,6 +458,20 @@ void ast_to_code_recur(ast *a, FILE *fichier)
       fprintf(fichier, "%s %s(){\n", ast_type_to_string1(a->fonction.returnType), a->fonction.id);
       ast_to_code_recur(a->fonction.interne, fichier);
       fputs(";\nreturn 0;\n}\n", fichier);
+      ast_to_code_recur(a->next, fichier);
+      break;
+    case AST_APP:
+      fprintf(fichier, "%s(", a->appel.id);
+      if(a->appel.nb_param)
+      {
+          for(int i = a->appel.nb_param-1; i > 0; i--)
+          {
+              ast_to_code_recur(a->appel.params[i], fichier);
+              fprintf(fichier, ", ");
+          }
+          ast_to_code_recur(a->appel.params[0], fichier);
+      }
+      fprintf(fichier, ");\n");
       ast_to_code_recur(a->next, fichier);
       break;
     case AST_ID:
