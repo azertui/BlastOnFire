@@ -208,10 +208,13 @@ void ast_print(ast *ast, int indent)
       break;
     case AST_APP:
       printf("APP %s(", ast->appel.id);
-      int i;
-      for(i = 0; i < ast->appel.nb_param-1; i++)
-          printf("%s, ", ast->appel.params[i]->type_int.id);
-      printf("%s)\n", ast->appel.params[i]->type_int.id);
+      if(ast->appel.nb_param)
+      {
+          int i;
+          for(i = 0; i < ast->appel.nb_param-1; i++)
+              printf("%s, ", ast->appel.params[i]->type_int.id);
+          printf("%s)\n", ast->appel.params[i]->type_int.id);
+      }
       break;
     case AST_ID:
       printf("ID (%s)%s", ast->type_int.id, ast->type_int.constant ? ": const" : "");
@@ -451,10 +454,13 @@ void ast_to_code_recur(ast *a, FILE *fichier)
       break;
     case AST_APP:
       fprintf(fichier, "%s(", a->appel.id);
-      int i;
-      for(i = 0; i < a->appel.nb_param-1; i++)
-        fprintf(fichier, "%s, ", a->appel.params[i]->type_int.id);
-      fprintf(fichier, "%s);\n", a->appel.params[i]->type_int.id);
+      if(a->appel.nb_param)
+      {
+          int i;
+          for(i = 0; i < a->appel.nb_param-1; i++)
+              fprintf(fichier, "%s, ", a->appel.params[i]->type_int.id);
+          fprintf(fichier, "%s);\n", a->appel.params[i]->type_int.id);
+      }
       break;
     case AST_ID:
       if (a->type_int.init)

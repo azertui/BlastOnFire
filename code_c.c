@@ -1,3 +1,8 @@
+int fun()
+{
+   int a;
+}
+
 int main()
 {
     int i;
@@ -27,6 +32,7 @@ int main()
     else{
         i=5;
     }
+    fun();
     i++;
     a = 5;
     int b = 8 * 2;
