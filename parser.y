@@ -77,8 +77,8 @@ appel:
 ;
 
 parametres_appel:
-    operation ',' parametres_appel { $$ = $3; $$->appel.nb_param++; $$->appel.params = realloc($$->appel.params, $$->appel.nb_param); $$->appel.params[$$->appel.nb_param-1] = $1; }
-    | operation                    {$$ = ast_new_app(NULL, 1, malloc(sizeof(ast*))); *($$->appel.params) = $1; }
+    operation ',' parametres_appel { $$ = $3; $$->appel.nb_param++; $$->appel.params = realloc($$->appel.params, $$->appel.nb_param * sizeof(ast*)); $$->appel.params[$$->appel.nb_param-1] = $1; }
+    | operation                    {$$ = ast_new_app(NULL, 1, malloc(sizeof(ast*))); $$->appel.params[0] = $1; }
     | /*epsilon*/                  {$$ = ast_new_app(NULL, 0, NULL);}
 ;
 

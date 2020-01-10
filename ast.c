@@ -351,8 +351,12 @@ void free_ast(ast *a)
       break;
     case AST_APP:
       free(a->appel.id);
-      for(int i = 0; i < a->appel.nb_param; i++)
-        free_ast(a->appel.params[i]);
+      if(a->appel.nb_param)
+      {
+          for(int i = 0; i < a->appel.nb_param; i++)
+              free_ast(a->appel.params[i]);
+      }
+      free_ast(a->next);
       free(a);
       break;
     case AST_ID:
