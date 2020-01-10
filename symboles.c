@@ -32,6 +32,18 @@ int analyse_ast_aux(ast *a, table t)
         return 1;
       pop_table(t);
       break;
+    case AST_APP:
+      if (find_symbole(t, a->appel.id) == NULL)
+      {
+        fprintf(stderr, "Unknown reference to %s\n", a->appel.id);
+        return 1;
+      }
+      for(int i = 0; i < a->appel.nb_param; i++)
+      {
+        if(analyse_ast_aux(a->appel.params[i],t))
+          return 1;
+      }
+      break;
     case AST_OP_PLUS:
     case AST_OP_MOINS:
     case AST_OP_MUL:

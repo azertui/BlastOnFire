@@ -1,3 +1,8 @@
+int fun()
+{
+   int a;
+}
+
 int main()
 {
     int i;
@@ -33,13 +38,8 @@ int main()
     else{
         i=5;
     }
-    if (5 == 2)  // Commentaire
-        i = 2;
-    if (3==4)
-    { 
-        int tempo = 2;
-        i = tempo;
-    }
+    fun();
+    fun(5,3);
     i++;
     a = 5;
     int b = 8 * 2;

@@ -26,6 +26,8 @@
 }
 %type <ast> code
 %type <ast> function
+%type <ast> appel
+%type <ast> parametres_appel
 %type <ast> instruction
 %type <ast> operation
 %type <type> affectation_op
@@ -61,13 +63,23 @@ start:
 code:
      declaration ';' code {$$=$1;$1->next=$3;}
     |function code        {$$=$1; $1->next=$2;}
-    | %empty/*epsilon*/ {$$=NULL;}
+    | %empty/*epsilon*/   {$$=NULL;}
   ;
 
 function:
      INTEGER_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6,NULL,$2,AST_INT); free($2);}
     
     |DOUBLE_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6,NULL,$2,AST_DOUBLE); free($2);}
+;
+
+appel:
+     ID '(' parametres_appel ')' { $$ = $3; $$->appel.id = $1; }
+;
+
+parametres_appel:
+    operation ',' parametres_appel { $$ = $3; $$->appel.nb_param++; $$->appel.params = realloc($$->appel.params, $$->appel.nb_param * sizeof(ast*)); $$->appel.params[$$->appel.nb_param-1] = $1; }
+    | operation                    {$$ = ast_new_app(NULL, 1, malloc(sizeof(ast*))); $$->appel.params[0] = $1; }
+    | /*epsilon*/                  {$$ = ast_new_app(NULL, 0, NULL);}
 ;
 
 body:
@@ -114,6 +126,7 @@ instruction:
     | unary ';' {$$=$1;}
     | ID array '=' operation ';'            {if($2==NULL) $$ = ast_new_id($1,$4,0,0,0) ; else $$ = ast_new_tab_int($1,$4,0,$2,0);free($1);}
     | ID array affectation_op '=' operation ';'  {if($2==NULL) $$ = ast_new_id($1,ast_new_operation($3,ast_new_id($1,NULL,0,0,0),$5),0,0,0);else $$ = ast_new_tab_int($1,ast_new_operation($3,ast_new_tab_int($1,NULL,0,$2,0),$5),0,$2,0);free($1);}
+    | appel ';' {$$=$1;}
 ;
 
 pre_type:
