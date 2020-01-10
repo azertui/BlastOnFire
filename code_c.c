@@ -33,6 +33,7 @@ int main()
         i=5;
     }
     fun();
+    fun(5,3);
     i++;
     a = 5;
     int b = 8 * 2;

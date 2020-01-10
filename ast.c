@@ -35,6 +35,7 @@ ast *ast_new_app(char* id, int nb_param, ast** params)
     new->appel.id = id;
     new->appel.nb_param = nb_param;
     new->appel.params = params;
+    new->next = NULL;
 }
 
 ast *ast_new_operation(ast_type type, ast *left, ast *right)
@@ -213,8 +214,9 @@ void ast_print(ast *ast, int indent)
           int i;
           for(i = 0; i < ast->appel.nb_param-1; i++)
               printf("%s, ", ast->appel.params[i]->type_int.id);
-          printf("%s)\n", ast->appel.params[i]->type_int.id);
+          printf("%s", ast->appel.params[i]->type_int.id);
       }
+      printf(")\n");
       break;
     case AST_ID:
       printf("ID (%s)%s", ast->type_int.id, ast->type_int.constant ? ": const" : "");
@@ -459,8 +461,9 @@ void ast_to_code_recur(ast *a, FILE *fichier)
           int i;
           for(i = 0; i < a->appel.nb_param-1; i++)
               fprintf(fichier, "%s, ", a->appel.params[i]->type_int.id);
-          fprintf(fichier, "%s);\n", a->appel.params[i]->type_int.id);
+          fprintf(fichier, "%s", a->appel.params[i]->type_int.id);
       }
+      fprintf(fichier, ");\n");
       break;
     case AST_ID:
       if (a->type_int.init)

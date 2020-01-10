@@ -126,7 +126,7 @@ instruction:
     | unary ';' {$$=$1;}
     | ID array '=' operation ';'            {if($2==NULL) $$ = ast_new_id($1,$4,0,0,0) ; else $$ = ast_new_tab_int($1,$4,0,$2,0);free($1);}
     | ID array affectation_op '=' operation ';'  {if($2==NULL) $$ = ast_new_id($1,ast_new_operation($3,ast_new_id($1,NULL,0,0,0),$5),0,0,0);else $$ = ast_new_tab_int($1,ast_new_operation($3,ast_new_tab_int($1,NULL,0,$2,0),$5),0,$2,0);free($1);}
-    | appel ';' {}
+    | appel ';' {$$=$1;}
 ;
 
 pre_type:
