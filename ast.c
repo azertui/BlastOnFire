@@ -356,6 +356,7 @@ void free_ast(ast *a)
           for(int i = 0; i < a->appel.nb_param; i++)
               free_ast(a->appel.params[i]);
       }
+      free(a->appel.params);
       free_ast(a->next);
       free(a);
       break;
