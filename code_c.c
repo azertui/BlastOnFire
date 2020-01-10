@@ -19,6 +19,7 @@ int main()
         int tempo = 2;
         i = tempo;
     }
+    int mlajz = tab[1];
     /*
     int op=2;
     apinnpiaepin

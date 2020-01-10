@@ -194,7 +194,7 @@ operation:
   | operation '%' operation { $$ = ast_new_operation(AST_OP_MODULO,$1,$3);}
   | INTEGER   {$$ = ast_new_number($1,1);}
   | DOUBLE {$$=ast_new_number($1,0);}
-  | ID        {$$ = ast_new_id($1,NULL,0,0,0);free($1);}
+  | ID array { if($2==NULL){ $$ = ast_new_id($1,NULL,0,0,0);}else{ $$ = ast_new_tab_int($1,NULL,0,$2,0); } free($1);}
 ;
 
 %%
