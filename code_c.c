@@ -19,6 +19,12 @@ int main()
     for(int j=5;j<5;j++){
         i=2;
     }
+    if (3==4)
+    { 
+        int tempo = 2;
+        i = tempo;
+    }
+    int mlajz = tab[1];
     /*
     int op=2;
     apinnpiaepin
