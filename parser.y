@@ -127,7 +127,9 @@ condition:
     | IF '(' boolean ')' instruction                        {$$ = ast_new_comparateur($3,$5,AST_IF);}    
 
     | IF '(' boolean ')' '{' body '}' condition_suite                { $$ = ast_new_comparateur($3,$6,AST_IF);}    
-                                                                    
+
+    | IF '(' boolean ')' '{' body '}'                { $$ = ast_new_comparateur($3,$6,AST_IF);}    
+
 ;
 
 boolean:

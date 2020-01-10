@@ -14,6 +14,11 @@ int main()
     for(int j=5;j<5;j++){
         i=2;
     }
+    if (3==4)
+    { 
+        int tempo = 2;
+        i = tempo;
+    }
     /*
     int op=2;
     apinnpiaepin
@@ -26,6 +31,13 @@ int main()
         i = 2;
     else{
         i=5;
+    }
+    if (5 == 2)  // Commentaire
+        i = 2;
+    if (3==4)
+    { 
+        int tempo = 2;
+        i = tempo;
     }
     i++;
     a = 5;
