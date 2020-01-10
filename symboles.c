@@ -135,6 +135,7 @@ int analyse_ast(ast *a)
   table t = new_table();
   int res = analyse_ast_aux(a, t);
   free_table(t);
+  printf("analyse effectuée avec succès!\n");
   return res;
 }
 

@@ -11,6 +11,7 @@
     fprintf(stderr,"%s\n##########\n",msg);
     fprintf(stderr,"lineno:%d column:%d content:%s\n##########\n",yyget_lineno(scanner),yyget_column(scanner),yyget_text(scanner));
   };
+  int print_symb =0;
 
 %}
 %debug
@@ -57,7 +58,7 @@
 %%
  
 start:
-    code {printf("Chaine reconnue!\n"); ast_print($1,0); if(analyse_ast($1))return 1; *parsed_ast=*$1;free($1); ast_to_code(parsed_ast); return 0;}
+    code {printf("Syntaxe reconnue!\n"); if(analyse_ast($1))return 1; *parsed_ast=*$1;free($1); ast_to_code(parsed_ast); return 0;}
 ;
 
 code:
@@ -212,13 +213,17 @@ operation:
 
 %%
 
-int parseFile(FILE* f, ast *result_ast){
+int parseFile(FILE* f, ast *result_ast, int print_ast, int print_tab){
   yyscan_t scanner;
   yylex_init (&scanner);
   yyset_debug(5, scanner);
   yyset_in(f,scanner);
   ast* parsed_ast=malloc(sizeof(ast));
   int res= yyparse(parsed_ast,scanner);
+  if(print_ast)
+    ast_print(parsed_ast,0);
+  if(print_tab)
+    print_symb=1;
   if(result_ast!=NULL && !res){
     *result_ast=*parsed_ast;
     free(parsed_ast);
