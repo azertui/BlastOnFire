@@ -79,7 +79,7 @@ typedef struct ast {
       struct ast* interne;
       struct ast* cond;  
     } boucle_while;
-    } ;
+    };
   struct ast* next; /*!< Pointeur vers un autre noeud, la suite de l'arbre*/
   unsigned int uid;
 } ast;
