@@ -1,0 +1,357 @@
+\hypertarget{ast_8h}{}\section{ast.\+h File Reference}
+\label{ast_8h}\index{ast.\+h@{ast.\+h}}
+
+
+Header de l\textquotesingle{}arbre de syntaxe.  
+
+
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structarray}{array}
+\item 
+struct \hyperlink{structast}{ast}
+\begin{DoxyCompactList}\small\item\em Noeud de l\textquotesingle{}ast. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ast_8h_a823e85c6327fb898b5068f4d413ef1df}\label{ast_8h_a823e85c6327fb898b5068f4d413ef1df}} 
+typedef struct \hyperlink{structarray}{array} $\ast$ {\bfseries array}
+\item 
+\mbox{\Hypertarget{ast_8h_abae12a9b2c77963636793bcf1de19b2c}\label{ast_8h_abae12a9b2c77963636793bcf1de19b2c}} 
+typedef struct \hyperlink{structast}{ast} {\bfseries ast}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} \{ \newline
+{\bfseries A\+S\+T\+\_\+\+ID}, 
+{\bfseries A\+S\+T\+\_\+\+I\+NT}, 
+{\bfseries A\+S\+T\+\_\+\+I\+N\+T\+\_\+\+T\+AB}, 
+{\bfseries A\+S\+T\+\_\+\+D\+O\+U\+B\+LE}, 
+\newline
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+P\+L\+US}, 
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+M\+UL}, 
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+M\+O\+D\+U\+LO}, 
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+M\+O\+I\+NS}, 
+\newline
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+D\+IV}, 
+{\bfseries A\+S\+T\+\_\+\+F\+CT}, 
+{\bfseries A\+S\+T\+\_\+\+A\+PP}, 
+{\bfseries A\+S\+T\+\_\+\+IF}, 
+\newline
+{\bfseries A\+S\+T\+\_\+\+E\+L\+S\+E\+\_\+\+IF}, 
+{\bfseries A\+S\+T\+\_\+\+E\+L\+SE}, 
+{\bfseries A\+S\+T\+\_\+\+C\+O\+ND}, 
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+I\+N\+CR}, 
+\newline
+{\bfseries A\+S\+T\+\_\+\+O\+P\+\_\+\+D\+E\+CR}, 
+{\bfseries A\+S\+T\+\_\+\+F\+OR}, 
+{\bfseries A\+S\+T\+\_\+\+W\+H\+I\+LE}
+ \}\begin{DoxyCompactList}\small\item\em types. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{ast_8h_ae852452be131f9632e1f178b164a02aa}\label{ast_8h_ae852452be131f9632e1f178b164a02aa}} 
+void {\bfseries free\+\_\+arr} (\hyperlink{structarray}{array} a)
+\item 
+void \hyperlink{ast_8h_a490738a34939dc91ca000afe467ca54a}{attribute\+\_\+uid} (\hyperlink{structast}{ast} $\ast$a)
+\begin{DoxyCompactList}\small\item\em Permet d\textquotesingle{}attribuer un id unique à un contenant. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ast_8h_a7b954d13053138427411f435b6c5e571}\label{ast_8h_a7b954d13053138427411f435b6c5e571}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+main\+\_\+fct} (\hyperlink{structast}{ast} $\ast$body, \hyperlink{structast}{ast} $\ast$next, char $\ast$id, \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} return\+Type)
+\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_a003223ac17011da9b156cc351a095f8f}{ast\+\_\+new\+\_\+app} (char $\ast$id, int nb\+\_\+param, \hyperlink{structast}{ast} $\ast$$\ast$params)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{}\+Appel de fonction\char`\"{} d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ast_8h_a0d96a2c9ae15ddced5de63be99f3ad7b}\label{ast_8h_a0d96a2c9ae15ddced5de63be99f3ad7b}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries new\+\_\+ast\+\_\+fake} ()
+\item 
+\mbox{\Hypertarget{ast_8h_a0566ec58f68bad96164f4a53dec7870c}\label{ast_8h_a0566ec58f68bad96164f4a53dec7870c}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+operation} (\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type, \hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right)
+\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_a4b1934f0fd9f14f87bdbd145575180db}{ast\+\_\+new\+\_\+number} (double number, int is\+\_\+int)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ast_8h_a95e76f63c8daeaed24a9a2f64a8244dc}\label{ast_8h_a95e76f63c8daeaed24a9a2f64a8244dc}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+id} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init, int constant, int is\+\_\+int)
+\item 
+\mbox{\Hypertarget{ast_8h_a412a529fae7b42272c84012f9622df29}\label{ast_8h_a412a529fae7b42272c84012f9622df29}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+tab\+\_\+int} (char $\ast$id, \hyperlink{structast}{ast} $\ast$value, int init, \hyperlink{structarray}{array} nb, int constant)
+\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_a9fb6118d6bda40a2f94f1dbdda8fbcfa}{ast\+\_\+double\+\_\+to\+\_\+integer} (\hyperlink{structast}{ast} $\ast$number)
+\begin{DoxyCompactList}\small\item\em Fonction spécifiant qu\textquotesingle{}un ast de nombre est de type entier. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{ast_8h_a906dbc7f334863ee214a402293fdb4db}\label{ast_8h_a906dbc7f334863ee214a402293fdb4db}} 
+\hyperlink{structast}{ast} $\ast$ {\bfseries ast\+\_\+new\+\_\+condition} (\hyperlink{structast}{ast} $\ast$left, \hyperlink{structast}{ast} $\ast$right, char $\ast$op)
+\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_a53feffa8dfc3963bf0ee33e97d206ca3}{ast\+\_\+new\+\_\+comparateur} (\hyperlink{structast}{ast} $\ast$cond, \hyperlink{structast}{ast} $\ast$interne, \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type} type)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}une nouvelle condition. \end{DoxyCompactList}\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_a77bbd3540795dc1a0a22e27d53e1012a}{ast\+\_\+new\+\_\+boucle\+\_\+for} (\hyperlink{structast}{ast} $\ast$first, \hyperlink{structast}{ast} $\ast$second, \hyperlink{structast}{ast} $\ast$third, \hyperlink{structast}{ast} $\ast$interne)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}une nouvelle boucle for. \end{DoxyCompactList}\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_ac08a70f3c3436e3e040095fbb68ca317}{ast\+\_\+new\+\_\+boucle\+\_\+while} (\hyperlink{structast}{ast} $\ast$cond, \hyperlink{structast}{ast} $\ast$interne)
+\begin{DoxyCompactList}\small\item\em Fonction de création d\textquotesingle{}une nouvelle boucle while. \end{DoxyCompactList}\item 
+void \hyperlink{ast_8h_adc84673a1feec531ce0e52042cd95350}{ast\+\_\+print} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast}, int indent)
+\begin{DoxyCompactList}\small\item\em Fonction d\textquotesingle{}affichage d\textquotesingle{}un objet ast. \end{DoxyCompactList}\item 
+\hyperlink{structast}{ast} $\ast$ \hyperlink{ast_8h_aad6cba4112d48779c9dbeece6e68d8e3}{ast\+\_\+link} (\hyperlink{structast}{ast} $\ast$a, \hyperlink{structast}{ast} $\ast$next)
+\begin{DoxyCompactList}\small\item\em Fonction reliant le dernier noeud d\textquotesingle{}un ast à un objet ast. \end{DoxyCompactList}\item 
+void \hyperlink{ast_8h_ab0dc5b3909a42eee6f6cbe4c7beb2397}{free\+\_\+ast} (\hyperlink{structast}{ast} $\ast$\hyperlink{structast}{ast})
+\begin{DoxyCompactList}\small\item\em Libération de l\textquotesingle{}arbre. \end{DoxyCompactList}\item 
+void \hyperlink{ast_8h_a0e610b0cffa352959446a1f3194c4d31}{ast\+\_\+to\+\_\+code} (\hyperlink{structast}{ast} $\ast$a)
+\begin{DoxyCompactList}\small\item\em Transformation de l\textquotesingle{}arbre en code C dans un fichier res\+\_\+c.\+c. \end{DoxyCompactList}\item 
+void \hyperlink{ast_8h_a973b42fe8a903e64c90d9ec3fa571cf5}{ast\+\_\+to\+\_\+code\+\_\+recur} (\hyperlink{structast}{ast} $\ast$a, F\+I\+LE $\ast$fichier)
+\begin{DoxyCompactList}\small\item\em Fonction auxiliaire de ast\+\_\+to\+\_\+code. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header de l\textquotesingle{}arbre de syntaxe. 
+
+\begin{DoxyAuthor}{Author}
+Monfouga Marie 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+3.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+03 janvier 2020
+\end{DoxyDate}
+Header de l\textquotesingle{}arbre de syntaxe 
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{ast_8h_a77091c187ac9a89404fac2e8226daef3}\label{ast_8h_a77091c187ac9a89404fac2e8226daef3}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+type@{ast\+\_\+type}}
+\index{ast\+\_\+type@{ast\+\_\+type}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+type}{ast\_type}}
+{\footnotesize\ttfamily enum \hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type}}
+
+
+
+types. 
+
+ast\+\_\+type est une série de types qui pourront être stockés dans l\textquotesingle{}arbre et reconnu par yacc 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{ast_8h_a9fb6118d6bda40a2f94f1dbdda8fbcfa}\label{ast_8h_a9fb6118d6bda40a2f94f1dbdda8fbcfa}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+double\+\_\+to\+\_\+integer@{ast\+\_\+double\+\_\+to\+\_\+integer}}
+\index{ast\+\_\+double\+\_\+to\+\_\+integer@{ast\+\_\+double\+\_\+to\+\_\+integer}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+double\+\_\+to\+\_\+integer()}{ast\_double\_to\_integer()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast}$\ast$ ast\+\_\+double\+\_\+to\+\_\+integer (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{number }\end{DoxyParamCaption})}
+
+
+
+Fonction spécifiant qu\textquotesingle{}un ast de nombre est de type entier. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & ast du nombre devant être converti \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+l\textquotesingle{}ast du nombre converti ou N\+U\+LL en cas d\textquotesingle{}erreur 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8h_aad6cba4112d48779c9dbeece6e68d8e3}\label{ast_8h_aad6cba4112d48779c9dbeece6e68d8e3}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+link@{ast\+\_\+link}}
+\index{ast\+\_\+link@{ast\+\_\+link}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+link()}{ast\_link()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast}$\ast$ ast\+\_\+link (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a,  }\item[{\hyperlink{structast}{ast} $\ast$}]{next }\end{DoxyParamCaption})}
+
+
+
+Fonction reliant le dernier noeud d\textquotesingle{}un ast à un objet ast. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & arbre. \\
+\hline
+{\em next} & arbre. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Arbre a dont le dernier élément next pointe sur l\textquotesingle{}arbre. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8h_a003223ac17011da9b156cc351a095f8f}\label{ast_8h_a003223ac17011da9b156cc351a095f8f}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+new\+\_\+app@{ast\+\_\+new\+\_\+app}}
+\index{ast\+\_\+new\+\_\+app@{ast\+\_\+new\+\_\+app}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+app()}{ast\_new\_app()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast}$\ast$ ast\+\_\+new\+\_\+app (\begin{DoxyParamCaption}\item[{char $\ast$}]{id,  }\item[{int}]{nb\+\_\+param,  }\item[{\hyperlink{structast}{ast} $\ast$$\ast$}]{params }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}une nouvelle instance de type \char`\"{}\+Appel de fonction\char`\"{} d\textquotesingle{}un objet ast. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & est le nom de la fonction appelée \\
+\hline
+{\em nb\+\_\+param} & est le nombre de paramètres passés à la fonction \\
+\hline
+{\em params} & est un tableau dynamique de taille nb\+\_\+param contenant les paramètres passés à la fonction \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8h_a77bbd3540795dc1a0a22e27d53e1012a}\label{ast_8h_a77bbd3540795dc1a0a22e27d53e1012a}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+new\+\_\+boucle\+\_\+for@{ast\+\_\+new\+\_\+boucle\+\_\+for}}
+\index{ast\+\_\+new\+\_\+boucle\+\_\+for@{ast\+\_\+new\+\_\+boucle\+\_\+for}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+boucle\+\_\+for()}{ast\_new\_boucle\_for()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast}$\ast$ ast\+\_\+new\+\_\+boucle\+\_\+for (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{first,  }\item[{\hyperlink{structast}{ast} $\ast$}]{second,  }\item[{\hyperlink{structast}{ast} $\ast$}]{third,  }\item[{\hyperlink{structast}{ast} $\ast$}]{interne }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}une nouvelle boucle for. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & ast de l\textquotesingle{}initialisation de variable. \\
+\hline
+{\em second} & ast des condtions. \\
+\hline
+{\em third} & ast de modification des variables. \\
+\hline
+{\em interne} & ast présent dans le if \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8h_ac08a70f3c3436e3e040095fbb68ca317}\label{ast_8h_ac08a70f3c3436e3e040095fbb68ca317}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+new\+\_\+boucle\+\_\+while@{ast\+\_\+new\+\_\+boucle\+\_\+while}}
+\index{ast\+\_\+new\+\_\+boucle\+\_\+while@{ast\+\_\+new\+\_\+boucle\+\_\+while}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+boucle\+\_\+while()}{ast\_new\_boucle\_while()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast}$\ast$ ast\+\_\+new\+\_\+boucle\+\_\+while (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{cond,  }\item[{\hyperlink{structast}{ast} $\ast$}]{interne }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}une nouvelle boucle while. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cond} & ast des condtions. \\
+\hline
+{\em interne} & ast présent dans le if \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8h_a53feffa8dfc3963bf0ee33e97d206ca3}\label{ast_8h_a53feffa8dfc3963bf0ee33e97d206ca3}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+new\+\_\+comparateur@{ast\+\_\+new\+\_\+comparateur}}
+\index{ast\+\_\+new\+\_\+comparateur@{ast\+\_\+new\+\_\+comparateur}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+comparateur()}{ast\_new\_comparateur()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast}$\ast$ ast\+\_\+new\+\_\+comparateur (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{cond,  }\item[{\hyperlink{structast}{ast} $\ast$}]{interne,  }\item[{\hyperlink{ast_8h_a77091c187ac9a89404fac2e8226daef3}{ast\+\_\+type}}]{type }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}une nouvelle condition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cond} & ast de la condition. \\
+\hline
+{\em interne} & ast présent dans le if \\
+\hline
+{\em type} & type de l\textquotesingle{}opération ayant lieu entre les arbres. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance nouvelle allouée d\textquotesingle{}un objet de type ast. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8h_a4b1934f0fd9f14f87bdbd145575180db}\label{ast_8h_a4b1934f0fd9f14f87bdbd145575180db}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+new\+\_\+number@{ast\+\_\+new\+\_\+number}}
+\index{ast\+\_\+new\+\_\+number@{ast\+\_\+new\+\_\+number}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+new\+\_\+number()}{ast\_new\_number()}}
+{\footnotesize\ttfamily \hyperlink{structast}{ast}$\ast$ ast\+\_\+new\+\_\+number (\begin{DoxyParamCaption}\item[{double}]{number,  }\item[{int}]{is\+\_\+int }\end{DoxyParamCaption})}
+
+
+
+Fonction de création d\textquotesingle{}un noeud d\textquotesingle{}un int. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & valeur flottante ou entiere. \\
+\hline
+{\em is\+\_\+int} & booléen vrai si le nombre est un entier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Noeud du nombre. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8h_adc84673a1feec531ce0e52042cd95350}\label{ast_8h_adc84673a1feec531ce0e52042cd95350}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+print@{ast\+\_\+print}}
+\index{ast\+\_\+print@{ast\+\_\+print}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+print()}{ast\_print()}}
+{\footnotesize\ttfamily void ast\+\_\+print (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{ast,  }\item[{int}]{indent }\end{DoxyParamCaption})}
+
+
+
+Fonction d\textquotesingle{}affichage d\textquotesingle{}un objet ast. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ast} & ast à afficher. \\
+\hline
+{\em indent} & indentation à créer avant de print. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{ast_8h_a0e610b0cffa352959446a1f3194c4d31}\label{ast_8h_a0e610b0cffa352959446a1f3194c4d31}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+to\+\_\+code@{ast\+\_\+to\+\_\+code}}
+\index{ast\+\_\+to\+\_\+code@{ast\+\_\+to\+\_\+code}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+to\+\_\+code()}{ast\_to\_code()}}
+{\footnotesize\ttfamily void ast\+\_\+to\+\_\+code (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a }\end{DoxyParamCaption})}
+
+
+
+Transformation de l\textquotesingle{}arbre en code C dans un fichier res\+\_\+c.\+c. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ast} & arbre. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{ast_8h_a973b42fe8a903e64c90d9ec3fa571cf5}\label{ast_8h_a973b42fe8a903e64c90d9ec3fa571cf5}} 
+\index{ast.\+h@{ast.\+h}!ast\+\_\+to\+\_\+code\+\_\+recur@{ast\+\_\+to\+\_\+code\+\_\+recur}}
+\index{ast\+\_\+to\+\_\+code\+\_\+recur@{ast\+\_\+to\+\_\+code\+\_\+recur}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{ast\+\_\+to\+\_\+code\+\_\+recur()}{ast\_to\_code\_recur()}}
+{\footnotesize\ttfamily void ast\+\_\+to\+\_\+code\+\_\+recur (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a,  }\item[{F\+I\+LE $\ast$}]{fichier }\end{DoxyParamCaption})}
+
+
+
+Fonction auxiliaire de ast\+\_\+to\+\_\+code. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ast} & arbre. \\
+\hline
+{\em fichier} & fichier où écrire le code. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{ast_8h_a490738a34939dc91ca000afe467ca54a}\label{ast_8h_a490738a34939dc91ca000afe467ca54a}} 
+\index{ast.\+h@{ast.\+h}!attribute\+\_\+uid@{attribute\+\_\+uid}}
+\index{attribute\+\_\+uid@{attribute\+\_\+uid}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{attribute\+\_\+uid()}{attribute\_uid()}}
+{\footnotesize\ttfamily void attribute\+\_\+uid (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a }\end{DoxyParamCaption})}
+
+
+
+Permet d\textquotesingle{}attribuer un id unique à un contenant. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & ast se voyant attribuer un uid \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{ast_8h_ab0dc5b3909a42eee6f6cbe4c7beb2397}\label{ast_8h_ab0dc5b3909a42eee6f6cbe4c7beb2397}} 
+\index{ast.\+h@{ast.\+h}!free\+\_\+ast@{free\+\_\+ast}}
+\index{free\+\_\+ast@{free\+\_\+ast}!ast.\+h@{ast.\+h}}
+\subsubsection{\texorpdfstring{free\+\_\+ast()}{free\_ast()}}
+{\footnotesize\ttfamily void free\+\_\+ast (\begin{DoxyParamCaption}\item[{\hyperlink{structast}{ast} $\ast$}]{a }\end{DoxyParamCaption})}
+
+
+
+Libération de l\textquotesingle{}arbre. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ast} & arbre. \\
+\hline
+\end{DoxyParams}
