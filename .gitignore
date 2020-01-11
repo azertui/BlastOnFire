@@ -1,6 +1,13 @@
 # Prerequisites
 *.d
+#IDEs
 .vscode/
+.cflags
+.config
+.creator
+.cxxflags
+.files
+.includes
 
 #Documentation
 #Doxygen/
