@@ -1,3 +1,14 @@
+/**
+ * \file symboles.c
+ * \brief Source de la table de symboles
+ * \author Rauch Arthur
+ * \version 3.0
+ * \date 03 janvier 2020
+ *
+ * Code source des fonctions de la table de symboles
+ *
+ */
+
 
 #include "symboles.h"
 
