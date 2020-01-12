@@ -38,9 +38,9 @@ int analyse_ast_aux(ast *a, table t, int print_symb)
       {
         ast* param = a->fonction.params[i];
         if(a->fonction.params[i]->type == AST_ID)
-          add_symbole(t, new_symboles(param->type_int.id, param->type_int.constant));
+          add_symbole(t, new_symboles(param->type_int.id, param->type_int.constant),print_symb);
         else
-          add_symbole(t, new_symboles(param->type_int_tab.id, param->type_int_tab.constant));
+          add_symbole(t, new_symboles(param->type_int_tab.id, param->type_int_tab.constant),print_symb);
       }
       if (analyse_ast_aux(a->fonction.interne, t, print_symb))
         return 1;
