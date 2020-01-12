@@ -43,7 +43,6 @@ typedef struct ast {
       struct ast* value;  /*!< noeud de valeur*/
       int init; /*!< booléen pour l'initialisation*/
       int constant;/*!< boolean pour définir si la variable est une constante*/
-      int is_int;/*!< boolean pour définir si la variable est de type int*/
     } type_int; /*!< variable, constante */
     struct {
       char* id; /*!< identificateur */
