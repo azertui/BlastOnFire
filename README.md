@@ -5,12 +5,12 @@
 -- Bauer Emilien
 -- Huynh Jimmy
 
-Dépôt Github: 
-https://github.com/azertui/BlastOnFire
+Dépôt Github:
+<https://github.com/azertui/BlastOnFire>
 Lien vers la documentation en ligne:
-https://azertui.github.io/BlastOnFire/Doxygen/html/index.html
+<https://azertui.github.io/BlastOnFire/Doxygen/html/index.html>
 
-## Compte rendu des fonctionnalités du projet.
+## Compte rendu des fonctionnalités du projet
 
 ### Options
 
@@ -36,7 +36,7 @@ L'analyseur syntaxique est capable de reconnaître et de générer un AST à par
 * Commentaires (effacés, absents à la sortie)
 * Variables constantes
 * Structures conditionnelles if, else if, else
-* Boucles for, avec possibilité de paramètres nuls: for(;i<5;i++) 
+* Boucles for, avec possibilité de paramètres nuls: for(;i<5;i++)
 * Boucles while
 
 ### Vérification de la portée des identifiants
