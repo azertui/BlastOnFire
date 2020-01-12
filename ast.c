@@ -131,7 +131,7 @@ void attribute_uid(ast *a)
 
 char *ast_type_to_string1(ast_type t)
 {
-  char *tab[] = {"AST_ID", "int", "AST_INT_TAB", "double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_APP", "AST_IF", "AST_ELSE_IF", "AST_ELSE", "AST_COND", "AST_OP_INCR", "AST_OP_DECR", "AST_FOR", "AST_WHILE", "AST_RET"};
+  char *tab[] = {"AST_ID", "int", "AST_INT_TAB", "double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_APP", "AST_IF", "AST_ELSE_IF", "AST_ELSE", "AST_COND", "AST_OP_INCR", "AST_OP_DECR", "AST_FOR", "AST_WHILE", "AST_RET", "void"};
   return tab[t];
 }
 
