@@ -21,7 +21,10 @@ ast *ast_new_main_fct(ast *body, ast *next, char *id, ast_type returnType)
   ast *new = malloc(sizeof(ast));
   new->type = AST_FCT;
   attribute_uid(new);
-  new->fonction.id = strndup(id, strlen(id));
+  if(id!=NULL)
+    new->fonction.id = strndup(id, strlen(id));
+  else
+    new->fonction.id=NULL;
   new->fonction.nb_param = 0;
   new->fonction.params   = NULL;
   new->fonction.interne = body;

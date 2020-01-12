@@ -77,8 +77,8 @@ function:
 
 parametres_function:
       parametre_function ',' parametres_function {$$ = $3; $$->fonction.nb_param++; $$->fonction.params = realloc($$->fonction.params, $$->fonction.nb_param * sizeof(ast*)); $$->fonction.params[$$->fonction.nb_param-1] = $1; }
-     |parametre_function                         {$$ = ast_new_main_fct(NULL, NULL, "", 0); $$->fonction.nb_param = 1; $$->fonction.params = malloc(sizeof(ast*)); $$->fonction.params[0] = $1;}
-     |/*empty*/                                  {$$ = ast_new_main_fct(NULL, NULL, "", 0);}
+     |parametre_function                         {$$ = ast_new_main_fct(NULL, NULL, NULL, 0); $$->fonction.nb_param = 1; $$->fonction.params = malloc(sizeof(ast*)); $$->fonction.params[0] = $1;}
+     |/*empty*/                                  {$$ = ast_new_main_fct(NULL, NULL, NULL, 0);}
 ;
 
 parametre_function:
