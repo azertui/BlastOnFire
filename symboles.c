@@ -1,3 +1,14 @@
+/**
+ * \file symboles.c
+ * \brief Source de la table de symboles
+ * \author Rauch Arthur
+ * \version 3.0
+ * \date 03 janvier 2020
+ *
+ * Code source des fonctions de la table de symboles
+ *
+ */
+
 
 #include "symboles.h"
 
@@ -52,7 +63,7 @@ int analyse_ast_aux(ast *a, table t, int print_symb)
         fprintf(stderr, "Unknown reference to %s\n", a->appel.id);
         return 1;
       }
-      for (int i = 0; i < a->appel.nb_param; i++)
+      for (int i = a->appel.nb_param -1; i >=0; i--)
       {
         if (analyse_ast_aux(a->appel.params[i], t, print_symb))
           return 1;
