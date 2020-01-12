@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "../ast.h"
 #include <fcntl.h>
-#define VERBOSE
+
 #ifndef VERBOSE
 //used to redirect stdout
 int temp;
