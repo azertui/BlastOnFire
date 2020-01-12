@@ -6,12 +6,11 @@
   #include "y.tab.h"
   #include "lex.h"
   #include <stdlib.h>
-  void yyerror(ast* a,void* scanner,const char* msg){
+  void yyerror(ast* a,void* scanner,int print_symb, const char* msg){
     (void)a;
     fprintf(stderr,"%s\n##########\n",msg);
     fprintf(stderr,"lineno:%d column:%d content:%s\n##########\n",yyget_lineno(scanner),yyget_column(scanner),yyget_text(scanner));
   };
-  int print_symb =0;
 
 %}
 %debug
@@ -53,12 +52,12 @@
 %token INTEGER_T DOUBLE_T CONST DECR INCR
 %token IF ELSE FOR WHILE AND OR
 %token <name>ID 
-%parse-param {ast* parsed_ast} {void * scanner}
+%parse-param {ast* parsed_ast} {void * scanner} {int print_symb}
 %start start
 %%
  
 start:
-    code {printf("Syntaxe reconnue!\n"); if(analyse_ast($1))return 1; *parsed_ast=*$1;free($1); return 0;}
+    code {printf("Syntaxe reconnue!\n"); if(analyse_ast($1,print_symb))return 1; *parsed_ast=*$1;free($1); return 0;}
 ;
 
 code:
@@ -219,12 +218,10 @@ int parseFile(FILE* f, ast *result_ast, int print_ast, int print_tab,char* filen
   yyset_debug(5, scanner);
   yyset_in(f,scanner);
   ast* parsed_ast=malloc(sizeof(ast));
-  int res= yyparse(parsed_ast,scanner);
+  int res= yyparse(parsed_ast,scanner,print_tab);
   if(print_ast)
     ast_print(parsed_ast,0);
   ast_to_code(parsed_ast,filename);
-  if(print_tab)
-    print_symb=1;
   if(result_ast!=NULL && !res){
     *result_ast=*parsed_ast;
     free(parsed_ast);
@@ -243,7 +240,7 @@ int parseString(char *s,ast *result_ast ) {
   }
   YY_BUFFER_STATE buf =yy_scan_string(s,scanner);
   ast* parsed_ast= malloc(sizeof(ast));
-  int res= yyparse(parsed_ast,scanner);
+  int res= yyparse(parsed_ast,scanner,0);
   if(result_ast!=NULL && res==0){
     *result_ast=*parsed_ast;
     free(parsed_ast);
@@ -260,7 +257,7 @@ int parse(ast* result_ast) {
   yylex_init (&scanner);
   printf("Entrez une expression :\n");
   ast* parsed_ast=malloc(sizeof(ast));
-  int res= yyparse(parsed_ast,scanner);
+  int res= yyparse(parsed_ast,scanner,0);
   if(result_ast==NULL && res==0){
     *result_ast=*parsed_ast;
     free(parsed_ast);

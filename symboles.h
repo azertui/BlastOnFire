@@ -14,6 +14,8 @@ typedef struct symboles
 
 typedef struct table
 {
+    int id;
+    int indent;
     symboles available;
     struct table *next;
     struct table *pred;
@@ -21,11 +23,11 @@ typedef struct table
 
 table new_table();
 
-int analyse_ast(ast* a);
+int analyse_ast(ast* a, int print_symb);
 
 symboles new_symboles(char *id, int constant);
 
-table add_table(table t);
+table add_table(table t, int print_symb);
 
 void free_symboles(symboles s);
 
@@ -33,7 +35,7 @@ symboles find_symbole(table t, char* id);
 
 void free_table(table t);
 
-void pop_table(table t);
+void pop_table(table t, int print_symb);
 
-void add_symbole(table t, symboles s);
+void add_symbole(table t, symboles s, int print_symb);
 #endif
