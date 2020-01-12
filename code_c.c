@@ -44,8 +44,7 @@ int main()
     else{
         i=5;
     }
-    fun();
-    fun(5,3);
+    fun(5);
     i++;
     a = 5;
     int b = 8 * 2;

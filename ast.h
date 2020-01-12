@@ -35,9 +35,9 @@ typedef struct ast {
  ast_type type; /*!< Type du noeud */
   union {
     struct {
-      struct ast* left;
-      struct ast* right; 
-    } operation;
+      struct ast* left;/*< Partie gauche de l'opération */
+      struct ast* right;/*< Partie droite de l'opération */
+    } operation;/*!< Opération arithmétique */
     struct {
       char* id; /*!< identificateur */
       struct ast* value;  /*!< noeud de valeur*/
@@ -84,9 +84,9 @@ typedef struct ast {
       struct ast* third;  
     } boucle_for;
     struct {
-      struct ast* interne;
-      struct ast* cond;  
-    } boucle_while;
+      struct ast* interne;/*!< corps de la boucle while */
+      struct ast* cond;/*!< Condition de la boucle while */
+    } boucle_while; /*!< Boucle while */
     };
   struct ast* next; /*!< Pointeur vers un autre noeud, la suite de l'arbre*/
   unsigned int uid;
