@@ -208,6 +208,17 @@ void ast_print(ast *ast, int indent)
     {
     case AST_FCT:
       printf("FCT (%s) type:%s\n", ast->fonction.id, ast_type_to_string1(ast->fonction.returnType));
+      if(ast->fonction.nb_param)
+      {
+          for (int i = 0; i < indent; i++)
+            printf("    ");
+          printf("PARAMETERS (");
+          for(int i = 0; i < ast->fonction.nb_param; i++)
+            ast_print(ast->fonction.params[i], indent + 1);
+          for (int i = 0; i < indent; i++)
+            printf("    ");
+          printf(")");
+      }
       ast_print(ast->fonction.interne, indent + 1);
       ast_print(ast->next, indent);
       break;
@@ -348,6 +359,9 @@ void free_ast(ast *a)
     case AST_FCT:
       free(a->fonction.id);
       free_ast(a->fonction.interne);
+      for(int i = 0; i < a->fonction.nb_param; i++)
+          free_ast(a->fonction.params[i]);
+      free(a->fonction.params);
       free_ast(a->next);
       free(a);
       break;
@@ -457,7 +471,18 @@ void ast_to_code_recur(ast *a, FILE *fichier)
     switch (a->type)
     {
     case AST_FCT:
-      fprintf(fichier, "%s %s(){\n", ast_type_to_string1(a->fonction.returnType), a->fonction.id);
+      fprintf(fichier, "%s %s(", ast_type_to_string1(a->fonction.returnType), a->fonction.id);
+      if(a->fonction.nb_param)
+      {
+          for(int i = a->fonction.nb_param - 1; i > 0; i--)
+              fprintf(fichier, "%s%s %s, ", (a->fonction.params[i]->type_int.constant ? "const " : ""),
+                                          (a->fonction.params[i]->type_int.is_int   ? "int" : "double"),
+                                          (a->fonction.params[i]->type_int.id));
+          fprintf(fichier, "%s%s %s", (a->fonction.params[0]->type_int.constant ? "const " : ""),
+                  (a->fonction.params[0]->type_int.is_int   ? "int" : "double"),
+                  (a->fonction.params[0]->type_int.id));
+      }
+      fprintf(fichier, "){\n");
       ast_to_code_recur(a->fonction.interne, fichier);
       fputs(";\nreturn 0;\n}\n", fichier);
       ast_to_code_recur(a->next, fichier);

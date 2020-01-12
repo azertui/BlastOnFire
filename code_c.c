@@ -1,4 +1,4 @@
-int fun()
+int fun(const int p)
 {
    int a;
 }
@@ -50,7 +50,7 @@ int main()
     b = i;
 }
 const double g = 2.67;
-double f()
+double f(int param)
 {
     int a;
     double b = 3 * g;
