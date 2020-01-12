@@ -216,7 +216,7 @@ void ast_print(ast *ast, int indent)
           for (int i = 0; i < indent; i++)
             printf("    ");
           printf("PARAMETERS (\n");
-          for(int i = 0; i < ast->fonction.nb_param; i++)
+          for(int i = ast->fonction.nb_param; i >= 0; i--)
             ast_print(ast->fonction.params[i], indent + 1);
           for (int i = 0; i < indent; i++)
             printf("    ");
