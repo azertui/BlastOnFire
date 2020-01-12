@@ -56,6 +56,7 @@
 %token IF ELSE FOR WHILE AND OR
 %token <name>ID 
 %token RETURN
+%token VOID_T
 %parse-param {ast* parsed_ast} {void * scanner} {int print_symb}
 %start start
 %%
@@ -74,6 +75,8 @@ function:
      INTEGER_T ID '(' parametres_function ')' '{' body '}' { $$ = $4; $$->fonction.interne = $7; free($$->fonction.id); $$->fonction.id = $2; $$->fonction.returnType =  AST_INT; }
     
     |DOUBLE_T ID '(' parametres_function ')' '{' body '}'  { $$ = $4; $$->fonction.interne = $7; free($$->fonction.id); $$->fonction.id = $2; $$->fonction.returnType =  AST_DOUBLE; }
+
+    |VOID_T ID '(' parametres_function ')' '{' body '}'  { $$ = $4; $$->fonction.interne = $7; free($$->fonction.id); $$->fonction.id = $2; $$->fonction.returnType =  AST_VOID; }
 ;
 
 parametres_function:

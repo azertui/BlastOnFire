@@ -3,6 +3,12 @@ int fun(const int p)
    int a;
 }
 
+void testvoid(int param[])
+{
+    param[2] = param[1] + 2;
+    return;
+}
+
 int main()
 {
     int i;
