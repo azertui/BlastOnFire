@@ -147,6 +147,7 @@ instruction:
     | ID array affectation_op '=' operation ';'  {if($2==NULL) $$ = ast_new_id($1,ast_new_operation($3,ast_new_id($1,NULL,0,0,0),$5),0,0,0);else $$ = ast_new_tab_int($1,ast_new_operation($3,ast_new_tab_int($1,NULL,0,$2,0),$5),0,$2,0);free($1);}
     | appel ';' {$$=$1;}
     | RETURN operation ';' {$$ = ast_new_operation(AST_RET, NULL, $2);}
+    | RETURN ';' {$$ = ast_new_operation(AST_RET, NULL, NULL);}
 ;
 
 pre_type:

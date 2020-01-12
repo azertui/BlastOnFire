@@ -48,6 +48,7 @@ int main()
     int c = a;
     b = c * a;
     b = i;
+    return;
 }
 const double g = 2.67;
 double f(int param[][][], int param2)
