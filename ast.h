@@ -86,7 +86,7 @@ typedef struct ast {
       struct ast* interne;
       struct ast* cond;  
     } boucle_while;
-    } ;
+    };
   struct ast* next; /*!< Pointeur vers un autre noeud, la suite de l'arbre*/
   unsigned int uid;
 } ast;
@@ -260,7 +260,7 @@ void free_ast(ast* ast);
  *
  * \param ast arbre.
 */
-void ast_to_code(ast* a);
+void ast_to_code(ast* a, char *filename);
 
 /**
  * \fn void ast_to_code_recur(ast* a, FILE* fichier);
