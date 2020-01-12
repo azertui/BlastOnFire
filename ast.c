@@ -21,23 +21,28 @@ ast *ast_new_main_fct(ast *body, ast *next, char *id, ast_type returnType)
   ast *new = malloc(sizeof(ast));
   new->type = AST_FCT;
   attribute_uid(new);
-  new->fonction.id = strndup(id, strlen(id));
+  if(id!=NULL)
+    new->fonction.id = strndup(id, strlen(id));
+  else
+    new->fonction.id=NULL;
+  new->fonction.nb_param = 0;
+  new->fonction.params   = NULL;
   new->fonction.interne = body;
   new->fonction.returnType = returnType;
   new->next = next;
   return new;
 }
 
-ast *ast_new_app(char* id, int nb_param, ast** params)
+ast *ast_new_app(char *id, int nb_param, ast **params)
 {
-    ast* new = malloc(sizeof(ast));
-    new->type = AST_APP;
-    new->appel.id = id;
-    new->appel.nb_param = nb_param;
-    new->appel.params = params;
-    new->next = NULL;
+  ast *new = malloc(sizeof(ast));
+  new->type = AST_APP;
+  new->appel.id = id;
+  new->appel.nb_param = nb_param;
+  new->appel.params = params;
+  new->next = NULL;
 
-    return new;
+  return new;
 }
 
 ast *ast_new_operation(ast_type type, ast *left, ast *right)
@@ -68,13 +73,13 @@ void free_arr(array a)
 {
   if (a != NULL)
   {
-    array p=a;
-    array next=a->next;
-    while (next!=NULL)
+    array p = a;
+    array next = a->next;
+    while (next != NULL)
     {
       free(p);
-      p=next;
-      next=next->next;
+      p = next;
+      next = next->next;
     }
     free(p);
   }
@@ -99,7 +104,7 @@ ast *ast_new_id(char *id, ast *value, int init, int constant, int is_int)
   new->type_int.value = value;
   new->type_int.init = init;
   new->type_int.constant = constant;
-  new->type_int.is_int=is_int;
+  new->type_int.is_int = is_int;
   new->next = NULL;
   return new;
 }
@@ -126,7 +131,7 @@ void attribute_uid(ast *a)
 
 char *ast_type_to_string1(ast_type t)
 {
-  char *tab[(AST_WHILE - AST_ID) + 1] = {"AST_ID", "int" ,"AST_INT_TAB","double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_APP", "AST_IF", "AST_ELSE_IF" ,"AST_ELSE","AST_COND", "AST_OP_INCR","AST_OP_DECR", "AST_FOR", "AST_WHILE"};
+  char *tab[] = {"AST_ID", "int", "AST_INT_TAB", "double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_APP", "AST_IF", "AST_ELSE_IF", "AST_ELSE", "AST_COND", "AST_OP_INCR", "AST_OP_DECR", "AST_FOR", "AST_WHILE", "AST_RET", "void"};
   return tab[t];
 }
 
@@ -206,16 +211,27 @@ void ast_print(ast *ast, int indent)
     {
     case AST_FCT:
       printf("FCT (%s) type:%s\n", ast->fonction.id, ast_type_to_string1(ast->fonction.returnType));
+      if(ast->fonction.nb_param)
+      {
+          for (int i = 0; i < indent; i++)
+            printf("    ");
+          printf("PARAMETERS (\n");
+          for(int i = ast->fonction.nb_param - 1; i >= 0; i--)
+            ast_print(ast->fonction.params[i], indent + 1);
+          for (int i = 0; i < indent; i++)
+            printf("    ");
+          printf(")");
+      }
       ast_print(ast->fonction.interne, indent + 1);
       ast_print(ast->next, indent);
       break;
     case AST_APP:
       printf("fct (%s)\n", ast->appel.id);
-      if(ast->appel.nb_param)
+      if (ast->appel.nb_param)
       {
-          for(int i = ast->appel.nb_param-1; i > 0; i--)
-              ast_print(ast->appel.params[i], indent + 1);
-          ast_print(ast->appel.params[0], indent + 1);
+        for (int i = ast->appel.nb_param - 1; i > 0; i--)
+          ast_print(ast->appel.params[i], indent + 1);
+        ast_print(ast->appel.params[0], indent + 1);
       }
       ast_print(ast->next, indent);
       break;
@@ -320,6 +336,11 @@ void ast_print(ast *ast, int indent)
       ast_print(ast->boucle_while.interne, indent + 1);
       ast_print(ast->next, indent);
       break;
+    case AST_RET:
+      printf("RETURN:\n");
+      ast_print(ast->operation.right, indent + 1);
+      ast_print(ast->next, indent);
+      break;
     default:
       fprintf(stderr, "print_ast:Unknown ast type:%d\n", ast->type);
     }
@@ -346,15 +367,18 @@ void free_ast(ast *a)
     case AST_FCT:
       free(a->fonction.id);
       free_ast(a->fonction.interne);
+      for(int i = 0; i < a->fonction.nb_param; i++)
+          free_ast(a->fonction.params[i]);
+      free(a->fonction.params);
       free_ast(a->next);
       free(a);
       break;
     case AST_APP:
       free(a->appel.id);
-      if(a->appel.nb_param)
+      if (a->appel.nb_param)
       {
-          for(int i = 0; i < a->appel.nb_param; i++)
-              free_ast(a->appel.params[i]);
+        for (int i = 0; i < a->appel.nb_param; i++)
+          free_ast(a->appel.params[i]);
       }
       free(a->appel.params);
       free_ast(a->next);
@@ -427,6 +451,11 @@ void free_ast(ast *a)
       free_ast(a->next);
       free(a);
       break;
+    case AST_RET:
+      free_ast(a->operation.right);
+      free_ast(a->next);
+      free(a);
+      break;
     default:
       fprintf(stderr, "unknow ast type\n");
       free_ast(a->next);
@@ -436,15 +465,42 @@ void free_ast(ast *a)
   }
 }
 
-void ast_to_code(ast *a)
+
+void param_to_code(ast* a, FILE* fichier)
+{
+    switch(a->type)
+    {
+    case AST_ID:
+        fprintf(fichier, "%s%s %s", (a->type_int.constant ? "const " : ""),
+                                      (a->type_int.is_int   ? "int" : "double"),
+                                      (a->type_int.id));
+        break;
+    case AST_INT_TAB:
+        fprintf(fichier, "%s%s %s", (a->type_int_tab.constant ? "const " : ""),
+                                      ("int"),
+                                      (a->type_int_tab.id));
+        for(array b = a->type_int_tab.nb; b != NULL; b = b->next)
+          fprintf(fichier, "[]");
+        break;
+    default:
+        fprintf(fichier, "DEFAULT?");
+        break;
+    }
+}
+
+void ast_to_code(ast *a, char *filename)
 {
   ast *parcours = a;
   FILE *fichier = NULL;
-  fichier = fopen("res_c.c", "w");
+    fichier = fopen(filename, "w");
   if (fichier != NULL)
   {
     ast_to_code_recur(parcours, fichier);
     fclose(fichier);
+  }
+  else
+  {
+    fprintf(stderr, "Couldn't open file %s\n",filename);
   }
 }
 
@@ -455,28 +511,38 @@ void ast_to_code_recur(ast *a, FILE *fichier)
     switch (a->type)
     {
     case AST_FCT:
-      fprintf(fichier, "%s %s(){\n", ast_type_to_string1(a->fonction.returnType), a->fonction.id);
+      fprintf(fichier, "%s %s(", ast_type_to_string1(a->fonction.returnType), a->fonction.id);
+      if(a->fonction.nb_param)
+      {
+          for(int i = a->fonction.nb_param - 1; i > 0; i--)
+          {
+              param_to_code(a->fonction.params[i], fichier);
+              fprintf(fichier, ", ");
+          }
+          param_to_code(a->fonction.params[0], fichier);
+      }
+      fprintf(fichier, "){\n");
       ast_to_code_recur(a->fonction.interne, fichier);
-      fputs(";\nreturn 0;\n}\n", fichier);
+      fputs(";\n}\n", fichier);
       ast_to_code_recur(a->next, fichier);
       break;
     case AST_APP:
       fprintf(fichier, "%s(", a->appel.id);
-      if(a->appel.nb_param)
+      if (a->appel.nb_param)
       {
-          for(int i = a->appel.nb_param-1; i > 0; i--)
-          {
-              ast_to_code_recur(a->appel.params[i], fichier);
-              fprintf(fichier, ", ");
-          }
-          ast_to_code_recur(a->appel.params[0], fichier);
+        for (int i = a->appel.nb_param - 1; i > 0; i--)
+        {
+          ast_to_code_recur(a->appel.params[i], fichier);
+          fprintf(fichier, ", ");
+        }
+        ast_to_code_recur(a->appel.params[0], fichier);
       }
       fprintf(fichier, ");\n");
       ast_to_code_recur(a->next, fichier);
       break;
     case AST_ID:
       if (a->type_int.init)
-        fprintf(fichier, "%s%s ", a->type_int.constant ? "const " : "",a->type_int.is_int?"int":"double");
+        fprintf(fichier, "%s%s ", a->type_int.constant ? "const " : "", a->type_int.is_int ? "int" : "double");
       fprintf(fichier, "%s", a->type_int.id);
       if (a->type_int.value != NULL)
       {
@@ -587,6 +653,13 @@ void ast_to_code_recur(ast *a, FILE *fichier)
       fputs(")\n{", fichier);
       ast_to_code_recur(a->boucle_while.interne, fichier);
       fputs(";}\n", fichier);
+      ast_to_code_recur(a->next, fichier);
+      break;
+    case AST_RET:
+      fputs("return ", fichier);
+      ast_to_code_recur(a->operation.right, fichier);
+      if(a->next)
+        fputs(";\n", fichier);
       ast_to_code_recur(a->next, fichier);
       break;
     }

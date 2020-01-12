@@ -6,7 +6,7 @@
   #include "y.tab.h"
   #include "lex.h"
   #include <stdlib.h>
-  void yyerror(ast* a,void* scanner,const char* msg){
+  void yyerror(ast* a,void* scanner,int print_symb, const char* msg){
     (void)a;
     fprintf(stderr,"%s\n##########\n",msg);
     fprintf(stderr,"lineno:%d column:%d content:%s\n##########\n",yyget_lineno(scanner),yyget_column(scanner),yyget_text(scanner));
@@ -29,6 +29,8 @@
 %type <ast> appel
 %type <ast> parametres_appel
 %type <ast> instruction
+%type <ast> parametres_function
+%type <ast> parametre_function
 %type <ast> operation
 %type <type> affectation_op
 %type <ast> body
@@ -44,6 +46,7 @@
 %type <ast> for_declaration
 %type <ast> for_unary
 %type <arr> array
+%type <arr> array_function
 %left '+' '-'
 %left '*' '/' '%'
 
@@ -52,12 +55,14 @@
 %token INTEGER_T DOUBLE_T CONST DECR INCR
 %token IF ELSE FOR WHILE AND OR
 %token <name>ID 
-%parse-param {ast* parsed_ast} {void * scanner}
+%token RETURN
+%token VOID_T
+%parse-param {ast* parsed_ast} {void * scanner} {int print_symb}
 %start start
 %%
  
 start:
-    code {printf("Chaine reconnue!\n"); ast_print($1,0); if(analyse_ast($1))return 1; *parsed_ast=*$1;free($1); ast_to_code(parsed_ast); return 0;}
+    code {printf("Syntaxe reconnue!\n"); if(analyse_ast($1,print_symb))return 1; *parsed_ast=*$1;free($1); return 0;}
 ;
 
 code:
@@ -67,9 +72,26 @@ code:
   ;
 
 function:
-     INTEGER_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6,NULL,$2,AST_INT); free($2);}
+     INTEGER_T ID '(' parametres_function ')' '{' body '}' { $$ = $4; $$->fonction.interne = $7; free($$->fonction.id); $$->fonction.id = $2; $$->fonction.returnType =  AST_INT; }
     
-    |DOUBLE_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6,NULL,$2,AST_DOUBLE); free($2);}
+    |DOUBLE_T ID '(' parametres_function ')' '{' body '}'  { $$ = $4; $$->fonction.interne = $7; free($$->fonction.id); $$->fonction.id = $2; $$->fonction.returnType =  AST_DOUBLE; }
+
+    |VOID_T ID '(' parametres_function ')' '{' body '}'  { $$ = $4; $$->fonction.interne = $7; free($$->fonction.id); $$->fonction.id = $2; $$->fonction.returnType =  AST_VOID; }
+;
+
+parametres_function:
+      parametre_function ',' parametres_function {$$ = $3; $$->fonction.nb_param++; $$->fonction.params = realloc($$->fonction.params, $$->fonction.nb_param * sizeof(ast*)); $$->fonction.params[$$->fonction.nb_param-1] = $1; }
+     |parametre_function                         {$$ = ast_new_main_fct(NULL, NULL, NULL, 0); $$->fonction.nb_param = 1; $$->fonction.params = malloc(sizeof(ast*)); $$->fonction.params[0] = $1;}
+     |/*empty*/                                  {$$ = ast_new_main_fct(NULL, NULL, NULL, 0);}
+;
+
+parametre_function:
+      pre_type INTEGER_T ID array_function       {if($4)$$=ast_new_tab_int($3, NULL, 0, $4, $1);else $$=ast_new_id($3, NULL, 0, $1, 1); free($3); }
+;
+
+array_function:
+      '[' ']' array_function {$$=malloc(sizeof(struct array)); $$->n_dim=5;$$->next=$3;}
+      |/*epsilon*/           {$$ = NULL;}
 ;
 
 appel:
@@ -127,6 +149,8 @@ instruction:
     | ID array '=' operation ';'            {if($2==NULL) $$ = ast_new_id($1,$4,0,0,0) ; else $$ = ast_new_tab_int($1,$4,0,$2,0);free($1);}
     | ID array affectation_op '=' operation ';'  {if($2==NULL) $$ = ast_new_id($1,ast_new_operation($3,ast_new_id($1,NULL,0,0,0),$5),0,0,0);else $$ = ast_new_tab_int($1,ast_new_operation($3,ast_new_tab_int($1,NULL,0,$2,0),$5),0,$2,0);free($1);}
     | appel ';' {$$=$1;}
+    | RETURN operation ';' {$$ = ast_new_operation(AST_RET, NULL, $2);}
+    | RETURN ';' {$$ = ast_new_operation(AST_RET, NULL, NULL);}
 ;
 
 pre_type:
@@ -212,13 +236,16 @@ operation:
 
 %%
 
-int parseFile(FILE* f, ast *result_ast){
+int parseFile(FILE* f, ast *result_ast, int print_ast, int print_tab,char* filename){
   yyscan_t scanner;
   yylex_init (&scanner);
   yyset_debug(5, scanner);
   yyset_in(f,scanner);
   ast* parsed_ast=malloc(sizeof(ast));
-  int res= yyparse(parsed_ast,scanner);
+  int res= yyparse(parsed_ast,scanner,print_tab);
+  if(print_ast)
+    ast_print(parsed_ast,0);
+  ast_to_code(parsed_ast,filename);
   if(result_ast!=NULL && !res){
     *result_ast=*parsed_ast;
     free(parsed_ast);
@@ -237,7 +264,7 @@ int parseString(char *s,ast *result_ast ) {
   }
   YY_BUFFER_STATE buf =yy_scan_string(s,scanner);
   ast* parsed_ast= malloc(sizeof(ast));
-  int res= yyparse(parsed_ast,scanner);
+  int res= yyparse(parsed_ast,scanner,0);
   if(result_ast!=NULL && res==0){
     *result_ast=*parsed_ast;
     free(parsed_ast);
@@ -254,7 +281,7 @@ int parse(ast* result_ast) {
   yylex_init (&scanner);
   printf("Entrez une expression :\n");
   ast* parsed_ast=malloc(sizeof(ast));
-  int res= yyparse(parsed_ast,scanner);
+  int res= yyparse(parsed_ast,scanner,0);
   if(result_ast==NULL && res==0){
     *result_ast=*parsed_ast;
     free(parsed_ast);

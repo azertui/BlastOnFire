@@ -29,6 +29,8 @@ COMMENT2 "//"(.)*"\n"
 "for" {return FOR;}
 "while" {return WHILE;}
 "const" {return CONST;}
+"return" {return RETURN;}
+"void"   {return VOID_T;}
 {NUMBER} {yylval->val=atoi(yytext);return INTEGER;}
 {ID} {yylval->name=strdup(yytext); return ID;}
 [\!\%] {return yytext[0];}

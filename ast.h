@@ -23,7 +23,7 @@ typedef struct array{
  * ast_type est une série de types qui pourront être stockés dans l'arbre et reconnu par yacc
  */
 
-typedef enum { AST_ID, AST_INT ,AST_INT_TAB,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_APP, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR, AST_WHILE} ast_type;
+typedef enum { AST_ID, AST_INT ,AST_INT_TAB,AST_DOUBLE, AST_OP_PLUS, AST_OP_MUL, AST_OP_MODULO, AST_OP_MOINS, AST_OP_DIV, AST_FCT, AST_APP, AST_IF, AST_ELSE_IF ,AST_ELSE,AST_COND, AST_OP_INCR,AST_OP_DECR, AST_FOR, AST_WHILE, AST_RET, AST_VOID} ast_type;
 /** 
  * \struct ast
  * \brief Noeud de l'ast.
@@ -67,6 +67,8 @@ typedef struct ast {
     struct {
       struct ast* interne;  
       char* id;
+      int nb_param;
+      struct ast** params;
       ast_type returnType;
     } fonction;
     struct {
@@ -84,7 +86,7 @@ typedef struct ast {
       struct ast* interne;
       struct ast* cond;  
     } boucle_while;
-    } ;
+    };
   struct ast* next; /*!< Pointeur vers un autre noeud, la suite de l'arbre*/
   unsigned int uid;
 } ast;
@@ -258,7 +260,7 @@ void free_ast(ast* ast);
  *
  * \param ast arbre.
 */
-void ast_to_code(ast* a);
+void ast_to_code(ast* a, char *filename);
 
 /**
  * \fn void ast_to_code_recur(ast* a, FILE* fichier);

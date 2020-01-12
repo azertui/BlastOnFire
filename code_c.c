@@ -1,6 +1,12 @@
-int fun()
+int fun(const int p)
 {
    int a;
+}
+
+void testvoid(int param[])
+{
+    param[2] = param[1] + 2;
+    return;
 }
 
 int main()
@@ -48,10 +54,12 @@ int main()
     int c = a;
     b = c * a;
     b = i;
+    return;
 }
 const double g = 2.67;
-double f()
+double f(int param[][][], int param2)
 {
     int a;
     double b = 3 * g;
+    return 3+param2;
 }
