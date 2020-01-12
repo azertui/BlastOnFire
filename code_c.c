@@ -3,7 +3,7 @@ int fun(const int p)
    int a;
 }
 
-void testvoid(int param[])
+void testvoid(double param[])
 {
     param[2] = param[1] + 2;
     return;

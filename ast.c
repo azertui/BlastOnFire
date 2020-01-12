@@ -109,11 +109,12 @@ ast *ast_new_id(char *id, ast *value, int init, int constant, int is_int)
   return new;
 }
 
-ast *ast_new_tab_int(char *id, ast *value, int init, array nb, int constant)
+ast *ast_new_tab_int(char *id, ast *value, int init, array nb, int constant, int is_int)
 {
   ast *new = malloc(sizeof(ast));
   new->type = AST_INT_TAB;
   new->type_int_tab.id = strndup(id, strlen(id));
+  new->type_int_tab.is_int=is_int;
   new->type_int_tab.value = value;
   new->type_int_tab.init = init;
   new->type_int_tab.constant = constant;
@@ -477,7 +478,7 @@ void param_to_code(ast* a, FILE* fichier)
         break;
     case AST_INT_TAB:
         fprintf(fichier, "%s%s %s", (a->type_int_tab.constant ? "const " : ""),
-                                      ("int"),
+                                      (a->type_int_tab.is_int   ? "int" : "double"),
                                       (a->type_int_tab.id));
         for(array b = a->type_int_tab.nb; b != NULL; b = b->next)
           fprintf(fichier, "[]");

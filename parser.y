@@ -86,7 +86,8 @@ parametres_function:
 ;
 
 parametre_function:
-      pre_type INTEGER_T ID array_function       {if($4)$$=ast_new_tab_int($3, NULL, 0, $4, $1);else $$=ast_new_id($3, NULL, 0, $1, 1); free($3); }
+      pre_type INTEGER_T ID array_function       {if($4)$$=ast_new_tab_int($3, NULL, 0, $4, $1,1);else $$=ast_new_id($3, NULL, 0, $1, 1); free($3); }
+      | pre_type DOUBLE_T ID array_function       {if($4)$$=ast_new_tab_int($3, NULL, 0, $4, $1,0);else $$=ast_new_id($3, NULL, 0, $1, 0); free($3); }
 ;
 
 array_function:
@@ -129,9 +130,9 @@ array:
 
 
 declaration:
-     pre_type INTEGER_T ID array  {if ($4==NULL)$$ = ast_new_id($3,NULL,1,$1,1);else{$$ = ast_new_tab_int($3,NULL,1,$4,$1);}free($3);}
+     pre_type INTEGER_T ID array  {if ($4==NULL)$$ = ast_new_id($3,NULL,1,$1,1);else{$$ = ast_new_tab_int($3,NULL,1,$4,$1,1);}free($3);}
     | pre_type INTEGER_T ID '=' operation {$$ = ast_new_id($3,$5,1,$1,1);free($3);}
-    | pre_type DOUBLE_T ID array               {if ($4==NULL)$$ = ast_new_id($3,NULL,1,$1,0);else{$$ = ast_new_tab_int($3,NULL,1,$4,$1);}free($3);}
+    | pre_type DOUBLE_T ID array               {if ($4==NULL)$$ = ast_new_id($3,NULL,1,$1,0);else{$$ = ast_new_tab_int($3,NULL,1,$4,$1,1);}free($3);}
     | pre_type DOUBLE_T ID '=' operation  { $$ = ast_new_id($3,$5,1,$1,0); free($3);}
 ;
 
@@ -146,8 +147,8 @@ unary:
 instruction:
       declaration ';'{$$=$1;}
     | unary ';' {$$=$1;}
-    | ID array '=' operation ';'            {if($2==NULL) $$ = ast_new_id($1,$4,0,0,0) ; else $$ = ast_new_tab_int($1,$4,0,$2,0);free($1);}
-    | ID array affectation_op '=' operation ';'  {if($2==NULL) $$ = ast_new_id($1,ast_new_operation($3,ast_new_id($1,NULL,0,0,0),$5),0,0,0);else $$ = ast_new_tab_int($1,ast_new_operation($3,ast_new_tab_int($1,NULL,0,$2,0),$5),0,$2,0);free($1);}
+    | ID array '=' operation ';'            {if($2==NULL) $$ = ast_new_id($1,$4,0,0,0) ; else $$ = ast_new_tab_int($1,$4,0,$2,0,1);free($1);}
+    | ID array affectation_op '=' operation ';'  {if($2==NULL) $$ = ast_new_id($1,ast_new_operation($3,ast_new_id($1,NULL,0,0,0),$5),0,0,0);else $$ = ast_new_tab_int($1,ast_new_operation($3,ast_new_tab_int($1,NULL,0,$2,0,1),$5),0,$2,0,1);free($1);}
     | appel ';' {$$=$1;}
     | RETURN operation ';' {$$ = ast_new_operation(AST_RET, NULL, $2);}
     | RETURN ';' {$$ = ast_new_operation(AST_RET, NULL, NULL);}
@@ -231,7 +232,7 @@ operation:
   | operation '%' operation { $$ = ast_new_operation(AST_OP_MODULO,$1,$3);}
   | INTEGER   {$$ = ast_new_number($1,1);}
   | DOUBLE {$$=ast_new_number($1,0);}
-  | ID array { if($2==NULL){ $$ = ast_new_id($1,NULL,0,0,0);}else{ $$ = ast_new_tab_int($1,NULL,0,$2,0); } free($1);}
+  | ID array { if($2==NULL){ $$ = ast_new_id($1,NULL,0,0,0);}else{ $$ = ast_new_tab_int($1,NULL,0,$2,0,1); } free($1);}
 ;
 
 %%

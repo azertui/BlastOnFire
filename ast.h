@@ -52,6 +52,7 @@ typedef struct ast {
       array nb;
       int init; /*!< booléen pour l'initialisation*/
       int constant;/*!< boolean pour définir si la variable est une constante*/
+      int is_int;
     } type_int_tab;
     double number;
     char* id;
@@ -168,7 +169,7 @@ ast* ast_new_id(char* id,ast* value, int init, int constant, int is_int);
  * \param constant variable constante?.
  * \return Ast de l'id.
  */
-ast* ast_new_tab_int(char* id,ast* value, int init, array nb, int constant);
+ast* ast_new_tab_int(char* id,ast* value, int init, array nb, int constant, int is_int);
 
 
 /**
