@@ -76,7 +76,7 @@ function:
 ;
 
 parametres_function:
-      parametre_function ',' parametres_function {$$->fonction.nb_param++; $$->fonction.params = realloc($$->fonction.params, $$->fonction.nb_param * sizeof(ast*)); $$->fonction.params[$$->fonction.nb_param-1] = $1; }
+      parametre_function ',' parametres_function {$$ = $3; $$->fonction.nb_param++; $$->fonction.params = realloc($$->fonction.params, $$->fonction.nb_param * sizeof(ast*)); $$->fonction.params[$$->fonction.nb_param-1] = $1; }
      |parametre_function                         {$$ = ast_new_main_fct(NULL, NULL, "", 0); $$->fonction.nb_param = 1; $$->fonction.params = malloc(sizeof(ast*)); $$->fonction.params[0] = $1;}
      |/*empty*/                                  {$$ = ast_new_main_fct(NULL, NULL, "", 0);}
 ;
@@ -86,7 +86,7 @@ parametre_function:
 ;
 
 array_function:
-      '[' ']' array_function {$$=malloc(sizeof(struct array)); $$->n_dim=0;$$->next=$3;}
+      '[' ']' array_function {$$=malloc(sizeof(struct array)); $$->n_dim=5;$$->next=$3;}
       |/*epsilon*/           {$$ = NULL;}
 ;
 

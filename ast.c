@@ -212,7 +212,7 @@ void ast_print(ast *ast, int indent)
       {
           for (int i = 0; i < indent; i++)
             printf("    ");
-          printf("PARAMETERS (");
+          printf("PARAMETERS (\n");
           for(int i = 0; i < ast->fonction.nb_param; i++)
             ast_print(ast->fonction.params[i], indent + 1);
           for (int i = 0; i < indent; i++)
@@ -452,6 +452,28 @@ void free_ast(ast *a)
   }
 }
 
+void param_to_code(ast* a, FILE* fichier)
+{
+    switch(a->type)
+    {
+    case AST_ID:
+        fprintf(fichier, "%s%s %s", (a->type_int.constant ? "const " : ""),
+                                      (a->type_int.is_int   ? "int" : "double"),
+                                      (a->type_int.id));
+        break;
+    case AST_INT_TAB:
+        fprintf(fichier, "%s%s %s", (a->type_int_tab.constant ? "const " : ""),
+                                      ("int"),
+                                      (a->type_int_tab.id));
+        for(array b = a->type_int_tab.nb; b != NULL; b = b->next)
+          fprintf(fichier, "[]");
+        break;
+    default:
+        fprintf(fichier, "DEFAULT?");
+        break;
+    }
+}
+
 void ast_to_code(ast *a)
 {
   ast *parcours = a;
@@ -475,12 +497,11 @@ void ast_to_code_recur(ast *a, FILE *fichier)
       if(a->fonction.nb_param)
       {
           for(int i = a->fonction.nb_param - 1; i > 0; i--)
-              fprintf(fichier, "%s%s %s, ", (a->fonction.params[i]->type_int.constant ? "const " : ""),
-                                          (a->fonction.params[i]->type_int.is_int   ? "int" : "double"),
-                                          (a->fonction.params[i]->type_int.id));
-          fprintf(fichier, "%s%s %s", (a->fonction.params[0]->type_int.constant ? "const " : ""),
-                  (a->fonction.params[0]->type_int.is_int   ? "int" : "double"),
-                  (a->fonction.params[0]->type_int.id));
+          {
+              param_to_code(a->fonction.params[i], fichier);
+              fprintf(fichier, ", ");
+          }
+          param_to_code(a->fonction.params[0], fichier);
       }
       fprintf(fichier, "){\n");
       ast_to_code_recur(a->fonction.interne, fichier);

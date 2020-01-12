@@ -50,7 +50,7 @@ int main()
     b = i;
 }
 const double g = 2.67;
-double f(int param)
+double f(int param[][][], int param2)
 {
     int a;
     double b = 3 * g;
