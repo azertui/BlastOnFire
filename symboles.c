@@ -63,7 +63,7 @@ int analyse_ast_aux(ast *a, table t, int print_symb)
         fprintf(stderr, "Unknown reference to %s\n", a->appel.id);
         return 1;
       }
-      for (int i = 0; i < a->appel.nb_param; i++)
+      for (int i = a->appel.nb_param -1; i >=0; i--)
       {
         if (analyse_ast_aux(a->appel.params[i], t, print_symb))
           return 1;
