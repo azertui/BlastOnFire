@@ -31,7 +31,7 @@ lex.h: parser.l
 	flex parser.l
 
 #Executable de test
-$(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o
+$(TESTDIR)/tests : $(TESTDIR)/tests.o y.tab.o lex.yy.o ast.o symboles.o detect.o
 	gcc -o $@ $(CFLAGS) $^ -ly -lfl -l cmocka -L /usr/local/lib
 
 #Dossier de test

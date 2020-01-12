@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../ast.h"
+#include "../detect.h"
 #include <fcntl.h>
 #define VERBOSE
 #ifndef VERBOSE
@@ -150,6 +151,28 @@ static void parsingFAIL_return_test1(){
     assert_true(parseString("int main(){return while;}",NULL));
 }
 
+static void equivalent_snippet_basic(){
+    //int sum(int x, int y)
+    ast* fun = ast_new_main_fct(ast_new_operation(AST_RET,
+                                                  NULL,
+                                                  ast_new_operation(AST_OP_PLUS,
+                                                  ast_new_id("x", NULL, 0, 0, 1),
+                                                  ast_new_id("y", NULL, 0, 0, 1))),
+                                NULL, "sum", AST_INT);
+    fun->fonction.nb_param = 2;
+    fun->fonction.params   = malloc(2 * sizeof(ast*));
+    fun->fonction.params[0] = ast_new_id("x", NULL, 0, 0, 1);
+    fun->fonction.params[1] = ast_new_id("y", NULL, 0, 0, 1);
+
+    //var = a + b;
+    ast* snippet = ast_new_id("var", ast_new_operation(AST_OP_PLUS,
+                                                       ast_new_id("a", NULL, 0, 0, 1),
+                                                       ast_new_id("b", NULL, 0, 0, 1)),
+                              0, 0, 1);
+
+    assert_non_null(equivalent_snippet(snippet, fun));
+}
+
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test_setup_teardown(parsing_basicExemple_test,setup,teardown),
@@ -180,6 +203,7 @@ int main(void) {
         cmocka_unit_test_setup_teardown(parsingFAIL_for_test3,setup,teardown),
         cmocka_unit_test_setup_teardown(parsing_return_test1,setup,teardown),
         cmocka_unit_test_setup_teardown(parsingFAIL_return_test1,setup,teardown),
+        cmocka_unit_test_setup_teardown(equivalent_snippet_basic, setup, teardown),
 	};
 	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }
