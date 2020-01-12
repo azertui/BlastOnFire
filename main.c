@@ -15,7 +15,7 @@ int main(int argc,char* const argv[]){
     int opt;
     int print_ast=0;
     int print_tab=0;
-    char* filename;
+    char* filename="res_c.c";
     int option_index=0;
     static struct option long_options[] = {
         {"version",      no_argument,       0,  'v' },
@@ -46,6 +46,7 @@ int main(int argc,char* const argv[]){
             break;
         default:
             fprintf(stderr,"Unknow option %c\n",opt);
+            printf("usage: %s -o [output_file] -version -tos -ast -q\n",argv[0]);
             return EXIT_FAILURE;
         }
     }
@@ -55,7 +56,7 @@ int main(int argc,char* const argv[]){
     int res=EXIT_FAILURE;
     if (fichier != NULL)
     {
-        res=parseFile(fichier,NULL,print_ast,print_tab);        
+        res=parseFile(fichier,NULL,print_ast,print_tab,filename);        
         fclose(fichier);     
     }
     else
