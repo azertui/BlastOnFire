@@ -29,6 +29,8 @@
 %type <ast> appel
 %type <ast> parametres_appel
 %type <ast> instruction
+%type <ast> parametres_function
+%type <ast> parametre_function
 %type <ast> operation
 %type <type> affectation_op
 %type <ast> body
@@ -44,6 +46,7 @@
 %type <ast> for_declaration
 %type <ast> for_unary
 %type <arr> array
+%type <arr> array_function
 %left '+' '-'
 %left '*' '/' '%'
 
@@ -67,9 +70,24 @@ code:
   ;
 
 function:
-     INTEGER_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6,NULL,$2,AST_INT); free($2);}
+     INTEGER_T ID '(' parametres_function ')' '{' body '}' { $$ = $4; $$->fonction.interne = $7; free($$->fonction.id); $$->fonction.id = $2; $$->fonction.returnType =  AST_INT; }
     
-    |DOUBLE_T ID '(' ')' '{' body '}' { $$ = ast_new_main_fct($6,NULL,$2,AST_DOUBLE); free($2);}
+    |DOUBLE_T ID '(' parametres_function ')' '{' body '}'  { $$ = $4; $$->fonction.interne = $7; free($$->fonction.id); $$->fonction.id = $2; $$->fonction.returnType =  AST_DOUBLE; }
+;
+
+parametres_function:
+      parametre_function ',' parametres_function {$$ = $3; $$->fonction.nb_param++; $$->fonction.params = realloc($$->fonction.params, $$->fonction.nb_param * sizeof(ast*)); $$->fonction.params[$$->fonction.nb_param-1] = $1; }
+     |parametre_function                         {$$ = ast_new_main_fct(NULL, NULL, NULL, 0); $$->fonction.nb_param = 1; $$->fonction.params = malloc(sizeof(ast*)); $$->fonction.params[0] = $1;}
+     |/*empty*/                                  {$$ = ast_new_main_fct(NULL, NULL, NULL, 0);}
+;
+
+parametre_function:
+      pre_type INTEGER_T ID array_function       {if($4)$$=ast_new_tab_int($3, NULL, 0, $4, $1);else $$=ast_new_id($3, NULL, 0, $1, 1); free($3); }
+;
+
+array_function:
+      '[' ']' array_function {$$=malloc(sizeof(struct array)); $$->n_dim=5;$$->next=$3;}
+      |/*epsilon*/           {$$ = NULL;}
 ;
 
 appel:

@@ -67,6 +67,8 @@ typedef struct ast {
     struct {
       struct ast* interne;  
       char* id;
+      int nb_param;
+      struct ast** params;
       ast_type returnType;
     } fonction;
     struct {
