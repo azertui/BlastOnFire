@@ -523,7 +523,7 @@ void ast_to_code_recur(ast *a, FILE *fichier)
       }
       fprintf(fichier, "){\n");
       ast_to_code_recur(a->fonction.interne, fichier);
-      fputs(";\nreturn 0;\n}\n", fichier);
+      fputs(";\n}\n", fichier);
       ast_to_code_recur(a->next, fichier);
       break;
     case AST_APP:
@@ -654,6 +654,7 @@ void ast_to_code_recur(ast *a, FILE *fichier)
       ast_to_code_recur(a->boucle_while.interne, fichier);
       fputs(";}\n", fichier);
       ast_to_code_recur(a->next, fichier);
+      break;
     case AST_RET:
       fputs("return ", fichier);
       ast_to_code_recur(a->operation.right, fichier);
