@@ -171,6 +171,8 @@ static void equivalent_snippet_basic(){
                               0, 0, 1);
 
     assert_non_null(equivalent_snippet(snippet, fun));
+static void parsing_void_function(){
+    assert_false(parseString("void test(){return;}",NULL));
 }
 
 int main(void) {
@@ -204,6 +206,7 @@ int main(void) {
         cmocka_unit_test_setup_teardown(parsing_return_test1,setup,teardown),
         cmocka_unit_test_setup_teardown(parsingFAIL_return_test1,setup,teardown),
         cmocka_unit_test_setup_teardown(equivalent_snippet_basic, setup, teardown),
+        cmocka_unit_test_setup_teardown(parsing_void_function,setup,teardown),
 	};
 	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }
