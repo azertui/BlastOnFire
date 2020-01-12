@@ -28,6 +28,14 @@ int analyse_ast_aux(ast *a, table t)
     case AST_FCT:
       add_symbole(t, new_symboles(a->fonction.id, 0));
       add_table(t);
+      for(int i = 0; i < a->fonction.nb_param; i++)
+      {
+        ast* param = a->fonction.params[i];
+        if(a->fonction.params[i]->type == AST_ID)
+          add_symbole(t, new_symboles(param->type_int.id, param->type_int.constant));
+        else
+          add_symbole(t, new_symboles(param->type_int_tab.id, param->type_int_tab.constant));
+      }
       if (analyse_ast_aux(a->fonction.interne, t))
         return 1;
       pop_table(t);
