@@ -54,4 +54,5 @@ double f(int param[][][], int param2)
 {
     int a;
     double b = 3 * g;
+    return 3+param2;
 }

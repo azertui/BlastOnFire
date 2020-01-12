@@ -142,6 +142,14 @@ static void parsingFAIL_for_test3(){
 	assert_true(parseString("int main(){for(j=0;j++;j<5)int i;}",NULL));
 }
 
+static void parsing_return_test1(){
+    assert_false(parseString("int main(){return 0;}",NULL));
+}
+
+static void parsingFAIL_return_test1(){
+    assert_true(parseString("int main(){return while;}",NULL));
+}
+
 int main(void) {
 	const struct CMUnitTest tests[] = {
 		cmocka_unit_test_setup_teardown(parsing_basicExemple_test,setup,teardown),
@@ -168,8 +176,10 @@ int main(void) {
 		cmocka_unit_test_setup_teardown(parsing_for_test2,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsing_for_test3,setup,teardown),
 		cmocka_unit_test_setup_teardown(parsingFAIL_for_test1,setup,teardown),
-		cmocka_unit_test_setup_teardown(parsingFAIL_for_test2,setup,teardown),
-		cmocka_unit_test_setup_teardown(parsingFAIL_for_test3,setup,teardown),
+        cmocka_unit_test_setup_teardown(parsingFAIL_for_test2,setup,teardown),
+        cmocka_unit_test_setup_teardown(parsingFAIL_for_test3,setup,teardown),
+        cmocka_unit_test_setup_teardown(parsing_return_test1,setup,teardown),
+        cmocka_unit_test_setup_teardown(parsingFAIL_return_test1,setup,teardown),
 	};
 	return cmocka_run_group_tests(tests, NULL, group_teardown);
 }

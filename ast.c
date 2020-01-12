@@ -131,7 +131,7 @@ void attribute_uid(ast *a)
 
 char *ast_type_to_string1(ast_type t)
 {
-  char *tab[(AST_WHILE - AST_ID) + 1] = {"AST_ID", "int", "AST_INT_TAB", "double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_APP", "AST_IF", "AST_ELSE_IF", "AST_ELSE", "AST_COND", "AST_OP_INCR", "AST_OP_DECR", "AST_FOR", "AST_WHILE"};
+  char *tab[] = {"AST_ID", "int", "AST_INT_TAB", "double", "AST_OP_PLUS", "AST_OP_MUL", "AST_OP_MODULO", "AST_OP_MOINS", "AST_OP_DIV", "AST_FCT", "AST_APP", "AST_IF", "AST_ELSE_IF", "AST_ELSE", "AST_COND", "AST_OP_INCR", "AST_OP_DECR", "AST_FOR", "AST_WHILE", "AST_RET"};
   return tab[t];
 }
 
@@ -336,6 +336,11 @@ void ast_print(ast *ast, int indent)
       ast_print(ast->boucle_while.interne, indent + 1);
       ast_print(ast->next, indent);
       break;
+    case AST_RET:
+      printf("RETURN:\n");
+      ast_print(ast->operation.right, indent + 1);
+      ast_print(ast->next, indent);
+      break;
     default:
       fprintf(stderr, "print_ast:Unknown ast type:%d\n", ast->type);
     }
@@ -443,6 +448,11 @@ void free_ast(ast *a)
     case AST_WHILE:
       free_ast(a->boucle_while.cond);
       free_ast(a->boucle_while.interne);
+      free_ast(a->next);
+      free(a);
+      break;
+    case AST_RET:
+      free_ast(a->operation.right);
       free_ast(a->next);
       free(a);
       break;
@@ -643,6 +653,12 @@ void ast_to_code_recur(ast *a, FILE *fichier)
       fputs(")\n{", fichier);
       ast_to_code_recur(a->boucle_while.interne, fichier);
       fputs(";}\n", fichier);
+      ast_to_code_recur(a->next, fichier);
+    case AST_RET:
+      fputs("return ", fichier);
+      ast_to_code_recur(a->operation.right, fichier);
+      if(a->next)
+        fputs(";\n", fichier);
       ast_to_code_recur(a->next, fichier);
       break;
     }
