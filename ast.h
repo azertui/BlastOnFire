@@ -35,9 +35,9 @@ typedef struct ast {
  ast_type type; /*!< Type du noeud */
   union {
     struct {
-      struct ast* left;
-      struct ast* right; 
-    } operation;
+      struct ast* left;/*< Partie gauche de l'opération */
+      struct ast* right;/*< Partie droite de l'opération */
+    } operation;/*!< Opération arithmétique */
     struct {
       char* id; /*!< identificateur */
       struct ast* value;  /*!< noeud de valeur*/
@@ -52,6 +52,7 @@ typedef struct ast {
       array nb;
       int init; /*!< booléen pour l'initialisation*/
       int constant;/*!< boolean pour définir si la variable est une constante*/
+      int is_int;
     } type_int_tab;
     double number;
     char* id;
@@ -83,9 +84,9 @@ typedef struct ast {
       struct ast* third;  
     } boucle_for;
     struct {
-      struct ast* interne;
-      struct ast* cond;  
-    } boucle_while;
+      struct ast* interne;/*!< corps de la boucle while */
+      struct ast* cond;/*!< Condition de la boucle while */
+    } boucle_while; /*!< Boucle while */
     };
   struct ast* next; /*!< Pointeur vers un autre noeud, la suite de l'arbre*/
   unsigned int uid;
@@ -168,7 +169,7 @@ ast* ast_new_id(char* id,ast* value, int init, int constant, int is_int);
  * \param constant variable constante?.
  * \return Ast de l'id.
  */
-ast* ast_new_tab_int(char* id,ast* value, int init, array nb, int constant);
+ast* ast_new_tab_int(char* id,ast* value, int init, array nb, int constant, int is_int);
 
 
 /**

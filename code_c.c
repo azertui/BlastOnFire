@@ -3,7 +3,7 @@ int fun(const int p)
    int a;
 }
 
-void testvoid(int param[])
+void testvoid(double param[])
 {
     param[2] = param[1] + 2;
     return;
@@ -44,8 +44,7 @@ int main()
     else{
         i=5;
     }
-    fun();
-    fun(5,3);
+    fun(5);
     i++;
     a = 5;
     int b = 8 * 2;
